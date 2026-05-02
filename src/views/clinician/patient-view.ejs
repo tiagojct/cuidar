@@ -1,0 +1,146 @@
+<div class="page-header">
+  <h2><%= patient.identifier %></h2>
+  <div class="actions-col">
+    <a href="/clinico/doentes/<%= patient.id %>/dashboard" class="outline secondary btn-sm">Evolução</a>
+    <a href="/clinico/doentes/<%= patient.id %>/relatorio" class="outline secondary btn-sm" target="_blank">Relatório</a>
+    <a href="/clinico/doentes/<%= patient.id %>/export.csv" class="outline secondary btn-sm">Exportar CSV</a>
+    <a href="/clinico/doentes/<%= patient.id %>/editar" class="outline secondary btn-sm">Editar</a>
+    <a href="/clinico/doentes/<%= patient.id %>/mensagens" class="outline secondary btn-sm">Mensagens<% if (unreadMessages > 0) { %> (<%= unreadMessages %>)<% } %></a>
+    <% if (patient.archived_at) { %>
+    <form method="post" action="/clinico/doentes/<%= patient.id %>/desarquivar" class="inline-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="outline secondary btn-sm">Reactivar</button>
+    </form>
+    <% } else { %>
+    <form method="post" action="/clinico/doentes/<%= patient.id %>/arquivar" class="inline-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="outline secondary btn-sm" data-confirm="true">Arquivar</button>
+    </form>
+    <% } %>
+    <form method="post" action="/clinico/doentes/<%= patient.id %>/eliminar" class="inline-form">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="outline contrast btn-sm" data-confirm="true">Eliminar</button>
+    </form>
+    <a href="/clinico/doentes" class="outline secondary btn-sm">← Voltar</a>
+  </div>
+</div>
+
+<% if (patient.archived_at) { %>
+<div class="flash-bar flash-info" role="alert" style="border-radius:6px; margin-bottom:1rem">
+  <div class="container-fluid">Doente arquivado em <%= patient.archived_at.substring(0,10) %>. Os dados são apenas de consulta.</div>
+</div>
+<% } %>
+
+<!-- Patient metadata -->
+<div class="patient-info-grid">
+  <div>
+    <small class="text-muted">Cuidador</small>
+    <p class="mt-0 mb-0">
+      <%= patient.caregiver_name %>
+      <a href="/clinico/cuidadores/<%= patient.caregiver_id %>/editar" class="text-muted" style="font-size:.8rem; margin-left:.4rem">(editar)</a>
+    </p>
+  </div>
+  <div>
+    <small class="text-muted">Diagnóstico principal</small>
+    <p class="mt-0 mb-0"><span class="condition-chip"><%= patient.diagnosis_name || patient.primary_diagnosis %></span></p>
+  </div>
+  <% if (secondaryNames.length > 0) { %>
+  <div>
+    <small class="text-muted">Diagnósticos secundários</small>
+    <p class="mt-0 mb-0">
+      <% secondaryNames.forEach(d => { %><span class="condition-chip"><%= d.name %></span><% }) %>
+    </p>
+  </div>
+  <% } %>
+  <% if (patient.clinical_status) { %>
+  <div>
+    <small class="text-muted">Estado clínico</small>
+    <p class="mt-0 mb-0"><%= patient.clinical_status %></p>
+  </div>
+  <% } %>
+  <% if (patient.team_contact) { %>
+  <div>
+    <small class="text-muted">Contacto da equipa</small>
+    <p class="mt-0 mb-0"><%= patient.team_contact %></p>
+  </div>
+  <% } %>
+</div>
+
+<% if (patient.medication) { %>
+<details style="margin-top:1rem">
+  <summary><small>Ver medicação</small></summary>
+  <pre style="margin-top:.5rem;white-space:pre-wrap;font-size:.85rem"><%= patient.medication %></pre>
+</details>
+<% } %>
+
+<% if (patient.notes) { %>
+<details style="margin-top:.5rem">
+  <summary><small>Ver notas clínicas</small></summary>
+  <p style="margin-top:.5rem;font-size:.9rem"><%= patient.notes %></p>
+</details>
+<% } %>
+
+<hr>
+<h3>Registos de sintomas</h3>
+
+<% if (entries.length === 0) { %>
+<p class="text-muted">Ainda não foram registados sintomas.</p>
+<% } else { %>
+<figure>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Data</th>
+        <th scope="col">Bem-estar</th>
+        <th scope="col">Sintomas</th>
+        <th scope="col">Estado do cuidador</th>
+        <th scope="col">Notas</th>
+        <th scope="col">Nota clínica</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% entries.forEach(entry => { %>
+      <%
+        let syms = {};
+        try { syms = JSON.parse(entry.symptoms_json); } catch {}
+        const symPairs = Object.entries(syms);
+        const hasAlert = (entry.wellbeing_score !== null && entry.wellbeing_score <= 3)
+          || symPairs.some(([,v]) => v >= 7);
+        const wbClass = entry.wellbeing_score === null ? '' :
+          entry.wellbeing_score <= 3 ? 'wb-bad' :
+          entry.wellbeing_score <= 6 ? 'wb-mid' : 'wb-good';
+      %>
+      <tr>
+        <td><small><%= entry.recorded_at.substring(0,16).replace('T',' ') %></small></td>
+        <td>
+          <% if (entry.wellbeing_score !== null) { %>
+          <span class="wellbeing-badge <%= wbClass %>"><%= entry.wellbeing_score %>/10</span>
+          <% } else { %><span class="text-muted">—</span><% } %>
+        </td>
+        <td>
+          <% symPairs.slice(0,4).forEach(([slug, val]) => { %>
+          <span class="sym-badge <%= Number(val) >= 7 ? 'sym-high' : Number(val) >= 4 ? 'sym-mid' : 'sym-low' %>">
+            <%= slugLabels[slug] || slug %>: <%= val %>
+          </span>
+          <% }) %>
+          <% if (symPairs.length > 4) { %><small class="text-muted">+<%= symPairs.length - 4 %></small><% } %>
+        </td>
+        <td><small><%= entry.caregiver_mood || '—' %></small></td>
+        <td><small><%= entry.notes ? entry.notes.substring(0,60) + (entry.notes.length > 60 ? '…' : '') : '—' %></small></td>
+        <td>
+          <% if (entry.clinician_note) { %>
+          <small class="text-muted" title="Nota clínica"><em><%= entry.clinician_note.substring(0,50) %><%= entry.clinician_note.length > 50 ? '…' : '' %></em></small>
+          <% } %>
+          <form method="post" action="/clinico/doentes/<%= patient.id %>/registos/<%= entry.id %>/nota" class="inline-form" style="display:block;margin-top:.25rem">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="text" name="clinician_note" value="<%= entry.clinician_note || '' %>"
+              placeholder="Nota clínica…" style="font-size:.8rem;padding:.2rem .4rem;width:100%;max-width:180px">
+            <button type="submit" class="outline secondary btn-sm" style="font-size:.75rem;padding:.2rem .5rem;margin-top:.2rem">Guardar</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</figure>
+<% } %>

@@ -1,0 +1,72 @@
+<div class="page-header">
+  <h2>Categorias</h2>
+</div>
+
+<% if (categories.length === 0) { %>
+<p class="text-muted">Ainda não existem categorias.</p>
+<% } else { %>
+<figure>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Ordem</th>
+        <th scope="col">Fichas</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% categories.forEach(cat => { %>
+      <% if (editId === cat.id) { %>
+      <tr class="editing-row">
+        <td colspan="4">
+          <form method="post" action="/clinico/categorias/<%= cat.id %>/editar" class="inline-edit-form">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="text" name="name" value="<%= cat.name %>" required placeholder="Nome">
+            <input type="number" name="sort_order" value="<%= cat.sort_order %>" min="0" style="width:5rem" aria-label="Ordem" title="Números menores aparecem primeiro nas listas.">
+            <button type="submit">Guardar</button>
+            <a href="/clinico/categorias" class="outline secondary">Cancelar</a>
+          </form>
+        </td>
+      </tr>
+      <% } else { %>
+      <tr>
+        <td><strong><%= cat.name %></strong></td>
+        <td><%= cat.sort_order %></td>
+        <td>
+          <a href="/clinico/fichas?categoria=<%= cat.id %>"><%= cat.card_count %></a>
+        </td>
+        <td class="actions-col">
+          <a href="/clinico/categorias?editar=<%= cat.id %>" class="outline secondary btn-sm">Editar</a>
+          <form method="post" action="/clinico/categorias/<%= cat.id %>/eliminar" class="inline-form">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="outline contrast btn-sm"
+              <%= cat.card_count > 0 ? 'disabled title="Tem fichas associadas"' : 'data-confirm="true"' %>>
+              Eliminar
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% } %>
+      <% }) %>
+    </tbody>
+  </table>
+</figure>
+<% } %>
+
+<hr>
+<h3>Nova categoria</h3>
+<form method="post" action="/clinico/categorias" style="max-width:480px">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div style="display:flex;gap:.75rem;align-items:flex-end">
+    <label style="flex:1;margin:0">
+      Nome *
+      <input type="text" name="name" required placeholder="Ex: Nutrição">
+    </label>
+    <label style="width:6rem;margin:0">
+      Ordem
+      <input type="number" name="sort_order" value="0" min="0" title="Números menores aparecem primeiro nas listas.">
+    </label>
+    <button type="submit" style="margin-bottom:var(--pico-spacing)">Criar</button>
+  </div>
+</form>

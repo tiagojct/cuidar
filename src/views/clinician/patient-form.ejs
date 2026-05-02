@@ -1,0 +1,137 @@
+<div class="page-header">
+  <h2><%= title %></h2>
+  <a href="/clinico/doentes" class="outline secondary">← Voltar</a>
+</div>
+
+<form method="post" action="<%= action %>" style="max-width:680px">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <div class="form-grid-2">
+    <label>
+      Identificador *
+      <input type="text" name="identifier" required maxlength="100"
+        value="<%= patient ? patient.identifier : '' %>"
+        placeholder="Ex: Doente A, D001">
+      <small class="help-hint">Pseudónimo ou código interno. Não use o nome real do doente.</small>
+    </label>
+    <label>
+      Cuidador responsável *
+      <select name="caregiver_id" required>
+        <option value="">Seleccionar cuidador…</option>
+        <% caregivers.forEach(c => { %>
+        <option value="<%= c.id %>"
+          <%= (preselectedCuid === c.id || (!preselectedCuid && patient && patient.caregiver_id === c.id)) ? 'selected' : '' %>>
+          <%= c.name %> (<%= c.email %>)
+        </option>
+        <% }) %>
+      </select>
+      <% if (caregivers.length === 0) { %>
+      <small class="help-hint" style="color: var(--pico-del-color, #c62828)">Nenhum cuidador registado.</small>
+      <% } %>
+      <small class="help-hint">
+        Cuidador não existe ainda?
+        <a href="<%= newCaregiverUrl %>">Criar novo cuidador</a>
+      </small>
+    </label>
+  </div>
+
+  <div class="form-grid-2">
+    <label>
+      Diagnóstico principal *
+      <select name="primary_diagnosis" required>
+        <option value="">Seleccionar…</option>
+        <% diagnoses.forEach(d => { %>
+        <option value="<%= d.slug %>"
+          <%= patient && patient.primary_diagnosis === d.slug ? 'selected' : '' %>>
+          <%= d.name %>
+        </option>
+        <% }) %>
+      </select>
+      <small class="help-hint">Determina o modelo de sintomas apresentado ao cuidador.</small>
+    </label>
+    <label>
+      Estado clínico
+      <input type="text" name="clinical_status" maxlength="200"
+        value="<%= patient ? (patient.clinical_status || '') : '' %>"
+        placeholder="Ex: Fase avançada, cuidados de conforto">
+      <small class="help-hint">Informação interna — não é mostrada ao cuidador.</small>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Diagnósticos secundários</legend>
+    <p class="help-hint" style="margin-bottom:.5rem">Seleccione outras condições relevantes para a filtragem de fichas de informação.</p>
+    <div class="conditions-grid">
+      <% diagnoses.forEach(d => { %>
+      <label class="condition-check">
+        <input type="checkbox" name="secondary_diagnoses" value="<%= d.slug %>"
+          <%= (secondaryList || []).includes(d.slug) ? 'checked' : '' %>>
+        <%= d.name %>
+      </label>
+      <% }) %>
+    </div>
+  </fieldset>
+
+  <label>
+    Medicação
+    <textarea name="medication" rows="3"
+      placeholder="Lista de medicamentos e doses"><%= patient ? (patient.medication || '') : '' %></textarea>
+    <small class="help-hint">Visível ao cuidador na sua ficha do doente. Actualize sempre que houver alterações.</small>
+  </label>
+
+  <div class="form-grid-2">
+    <label>
+      Contacto da equipa clínica
+      <input type="text" name="team_contact" maxlength="200"
+        value="<%= patient ? (patient.team_contact || '') : '' %>"
+        placeholder="Ex: Dr.ª Silva — 912 345 678 — seg a sex 9h–17h">
+      <small class="help-hint">Aparece ao cuidador quando há um alerta.</small>
+    </label>
+    <label>
+      Email da equipa (alertas)
+      <input type="email" name="team_email" maxlength="200"
+        value="<%= patient ? (patient.team_email || '') : '' %>"
+        placeholder="equipa@hospital.pt"
+        autocomplete="off">
+      <small class="help-hint">Se preenchido, a equipa recebe um email automático quando o cuidador regista valores preocupantes.</small>
+    </label>
+  </div>
+
+  <label>
+    Notas clínicas
+    <textarea name="notes" rows="3"
+      placeholder="Observações relevantes para o cuidador"><%= patient ? (patient.notes || '') : '' %></textarea>
+    <small class="help-hint">Notas visíveis ao cuidador. Não inclua informação clínica confidencial.</small>
+  </label>
+
+  <fieldset>
+    <legend>Limiares de alerta personalizados</legend>
+    <p class="help-hint" style="margin-bottom:.75rem">Por omissão: bem-estar ≤ 3 ou sintoma ≥ 7 geram alerta. Ajuste aqui se este doente tiver um perfil diferente. Deixe em branco para usar os valores padrão.</p>
+    <div class="form-grid-3">
+      <label>
+        Bem-estar — alerta se ≤
+        <input type="number" name="alert_wellbeing_threshold" min="0" max="10"
+          value="<%= patient && patient.alert_wellbeing_threshold != null ? patient.alert_wellbeing_threshold : '' %>"
+          placeholder="3 (padrão)">
+      </label>
+      <label>
+        Sintoma — alerta se ≥
+        <input type="number" name="alert_symptom_threshold" min="0" max="10"
+          value="<%= patient && patient.alert_symptom_threshold != null ? patient.alert_symptom_threshold : '' %>"
+          placeholder="7 (padrão)">
+      </label>
+      <label>
+        Dias consecutivos
+        <input type="number" name="alert_consecutive_days" min="1" max="30"
+          value="<%= patient && patient.alert_consecutive_days != null ? patient.alert_consecutive_days : 1 %>"
+          placeholder="1">
+        <small class="help-hint">Número de dias seguidos antes de enviar alerta.</small>
+      </label>
+    </div>
+  </fieldset>
+
+  <div class="form-actions">
+    <button type="submit"><%= submitLabel %></button>
+    <a href="/clinico/doentes" class="outline secondary">Cancelar</a>
+  </div>
+</form>

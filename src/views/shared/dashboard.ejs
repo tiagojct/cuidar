@@ -1,0 +1,120 @@
+<div class="info-card-nav" style="margin-bottom:1rem">
+  <a href="<%= backUrl %>" class="outline secondary btn-sm">← Voltar</a>
+  <span class="text-muted"><small><%= patient.identifier %> — <%= patient.diagnosis_name || patient.primary_diagnosis %></small></span>
+</div>
+
+<div class="page-header">
+  <h2 style="margin:0">Evolução de sintomas</h2>
+  <a href="<%= reportUrl %>" class="outline secondary btn-sm" target="_blank">Relatório completo</a>
+</div>
+
+<!-- Period selector -->
+<div class="dash-period" role="group" aria-label="Período">
+  <% [['7','7 dias'],['30','30 dias'],['90','90 dias'],['','Tudo']].forEach(([d,label]) => { %>
+  <a href="<%= dashBaseUrl %>?dias=<%= d %>"
+    class="dash-period-btn<%= dias === d ? ' active' : '' %>"><%= label %></a>
+  <% }) %>
+</div>
+
+<!-- Summary stats -->
+<div class="stats-grid" style="margin-top:1rem">
+  <article class="stat-card">
+    <h3><%= stats.total %></h3>
+    <p>Registos</p>
+  </article>
+  <article class="stat-card">
+    <h3><%= stats.avgWellbeing !== null ? stats.avgWellbeing : '—' %></h3>
+    <p>Bem-estar médio</p>
+  </article>
+  <article class="stat-card">
+    <h3 style="color:<%= stats.alertDays > 0 ? '#c62828' : 'var(--pico-primary)' %>"><%= stats.alertDays %></h3>
+    <p>Registos com alerta</p>
+  </article>
+</div>
+
+<% if (stats.total === 0) { %>
+<p class="text-muted text-center" style="padding:2rem 0">
+  Sem registos para o período seleccionado.
+</p>
+<% } else { %>
+
+<!-- Wellbeing chart -->
+<h3>Bem-estar</h3>
+<div class="chart-wrapper">
+  <canvas id="wellbeing-chart"></canvas>
+</div>
+
+<% if (chartData.slugs.length > 0) { %>
+<!-- Symptoms chart -->
+<h3>Intensidade dos sintomas</h3>
+<div class="chart-wrapper">
+  <canvas id="symptoms-chart"></canvas>
+</div>
+<% } %>
+
+<% } %>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+  const DATA = <%- JSON.stringify(chartData) %>;
+  const SLUG_LABELS = <%- JSON.stringify(slugLabels) %>;
+  if (!DATA.labels.length) return;
+
+  const GRID_COLOR = getComputedStyle(document.documentElement)
+    .getPropertyValue('--pico-muted-border-color').trim() || '#e0e0e0';
+
+  const baseOpts = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { grid: { color: GRID_COLOR }, ticks: { maxTicksLimit: 10 } },
+      y: { min: 0, max: 10, grid: { color: GRID_COLOR },
+           ticks: { stepSize: 2 } },
+    },
+    plugins: { tooltip: { mode: 'index', intersect: false } },
+  };
+
+  // Wellbeing chart
+  const wbCtx = document.getElementById('wellbeing-chart');
+  if (wbCtx) {
+    new Chart(wbCtx, {
+      type: 'line',
+      data: {
+        labels: DATA.labels,
+        datasets: [{
+          label: 'Bem-estar',
+          data: DATA.wellbeing,
+          borderColor: '#1a73e8',
+          backgroundColor: 'rgba(26,115,232,0.12)',
+          tension: 0.3,
+          fill: true,
+          spanGaps: true,
+          pointRadius: 4,
+        }],
+      },
+      options: { ...baseOpts, plugins: { ...baseOpts.plugins, legend: { display: false } } },
+    });
+  }
+
+  // Symptoms chart
+  const symCtx = document.getElementById('symptoms-chart');
+  if (symCtx && DATA.slugs.length) {
+    const COLORS = ['#c62828','#e65100','#2e7d32','#6a1b9a','#0277bd','#558b2f','#ad1457','#00838f'];
+    const datasets = DATA.slugs.map((slug, i) => ({
+      label: SLUG_LABELS[slug] || slug,
+      data: DATA.symptomData[slug],
+      borderColor: COLORS[i % COLORS.length],
+      backgroundColor: 'transparent',
+      tension: 0.3,
+      spanGaps: true,
+      pointRadius: 4,
+    }));
+    new Chart(symCtx, {
+      type: 'line',
+      data: { labels: DATA.labels, datasets },
+      options: baseOpts,
+    });
+  }
+})();
+</script>

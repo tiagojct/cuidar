@@ -1,0 +1,28 @@
+{
+  "name": "cuidar",
+  "version": "0.1.0",
+  "description": "Sistema de apoio a cuidadores informais de doentes paliativos",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js",
+    "seed:categories": "node seeds/seed-categories.js",
+    "seed:admin": "node seeds/seed-admin.js",
+    "seed:caregiver": "node seeds/seed-caregiver.js",
+    "seed:clinician": "node seeds/seed-clinician.js",
+    "seed:cards": "node seeds/seed-cards.js",
+    "seed": "node seeds/seed-categories.js && node seeds/seed-admin.js && node seeds/seed-diagnoses.js && node seeds/seed-caregiver.js && node seeds/seed-clinician.js && node seeds/seed-cards.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-rate-limit": "^8.4.1",
+    "express-session": "^1.18.0",
+    "marked": "^12.0.0",
+    "nodemailer": "^8.0.6",
+    "sanitize-html": "^2.17.3"
+  }
+}

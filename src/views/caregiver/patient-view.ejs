@@ -1,0 +1,119 @@
+<div class="info-card-nav" style="margin-bottom:1rem">
+  <a href="/cuidador/doentes" class="outline secondary btn-sm">← Os meus doentes</a>
+</div>
+
+<div class="page-header">
+  <h2 style="margin:0"><%= patient.identifier %></h2>
+  <div class="actions-col">
+    <a href="/cuidador/doentes/<%= patient.id %>/sintomas/novo" role="button">+ Registar sintomas</a>
+    <a href="/cuidador/doentes/<%= patient.id %>/dashboard" class="outline secondary">Ver evolução</a>
+    <a href="/cuidador/doentes/<%= patient.id %>/mensagem" class="outline secondary" style="margin-top:.5rem">
+      Colocar questão à equipa clínica
+    </a>
+  </div>
+</div>
+
+<% if (severityAlert) { %>
+<%
+  const _sev = {
+    ok:         { cls: 'flash-success', msg: 'Registo guardado — situação estável. Continue o registo regular.' },
+    vigilancia: { cls: 'flash-info',    msg: 'Registo guardado — mantenha vigilância e registe novamente amanhã.' },
+    equipa:     { cls: 'flash-warning', msg: 'Registo guardado — os valores indicam que deve contactar a equipa clínica.' },
+    urgente:    { cls: 'flash-error',   msg: 'Registo guardado — situação urgente. Contacte a equipa ou ligue 112 se necessário.' },
+  }[severityAlert];
+%>
+<% if (_sev) { %>
+<div class="flash-bar <%= _sev.cls %>" role="alert" style="border-radius:6px; margin-bottom:1rem">
+  <div class="container-fluid">
+    <strong><%= _sev.msg %></strong>
+    <% if ((severityAlert === 'equipa' || severityAlert === 'urgente') && patient.team_contact) { %>
+    <br><small>Equipa clínica: <strong><%= patient.team_contact %></strong></small>
+    <% } %>
+  </div>
+</div>
+<% } %>
+<% } else if (showAlert) { %>
+<div class="alert-urgente" role="alert">
+  <strong>Atenção — valores preocupantes no último registo</strong>
+  Alguns sintomas ou o bem-estar estão em valores que requerem atenção clínica.
+  <% if (patient.team_contact) { %>
+  Contacte a equipa: <strong><%= patient.team_contact %></strong>
+  <% } else { %>
+  Contacte a equipa clínica responsável o mais brevemente possível.
+  <% } %>
+</div>
+<% } %>
+
+<!-- Patient info -->
+<div class="patient-info-card">
+  <div class="patient-info-row">
+    <span class="text-muted">Diagnóstico</span>
+    <span><span class="condition-chip"><%= patient.diagnosis_name || patient.primary_diagnosis %></span>
+      <% if (secondaryNames.length > 0) { %>
+      <% secondaryNames.forEach(d => { %><span class="condition-chip"><%= d.name %></span><% }) %>
+      <% } %>
+    </span>
+  </div>
+  <% if (patient.team_contact) { %>
+  <div class="patient-info-row">
+    <span class="text-muted">Equipa clínica</span>
+    <span><strong><%= patient.team_contact %></strong></span>
+  </div>
+  <% } %>
+  <% if (patient.medication) { %>
+  <div class="patient-info-row" style="grid-column:1/-1">
+    <span class="text-muted">Medicação habitual</span>
+    <pre style="margin:0;white-space:pre-wrap;font-size:.875rem;font-family:inherit"><%= patient.medication %></pre>
+  </div>
+  <% } %>
+  <% if (patient.notes) { %>
+  <div class="patient-info-row" style="grid-column:1/-1">
+    <span class="text-muted">Notas</span>
+    <span><%= patient.notes %></span>
+  </div>
+  <% } %>
+</div>
+
+<!-- Symptom history -->
+<h3 style="margin-top:1.5rem">Registos recentes</h3>
+
+<% if (entries.length === 0) { %>
+<p class="text-muted">Ainda não existem registos. <a href="/cuidador/doentes/<%= patient.id %>/sintomas/novo">Fazer o primeiro registo</a>.</p>
+<% } else { %>
+<div class="entry-list">
+  <% entries.forEach((entry, i) => { %>
+  <%
+    let syms = {};
+    try { syms = JSON.parse(entry.symptoms_json); } catch {}
+    const symPairs = Object.entries(syms);
+    const entryAlert = (entry.wellbeing_score !== null && entry.wellbeing_score <= 3)
+      || symPairs.some(([,v]) => v >= 7);
+    const wbClass = entry.wellbeing_score === null ? '' :
+      entry.wellbeing_score <= 3 ? 'wb-bad' :
+      entry.wellbeing_score <= 6 ? 'wb-mid' : 'wb-good';
+  %>
+  <div class="entry-row<%= entryAlert ? ' entry-row-alert' : '' %>">
+    <div class="entry-date">
+      <small><%= entry.recorded_at.substring(0,16).replace('T',' ') %></small>
+    </div>
+    <div class="entry-wellbeing">
+      <% if (entry.wellbeing_score !== null) { %>
+      <span class="wellbeing-badge <%= wbClass %>">
+        Bem-estar: <%= entry.wellbeing_score %>/10
+      </span>
+      <% } %>
+    </div>
+    <div class="entry-symptoms">
+      <% symPairs.forEach(([slug, val]) => { %>
+      <span class="sym-badge <%= Number(val) >= 7 ? 'sym-high' : Number(val) >= 4 ? 'sym-mid' : 'sym-low' %>">
+        <%= slugLabels[slug] || slug %> <strong><%= val %></strong>
+      </span>
+      <% }) %>
+    </div>
+    <% if (entry.notes) { %>
+    <div class="entry-notes"><small class="text-muted"><%= entry.notes %></small></div>
+    <% } %>
+  </div>
+  <% }) %>
+</div>
+<% } %>

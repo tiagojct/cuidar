@@ -1,0 +1,23 @@
+<div class="page-header">
+  <h2>Mensagens — <%= patient.identifier %></h2>
+  <a href="/clinico/doentes/<%= patient.id %>" class="outline secondary btn-sm">← Voltar</a>
+</div>
+
+<% if (messages.length === 0) { %>
+<p class="text-muted">Não há mensagens para este doente.</p>
+<% } else { %>
+<% messages.forEach(m => { %>
+<article style="margin-bottom:1rem; border-left: 3px solid <%= m.is_urgent ? '#c62828' : 'var(--pico-primary)' %>; padding-left:1rem">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem">
+    <div>
+      <% if (m.is_urgent) { %><strong style="color:#c62828">URGENTE — </strong><% } %>
+      <span><%= m.message %></span>
+    </div>
+    <small class="text-muted"><%= m.created_at.substring(0,16).replace('T',' ') %></small>
+  </div>
+  <small class="text-muted">
+    <% if (m.read_at) { %>Lida em <%= m.read_at.substring(0,10) %> por <%= m.read_by_name || '—' %><% } else { %><strong>Não lida</strong><% } %>
+  </small>
+</article>
+<% }) %>
+<% } %>

@@ -1,0 +1,113 @@
+<div class="info-card-nav" style="margin-bottom:1rem">
+  <a href="/cuidador/doentes/<%= patient.id %>" class="outline secondary btn-sm">← Voltar</a>
+  <span class="text-muted"><small><%= patient.identifier %></small></span>
+</div>
+
+<h2>Registar sintomas</h2>
+<% if (templateName) { %>
+<p class="text-muted"><small>Modelo: <%= templateName %></small></p>
+<% } %>
+
+<% if (alreadyToday) { %>
+<div class="flash-bar flash-info" role="alert" style="margin-bottom:1rem; border-radius:6px">
+  <div style="padding:.5rem 1rem">
+    <strong>Já registou sintomas hoje.</strong>
+    Se quiser corrigir ou adicionar informação, preencha o formulário e guarde normalmente. O registo anterior ficará guardado no histórico.
+  </div>
+</div>
+<% } %>
+
+<p style="font-size:.9rem; color: var(--pico-muted-color); margin-bottom:1.25rem">
+  Mova cada cursor para o número que melhor descreve a situação <strong>hoje</strong>.<br>
+  Para <strong>sintomas</strong>: <strong>0</strong> = ausente &nbsp;·&nbsp; <strong>10</strong> = muito intenso.<br>
+  Para <strong>bem-estar</strong>: <strong>0</strong> = muito mal &nbsp;·&nbsp; <strong>10</strong> = muito bem.
+</p>
+
+<form method="post" action="/cuidador/doentes/<%= patient.id %>/sintomas" id="symptom-form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <% if (symptoms.length === 0) { %>
+  <p class="text-muted">Nenhum modelo de sintomas disponível para este diagnóstico. Registe apenas o bem-estar e as notas.</p>
+  <% } else { %>
+  <fieldset>
+    <legend>Sintomas</legend>
+    <% symptoms.forEach(s => { %>
+    <div class="symptom-slider-row">
+      <div class="symptom-slider-header">
+        <label for="slider-<%= s.symptom %>"><strong><%= s.label %></strong></label>
+        <span class="symptom-value-display val-low" id="val-<%= s.symptom %>">0</span>
+      </div>
+      <input type="range"
+        name="symptom_<%= s.symptom %>"
+        id="slider-<%= s.symptom %>"
+        min="0" max="10" value="0"
+        class="symptom-slider"
+        oninput="updateSlider('<%= s.symptom %>', this.value)">
+      <div class="symptom-scale-labels">
+        <span>0 — Ausente</span>
+        <span>10 — Muito intenso</span>
+      </div>
+    </div>
+    <% }) %>
+  </fieldset>
+  <% } %>
+
+  <fieldset>
+    <legend>Bem-estar geral do doente</legend>
+    <p class="help-hint" style="margin-bottom:.75rem">Como está o doente no geral hoje? Inclui humor, energia, conforto.</p>
+    <div class="symptom-slider-row">
+      <div class="symptom-slider-header">
+        <label for="slider-wellbeing"><strong>Bem-estar</strong></label>
+        <span class="symptom-value-display" id="val-wellbeing">5</span>
+      </div>
+      <input type="range"
+        name="wellbeing_score"
+        id="slider-wellbeing"
+        min="0" max="10" value="5"
+        class="symptom-slider"
+        oninput="updateSlider('wellbeing', this.value)">
+      <div class="symptom-scale-labels">
+        <span>0 — Muito mal</span>
+        <span>10 — Muito bem</span>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="form-grid-2">
+    <label>
+      Como está o cuidador?
+      <select name="caregiver_mood">
+        <option value="">Seleccionar…</option>
+        <option value="bem">Bem</option>
+        <option value="razoavel">Razoável</option>
+        <option value="cansado">Cansado/a</option>
+        <option value="preocupado">Preocupado/a</option>
+        <option value="outro">Outro</option>
+      </select>
+      <small class="help-hint">O seu bem-estar também é importante. Diga como se sente.</small>
+    </label>
+  </div>
+
+  <label>
+    Notas ou observações
+    <textarea name="notes" rows="3"
+      placeholder="Algo que queira comunicar à equipa clínica? Algum episódio diferente? Dúvidas?"></textarea>
+    <small class="help-hint">Opcional. A equipa clínica lê estas notas.</small>
+  </label>
+
+  <div class="form-actions" style="margin-top:1.5rem">
+    <button type="submit" style="flex:1">Guardar registo</button>
+    <a href="/cuidador/doentes/<%= patient.id %>" class="outline secondary">Cancelar</a>
+  </div>
+</form>
+
+<script>
+function updateSlider(id, value) {
+  var display = document.getElementById('val-' + id);
+  display.textContent = value;
+  var v = parseInt(value);
+  display.className = 'symptom-value-display ' +
+    (v >= 7 ? 'val-high' : v >= 4 ? 'val-mid' : 'val-low');
+}
+updateSlider('wellbeing', 5);
+</script>

@@ -1,0 +1,83 @@
+<h2>Estatísticas</h2>
+
+<!-- Totals -->
+<div class="stats-grid">
+  <article class="stat-card">
+    <h3><%= counts.patients %></h3>
+    <p>Doentes<% if (counts.patients === 0) { %><br><small><a href="/clinico/doentes/novo">Criar o primeiro</a></small><% } %></p>
+  </article>
+  <article class="stat-card">
+    <h3><%= counts.entries %></h3>
+    <p>Registos de sintomas</p>
+  </article>
+  <article class="stat-card">
+    <h3><%= counts.cardViews %></h3>
+    <p>Consultas de fichas</p>
+  </article>
+  <article class="stat-card">
+    <h3><%= counts.cards %></h3>
+    <p>Fichas de informação<% if (counts.cards === 0) { %><br><small><a href="/clinico/fichas/nova">Criar a primeira</a></small><% } %></p>
+  </article>
+  <article class="stat-card">
+    <h3><%= counts.categories %></h3>
+    <p>Categorias</p>
+  </article>
+  <article class="stat-card">
+    <h3><%= counts.templates %></h3>
+    <p>Modelos de sintomas<% if (counts.templates === 0) { %><br><small><a href="/clinico/modelos/novo">Criar o primeiro</a></small><% } %></p>
+  </article>
+  <article class="stat-card">
+    <h3><%= counts.diagnoses %></h3>
+    <p>Condições clínicas</p>
+  </article>
+  <article class="stat-card">
+    <h3><%= counts.users %></h3>
+    <p>Utilizadores activos</p>
+  </article>
+</div>
+
+<!-- Cards by category -->
+<h3>Fichas por categoria</h3>
+<% if (cardsByCategory.length === 0) { %>
+<p class="text-muted">Sem dados.</p>
+<% } else { %>
+<figure>
+  <table>
+    <thead><tr><th scope="col">Categoria</th><th scope="col">Fichas</th></tr></thead>
+    <tbody>
+      <% cardsByCategory.forEach(row => { %>
+      <tr>
+        <td><%= row.name %></td>
+        <td><%= row.count %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</figure>
+<% } %>
+
+<!-- Recent activity -->
+<h3>Fichas recentemente actualizadas</h3>
+<% if (recentCards.length === 0) { %>
+<p class="text-muted">Sem fichas ainda. <a href="/clinico/fichas/nova">Criar a primeira</a>.</p>
+<% } else { %>
+<figure>
+  <table>
+    <thead>
+      <tr><th scope="col">Título</th><th scope="col">Categoria</th><th scope="col">Versão</th><th scope="col">Autor</th><th scope="col">Data</th></tr>
+    </thead>
+    <tbody>
+      <% recentCards.forEach(c => { %>
+      <tr>
+        <td><a href="/clinico/fichas/<%= c.id || '' %>"><%= c.title %></a></td>
+        <td><small><%= c.category_name %></small></td>
+        <td><small>v<%= c.version %></small></td>
+        <td><small><%= c.author_name %></small></td>
+        <td><small><%= c.updated_at.substring(0,10) %></small></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</figure>
+<% } %>
+

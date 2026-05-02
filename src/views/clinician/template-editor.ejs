@@ -1,0 +1,91 @@
+<div class="page-header">
+  <h2><%= title %></h2>
+  <a href="/clinico/modelos" class="outline secondary">← Voltar</a>
+</div>
+
+<form method="post" action="<%= action %>" id="template-form">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <input type="hidden" name="symptoms_json" id="symptoms_json">
+
+  <div class="form-grid-2">
+    <label>
+      Nome do modelo *
+      <input type="text" name="name" required maxlength="100"
+        value="<%= template ? (template.name || '') : '' %>"
+        placeholder="Ex: Oncologia — padrão">
+    </label>
+    <label>
+      Condição clínica *
+      <select name="condition" required>
+        <option value="">Seleccionar…</option>
+        <% diagnoses.forEach(d => { %>
+        <option value="<%= d.slug %>"
+          <%= template && template.condition === d.slug ? 'selected' : '' %>>
+          <%= d.name %>
+        </option>
+        <% }) %>
+      </select>
+    </label>
+  </div>
+
+  <fieldset>
+    <legend>Sintomas do modelo</legend>
+    <p class="text-muted"><small>Defina os sintomas que o cuidador irá registar para esta condição.</small></p>
+
+    <div id="symptoms-container">
+      <!-- Populated by JS below -->
+    </div>
+
+    <button type="button" id="add-symptom-btn" class="outline secondary">+ Adicionar sintoma</button>
+  </fieldset>
+
+  <div class="form-actions">
+    <button type="submit"><%= submitLabel %></button>
+    <a href="/clinico/modelos" class="outline secondary">Cancelar</a>
+  </div>
+</form>
+
+<script>
+(function() {
+  const container = document.getElementById('symptoms-container');
+  let rowIndex = 0;
+
+  const INITIAL = <%- JSON.stringify(symptoms) %>;
+
+  function addRow(slug, label) {
+    slug  = slug  || '';
+    label = label || '';
+    const idx = rowIndex++;
+    const div = document.createElement('div');
+    div.className = 'symptom-row';
+    div.dataset.idx = idx;
+    div.innerHTML = [
+      '<input type="text" class="symptom-slug" placeholder="chave (ex: dor)" maxlength="40"',
+        ' value="' + slug.replace(/"/g, '&quot;') + '" aria-label="Chave do sintoma">',
+      '<input type="text" class="symptom-label" placeholder="nome (ex: Dor)" maxlength="80"',
+        ' value="' + label.replace(/"/g, '&quot;') + '" aria-label="Nome do sintoma">',
+      '<button type="button" class="outline contrast btn-sm btn-remove" aria-label="Remover">×</button>',
+    ].join('');
+    div.querySelector('.btn-remove').addEventListener('click', function() { div.remove(); });
+    container.appendChild(div);
+  }
+
+  document.getElementById('add-symptom-btn').addEventListener('click', function() { addRow(); });
+
+  // Populate existing symptoms
+  INITIAL.forEach(function(s) { addRow(s.symptom, s.label); });
+  if (INITIAL.length === 0) addRow(); // Start with one empty row
+
+  // Collect symptoms into hidden input before submit
+  document.getElementById('template-form').addEventListener('submit', function() {
+    const rows = container.querySelectorAll('.symptom-row');
+    const symptoms = [];
+    rows.forEach(function(row) {
+      const slug  = row.querySelector('.symptom-slug').value.trim();
+      const label = row.querySelector('.symptom-label').value.trim();
+      if (slug && label) symptoms.push({ symptom: slug, label: label });
+    });
+    document.getElementById('symptoms_json').value = JSON.stringify(symptoms);
+  });
+})();
+</script>

@@ -1,0 +1,70 @@
+<!-- Search & filters -->
+<form method="get" action="/cuidador/informacao" class="info-search-bar" role="search">
+  <div class="info-search-row">
+    <input type="search" name="q" value="<%= searchQuery %>"
+      placeholder="Pesquisar..." aria-label="Pesquisar fichas de informação"
+      autocomplete="off">
+    <button type="submit">Pesquisar</button>
+    <% if (searchQuery || activeCategory || activeCondition) { %>
+    <a href="/cuidador/informacao" role="button" class="outline secondary">Limpar</a>
+    <% } %>
+  </div>
+  <div class="info-filter-row">
+    <% if (categories.length > 0) { %>
+    <select name="categoria" aria-label="Categoria">
+      <option value="">Todas as categorias</option>
+      <% categories.forEach(cat => { %>
+      <option value="<%= cat.id %>" <%= activeCategory === cat.id ? 'selected' : '' %>><%= cat.name %></option>
+      <% }) %>
+    </select>
+    <% } %>
+    <% if (diagnoses.length > 0) { %>
+    <select name="condicao" aria-label="Condição clínica">
+      <option value="">Todas as condições</option>
+      <% diagnoses.forEach(d => { %>
+      <option value="<%= d.slug %>" <%= activeCondition === d.slug ? 'selected' : '' %>><%= d.name %></option>
+      <% }) %>
+    </select>
+    <% } %>
+  </div>
+</form>
+
+<% if (cards.length === 0) { %>
+<div class="text-center" style="padding: 2.5rem 0">
+  <% if (searchQuery || activeCategory || activeCondition) { %>
+  <p class="text-muted">Nenhuma ficha encontrada para os filtros seleccionados.</p>
+  <a href="/cuidador/informacao" class="outline secondary">Ver todas as fichas</a>
+  <% } else { %>
+  <p class="text-muted">Ainda não existem fichas de informação disponíveis.</p>
+  <% } %>
+</div>
+<% } else { %>
+
+<div class="info-card-grid">
+  <% cards.forEach(card => { %>
+  <%
+    const tagList = (card.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+    let condList = [];
+    try {
+      const parsed = JSON.parse(card.applicable_conditions);
+      condList = Array.isArray(parsed) ? parsed : [String(parsed)];
+    } catch(e) {
+      condList = card.applicable_conditions ? [card.applicable_conditions] : [];
+    }
+  %>
+  <a href="/cuidador/informacao/<%= card.id %>" class="info-card-link">
+    <article class="info-card">
+      <div class="info-card-cat"><%= card.category_name %></div>
+      <h3 class="info-card-title"><%= card.title %><% if (viewedIds && viewedIds.has(card.id)) { %><span class="badge-read">✓ lida</span><% } %></h3>
+      <% if (tagList.length > 0) { %>
+      <div class="info-card-tags">
+        <% tagList.forEach(tag => { %><span class="tag-chip"><%= tag %></span><% }) %>
+      </div>
+      <% } %>
+    </article>
+  </a>
+  <% }) %>
+</div>
+
+<p class="text-muted" style="margin-top:1rem"><small><%= cards.length %> ficha(s)</small></p>
+<% } %>

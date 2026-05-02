@@ -1,0 +1,59 @@
+site_name: CUIDAR — Documentação
+site_description: Sistema de apoio ao cuidador informal em cuidados paliativos
+site_author: FMUP — Faculdade de Medicina da Universidade do Porto
+docs_dir: docs
+
+theme:
+  name: material
+  language: pt
+  palette:
+    - scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Modo escuro
+    - scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Início: index.md
+  - Manual do Cuidador:
+    - Primeiros passos: cuidador/inicio.md
+    - Registar sintomas: cuidador/sintomas.md
+    - Ver evolução: cuidador/evolucao.md
+    - Fichas de informação: cuidador/fichas.md
+    - Enviar mensagem à equipa: cuidador/mensagem.md
+  - Manual do Clínico:
+    - Gerir doentes: clinico/doentes.md
+    - Fichas e categorias: clinico/fichas.md
+    - Modelos de sintomas: clinico/modelos.md
+    - Estatísticas: clinico/stats.md
+    - Alertas e notificações: clinico/alertas.md
+  - Administração:
+    - Gestão de utilizadores: admin/utilizadores.md
+  - Referências Clínicas: referencias.md
+  - Instalação e Deploy: deploy.md

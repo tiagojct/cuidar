@@ -1,0 +1,47 @@
+<div class="page-header">
+  <h2>Utilizadores</h2>
+  <div class="actions-col">
+    <a href="/admin/utilizadores/novo" class="outline secondary btn-sm">+ Novo utilizador</a>
+  </div>
+</div>
+
+<div class="table-scroll"><figure>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+        <th scope="col">Papel</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Último acesso</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(u => { %>
+      <tr>
+        <td><%= u.name %></td>
+        <td><small><%= u.email %></small></td>
+        <td><small><%= ROLE_LABELS[u.role] || u.role %></small></td>
+        <td>
+          <% if (u.active) { %>
+            <span class="badge-active">Activo</span>
+          <% } else { %>
+            <span class="badge-inactive">Inactivo</span>
+          <% } %>
+        </td>
+        <td><small class="text-muted"><%= u.last_login_at ? u.last_login_at.substring(0,10) : '—' %></small></td>
+        <td class="actions-col">
+          <a href="/admin/utilizadores/<%= u.id %>/editar" class="outline secondary btn-sm">Editar</a>
+          <form method="post" action="/admin/utilizadores/<%= u.id %>/toggle-activo" class="inline-form">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="outline contrast btn-sm" data-confirm="true">
+              <%= u.active ? 'Desactivar' : 'Activar' %>
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</figure></div>

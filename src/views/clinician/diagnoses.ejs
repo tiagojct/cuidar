@@ -1,0 +1,76 @@
+<div class="page-header">
+  <h2>Condições clínicas</h2>
+</div>
+<p class="text-muted">
+  <small>
+    As condições aqui definidas são usadas para filtrar fichas de informação e associar modelos de
+    sintomas aos doentes.
+  </small>
+</p>
+
+<% if (diagnoses.length > 0) { %>
+<figure>
+  <table>
+    <thead>
+      <tr><th scope="col">Nome</th><th scope="col">Chave (slug)</th><th scope="col">Ordem</th><th scope="col"></th></tr>
+    </thead>
+    <tbody>
+      <% diagnoses.forEach(d => { %>
+      <% if (editId === d.id) { %>
+      <tr class="editing-row">
+        <td colspan="4">
+          <form method="post" action="/clinico/condicoes/<%= d.id %>/editar" class="inline-edit-form">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="text" name="name" value="<%= d.name %>" required placeholder="Nome">
+            <input type="number" name="sort_order" value="<%= d.sort_order %>" min="0" style="width:5rem" aria-label="Ordem">
+            <button type="submit">Guardar</button>
+            <a href="/clinico/condicoes" class="outline secondary">Cancelar</a>
+          </form>
+        </td>
+      </tr>
+      <% } else { %>
+      <tr>
+        <td><strong><%= d.name %></strong></td>
+        <td><code><%= d.slug %></code></td>
+        <td><%= d.sort_order %></td>
+        <td class="actions-col">
+          <a href="/clinico/condicoes?editar=<%= d.id %>" class="outline secondary btn-sm">Editar</a>
+          <form method="post" action="/clinico/condicoes/<%= d.id %>/eliminar" class="inline-form">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="outline contrast btn-sm" data-confirm="true">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      <% } %>
+      <% }) %>
+    </tbody>
+  </table>
+</figure>
+<% } %>
+
+<% const fd = (typeof formData !== 'undefined') ? formData : null; %>
+<hr>
+<h3>Nova condição</h3>
+<form method="post" action="/clinico/condicoes" style="max-width:560px">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="form-grid-3">
+    <label style="grid-column:1/3">
+      Nome *
+      <input type="text" name="name" required placeholder="Ex: DPOC"
+        value="<%= fd ? fd.name || '' : '' %>">
+    </label>
+    <label>
+      Ordem
+      <input type="number" name="sort_order" value="<%= fd ? fd.sort_order || 0 : 0 %>" min="0">
+      <small>Números menores aparecem primeiro nas listas.</small>
+    </label>
+  </div>
+  <label>
+    Identificador interno (chave) *
+    <input type="text" name="slug" required placeholder="Ex: dpoc"
+      pattern="[a-z0-9-]+" title="Apenas letras minúsculas, números e hífens"
+      value="<%= fd ? fd.slug || '' : '' %>">
+    <small>Código único, só letras minúsculas e hífens. Não pode ser alterado depois de criado.</small>
+  </label>
+  <button type="submit">Criar condição</button>
+</form>

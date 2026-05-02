@@ -1,0 +1,105 @@
+<% if (!showArchived && inactivePatients && inactivePatients.length > 0) { %>
+<div class="flash-bar flash-info" role="alert" style="border-radius:6px; margin-bottom:1rem">
+  <div class="container-fluid">
+    <strong>Sem registo há mais de <%= inactiveDays %> dias:</strong>
+    <% inactivePatients.forEach(p => { %>
+    <a href="/clinico/doentes/<%= p.id %>" style="margin-left:.5rem"><%= p.identifier %></a>
+    <% }) %>
+  </div>
+</div>
+<% } %>
+
+<div class="page-header">
+  <h2>Doentes</h2>
+  <div class="actions-col">
+    <a href="/clinico/doentes/export-todos.csv" class="outline secondary btn-sm">Exportar CSV</a>
+    <% if (showArchived) { %>
+    <a href="/clinico/doentes" class="outline secondary btn-sm">Mostrar activos</a>
+    <% } else { %>
+    <a href="/clinico/doentes?arquivados=1" class="outline secondary btn-sm">Arquivados</a>
+    <% } %>
+    <a href="/clinico/doentes/novo" role="button">+ Novo doente</a>
+  </div>
+</div>
+
+<form method="get" action="/clinico/doentes" class="filter-bar" role="search">
+  <input type="search" name="q" value="<%= searchQuery %>"
+    placeholder="Pesquisar por identificador ou cuidador…" aria-label="Pesquisar doentes">
+  <button type="submit" class="outline">Pesquisar</button>
+  <% if (searchQuery) { %>
+  <a href="/clinico/doentes" class="outline secondary">Limpar</a>
+  <% } %>
+</form>
+
+<% if (patients.length === 0) { %>
+<p class="text-muted text-center" style="padding:2rem 0">
+  <% if (searchQuery) { %>
+    Nenhum doente encontrado para "<strong><%= searchQuery %></strong>".
+  <% } else { %>
+    Ainda não existem doentes. <a href="/clinico/doentes/novo">Criar o primeiro</a>.
+  <% } %>
+</p>
+<% } else { %>
+<div class="table-scroll"><figure>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Identificador</th>
+        <th scope="col">Cuidador</th>
+        <th scope="col">Diagnóstico principal</th>
+        <th scope="col">Actualizado</th>
+        <th scope="col">Último registo</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% patients.forEach(p => { %>
+      <tr>
+        <td><a href="/clinico/doentes/<%= p.id %>"><strong><%= p.identifier %></strong></a></td>
+        <td><small><%= p.caregiver_name %></small></td>
+        <td><small><span class="condition-chip"><%= p.diagnosis_name || p.primary_diagnosis %></span></small></td>
+        <td><small><%= p.updated_at.substring(0,10) %></small></td>
+        <td>
+          <% if (p.last_entry_at) { %>
+          <small class="<%= (new Date() - new Date(p.last_entry_at)) > 14 * 86400000 ? 'text-muted' : '' %>">
+            <%= p.last_entry_at.substring(0,10) %>
+            <% if ((new Date() - new Date(p.last_entry_at)) > 14 * 86400000) { %>
+            <span style="color:#c62828" title="Sem registo há mais de 14 dias"> ●</span>
+            <% } %>
+          </small>
+          <% } else { %>
+          <small class="text-muted">—</small>
+          <% } %>
+        </td>
+        <td class="actions-col">
+          <a href="/clinico/doentes/<%= p.id %>/export.csv" class="outline secondary btn-sm" title="Exportar CSV">CSV</a>
+          <a href="/clinico/doentes/<%= p.id %>/editar" class="outline secondary btn-sm">Editar</a>
+          <form method="post" action="/clinico/doentes/<%= p.id %>/eliminar" class="inline-form">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="outline contrast btn-sm" data-confirm="true">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</figure></div>
+<p class="text-muted"><small><%= totalCount %> doente(s) no total<% if (searchQuery) { %> para "<%= searchQuery %>"<% } %></small></p>
+<% if (totalPages > 1) { %>
+<nav class="pagination" aria-label="Paginação">
+  <% const patParams = (pg) => {
+    const ps = new URLSearchParams();
+    if (searchQuery) ps.set('q', searchQuery);
+    if (showArchived) ps.set('arquivados', '1');
+    ps.set('pagina', pg);
+    return '/clinico/doentes?' + ps.toString();
+  }; %>
+  <% if (page > 1) { %><a href="<%= patParams(page - 1) %>">← Anterior</a><% } %>
+  <% for (let i = Math.max(1, page-2); i <= Math.min(totalPages, page+2); i++) { %>
+    <% if (i === page) { %><span class="current"><%= i %></span><% } else { %><a href="<%= patParams(i) %>"><%= i %></a><% } %>
+  <% } %>
+  <% if (page < totalPages) { %><a href="<%= patParams(page + 1) %>">Seguinte →</a><% } %>
+  <span class="text-muted" style="font-size:.85rem">Página <%= page %> de <%= totalPages %></span>
+</nav>
+<% } %>
+<% } %>

@@ -1,0 +1,9 @@
+node_modules
+data
+.claude
+refs
+funcionalidades-enviadas
+*.md
+.env*
+.git
+.gitignore

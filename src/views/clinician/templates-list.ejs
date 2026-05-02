@@ -1,0 +1,48 @@
+<div class="page-header">
+  <h2>Modelos de sintomas</h2>
+  <a href="/clinico/modelos/novo" role="button">+ Novo modelo</a>
+</div>
+
+<% const diagMap = Object.fromEntries(diagnoses.map(d => [d.slug, d.name])); %>
+<% if (templates.length === 0) { %>
+<p class="text-muted text-center" style="padding:2rem 0">
+  Ainda não existem modelos. <a href="/clinico/modelos/novo">Criar o primeiro</a>.
+</p>
+<% } else { %>
+<div class="table-scroll"><figure>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Condição</th>
+        <th scope="col">Sintomas</th>
+        <th scope="col">Criado por</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% templates.forEach(t => { %>
+      <% const symptoms = JSON.parse(t.symptoms_json || '[]'); %>
+      <tr>
+        <td><strong><%= t.name %></strong></td>
+        <td><span class="condition-chip"><%= diagMap[t.condition] || t.condition %></span></td>
+        <td>
+          <small>
+            <% symptoms.slice(0,4).forEach(s => { %><span class="tag-chip"><%= s.label %></span><% }) %>
+            <% if (symptoms.length > 4) { %><span class="text-muted">+<%= symptoms.length - 4 %></span><% } %>
+          </small>
+        </td>
+        <td><small><%= t.author_name %></small></td>
+        <td class="actions-col">
+          <a href="/clinico/modelos/<%= t.id %>/editar" class="outline secondary btn-sm">Editar</a>
+          <form method="post" action="/clinico/modelos/<%= t.id %>/eliminar" class="inline-form">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="outline contrast btn-sm" data-confirm="true">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</figure></div>
+<% } %>

@@ -1,0 +1,53 @@
+<div class="info-card-nav">
+  <a href="/cuidador/informacao" class="outline secondary btn-sm no-print">← Voltar</a>
+  <span class="info-card-cat"><%= card.category_name %></span>
+  <button onclick="window.print()" class="outline secondary btn-sm no-print">Imprimir / Guardar PDF</button>
+</div>
+
+<h2 style="margin-top:0.75rem"><%= card.title %></h2>
+
+<% if (conditions.length > 0) { %>
+<div class="condition-bar">
+  <% conditions.forEach(slug => { %><span class="condition-chip"><%= conditionLabels[slug] || slug %></span><% }) %>
+</div>
+<% } %>
+
+<div class="prose info-prose">
+  <%- bodyHtml %>
+</div>
+
+<% if (tags.length > 0) { %>
+<div class="info-tags-bar">
+  <small class="text-muted">Temas:</small>
+  <% tags.forEach(tag => { %><span class="tag-chip"><%= tag %></span><% }) %>
+</div>
+<% } %>
+
+<% if (related.length > 0) { %>
+<hr>
+<h3>Fichas relacionadas</h3>
+<ul class="related-list">
+  <% related.forEach(r => { %>
+  <li>
+    <a href="/cuidador/informacao/<%= r.id %>"><%= r.title %></a>
+    <small class="text-muted">— <%= r.category_name %></small>
+  </li>
+  <% }) %>
+</ul>
+<% } %>
+
+<hr class="no-print">
+<div class="card-feedback no-print" style="display:flex;align-items:center;gap:.75rem;margin-top:.5rem">
+  <small class="text-muted">Esta informação foi útil?</small>
+  <form method="post" action="/cuidador/informacao/<%= card.id %>/feedback" class="inline-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <input type="hidden" name="helpful" value="1">
+    <button type="submit" class="outline btn-sm<%= myFeedback === 1 ? ' feedback-selected' : '' %>">Sim</button>
+  </form>
+  <form method="post" action="/cuidador/informacao/<%= card.id %>/feedback" class="inline-form">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <input type="hidden" name="helpful" value="0">
+    <button type="submit" class="outline secondary btn-sm<%= myFeedback === 0 ? ' feedback-selected' : '' %>">Não</button>
+  </form>
+</div>
+

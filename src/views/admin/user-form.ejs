@@ -1,0 +1,35 @@
+<div class="page-header">
+  <h2><%= title %></h2>
+  <a href="/admin/utilizadores" class="outline secondary btn-sm">← Voltar</a>
+</div>
+
+<form method="post" action="<%= action %>">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <label>
+    Nome
+    <input type="text" name="name" value="<%= user ? user.name : '' %>" required autofocus>
+  </label>
+
+  <label>
+    Email
+    <input type="email" name="email" value="<%= user ? user.email : '' %>" required>
+  </label>
+
+  <label>
+    Papel
+    <select name="role" required>
+      <% Object.entries(ROLE_LABELS).forEach(([val, label]) => { %>
+      <option value="<%= val %>" <%= user && user.role === val ? 'selected' : '' %>><%= label %></option>
+      <% }) %>
+    </select>
+  </label>
+
+  <label>
+    Palavra-passe<% if (user) { %> <small class="text-muted">(deixar em branco para manter a actual)</small><% } %>
+    <input type="password" name="password" autocomplete="new-password"
+      <%= user ? '' : 'required' %> minlength="8">
+  </label>
+
+  <button type="submit"><%= submitLabel %></button>
+</form>

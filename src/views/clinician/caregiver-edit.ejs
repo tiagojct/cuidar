@@ -1,0 +1,32 @@
+<div class="page-header">
+  <h2><%= title %></h2>
+  <a href="/clinico/doentes" class="outline secondary">← Doentes</a>
+</div>
+
+<form method="post" action="/clinico/cuidadores/<%= caregiver.id %>/editar" style="max-width:520px">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <label>
+    Nome completo *
+    <input type="text" name="name" required maxlength="100"
+      value="<%= caregiver.name %>">
+  </label>
+
+  <label>
+    Email
+    <input type="email" value="<%= caregiver.email %>" disabled>
+    <small class="help-hint">O email não pode ser alterado aqui. Contacte o administrador se for necessário.</small>
+  </label>
+
+  <label>
+    Nova palavra-passe
+    <input type="password" name="new_password" minlength="8"
+      autocomplete="new-password" placeholder="Deixe em branco para não alterar">
+    <small class="help-hint">Preencha apenas se quiser redefinir a palavra-passe deste cuidador.</small>
+  </label>
+
+  <div class="form-actions">
+    <button type="submit">Guardar alterações</button>
+    <a href="/clinico/doentes" class="outline secondary">Cancelar</a>
+  </div>
+</form>

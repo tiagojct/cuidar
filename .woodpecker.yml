@@ -1,0 +1,33 @@
+when:
+  branch: main
+  event: push
+
+steps:
+  - name: build-and-push
+    image: woodpeckerci/plugin-docker-buildx
+    settings:
+      registry:
+        from_secret: forgejo_host
+      repo:
+        from_secret: forgejo_image
+      tags: latest
+      username:
+        from_secret: forgejo_user
+      password:
+        from_secret: forgejo_token
+      platforms: linux/amd64
+
+  - name: deploy
+    image: appleboy/drone-ssh
+    settings:
+      host:
+        from_secret: deploy_host
+      username:
+        from_secret: deploy_user
+      key:
+        from_secret: deploy_ssh_key
+      port: 22
+      script:
+        - docker compose -f /opt/cuidar/docker-compose.yml pull
+        - docker compose -f /opt/cuidar/docker-compose.yml up -d --remove-orphans
+        - docker compose -f /opt/cuidar/docker-compose.yml ps

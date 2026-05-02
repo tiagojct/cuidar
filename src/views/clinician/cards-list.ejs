@@ -1,0 +1,87 @@
+<div class="page-header">
+  <h2>Fichas de informação</h2>
+  <a href="/clinico/fichas/nova" role="button">+ Nova ficha</a>
+</div>
+
+<!-- Filters -->
+<form method="get" action="/clinico/fichas" class="filter-bar">
+  <input type="search" name="q" value="<%= searchQuery %>"
+    placeholder="Pesquisar fichas..." aria-label="Pesquisar">
+  <select name="categoria" aria-label="Filtrar por categoria">
+    <option value="">Todas as categorias</option>
+    <% categories.forEach(cat => { %>
+    <option value="<%= cat.id %>" <%= activeCategory === cat.id ? 'selected' : '' %>>
+      <%= cat.name %>
+    </option>
+    <% }) %>
+  </select>
+  <button type="submit" class="outline">Filtrar</button>
+  <% if (searchQuery || activeCategory) { %>
+  <a href="/clinico/fichas" class="outline secondary">Limpar</a>
+  <% } %>
+</form>
+
+<% if (cards.length === 0) { %>
+<p class="text-muted text-center" style="padding:2rem 0;">
+  <% if (searchQuery) { %>
+    Nenhuma ficha encontrada para "<strong><%= searchQuery %></strong>".
+  <% } else { %>
+    Ainda não existem fichas. <a href="/clinico/fichas/nova">Criar a primeira</a>.
+  <% } %>
+</p>
+<% } else { %>
+<div class="table-scroll"><figure>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Título</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Tags</th>
+        <th scope="col">Versão</th>
+        <th scope="col">Actualizada</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% cards.forEach(card => { %>
+      <tr>
+        <td><a href="/clinico/fichas/<%= card.id %>"><%= card.title %></a></td>
+        <td><small><%= card.category_name %></small></td>
+        <td>
+          <% (card.tags || '').split(',').map(t => t.trim()).filter(Boolean).forEach(tag => { %>
+          <span class="tag-chip"><%= tag %></span>
+          <% }) %>
+        </td>
+        <td><small>v<%= card.version %></small></td>
+        <td><small><%= card.updated_at.substring(0,10) %></small></td>
+        <td class="actions-col">
+          <a href="/clinico/fichas/<%= card.id %>/editar" class="outline secondary btn-sm">Editar</a>
+          <form method="post" action="/clinico/fichas/<%= card.id %>/eliminar" class="inline-form">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="outline contrast btn-sm" data-confirm="true">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</figure></div>
+<p class="text-muted"><small><%= totalCount %> ficha(s) no total</small></p>
+<% if (totalPages > 1) { %>
+<nav class="pagination" aria-label="Paginação">
+  <% const cardParams = (p) => {
+    const ps = new URLSearchParams();
+    if (searchQuery) ps.set('q', searchQuery);
+    if (activeCategory) ps.set('categoria', activeCategory);
+    ps.set('pagina', p);
+    return '/clinico/fichas?' + ps.toString();
+  }; %>
+  <% if (page > 1) { %><a href="<%= cardParams(page - 1) %>">← Anterior</a><% } %>
+  <% for (let i = Math.max(1, page-2); i <= Math.min(totalPages, page+2); i++) { %>
+    <% if (i === page) { %><span class="current"><%= i %></span><% } else { %><a href="<%= cardParams(i) %>"><%= i %></a><% } %>
+  <% } %>
+  <% if (page < totalPages) { %><a href="<%= cardParams(page + 1) %>">Seguinte →</a><% } %>
+  <span class="text-muted" style="font-size:.85rem">Página <%= page %> de <%= totalPages %></span>
+</nav>
+<% } %>
+<% } %>

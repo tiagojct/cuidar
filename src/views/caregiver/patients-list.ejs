@@ -1,0 +1,29 @@
+<h2>Os meus doentes</h2>
+
+<% if (patients.length === 0) { %>
+<article style="text-align:center; padding: 2.5rem 1rem; margin-top:1rem">
+  <p style="font-size:2.5rem; margin-bottom:.5rem">🏠</p>
+  <h3>Ainda não tem doentes associados</h3>
+  <p class="text-muted" style="max-width:380px; margin:0 auto 1rem">
+    A equipa clínica irá associar-lhe um doente assim que o processo estiver configurado.
+    Se já foi contactado pela equipa e este ecrã aparecer vazio, contacte-a.
+  </p>
+  <a href="/ajuda" class="outline secondary btn-sm">Ver ajuda</a>
+</article>
+<% } else { %>
+<div class="patients-grid">
+  <% patients.forEach(p => { %>
+  <a href="/cuidador/doentes/<%= p.id %>" class="patient-card-link">
+    <article class="patient-card">
+      <h3 class="patient-card-name"><%= p.identifier %></h3>
+      <p class="patient-card-diag">
+        <span class="condition-chip"><%= p.diagnosis_name || p.primary_diagnosis %></span>
+      </p>
+      <p class="text-muted" style="margin:0; font-size:.8rem">
+        Última actualização: <%= p.updated_at.substring(0,10) %>
+      </p>
+    </article>
+  </a>
+  <% }) %>
+</div>
+<% } %>

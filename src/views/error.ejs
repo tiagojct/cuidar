@@ -1,0 +1,7 @@
+<article class="error-card">
+  <h2><%= title %></h2>
+  <% const httpStatus = (typeof status !== 'undefined') ? status : null; %>
+  <% if (httpStatus) { %><p class="text-muted"><small>Erro <%= httpStatus %></small></p><% } %>
+  <p><%= message %></p>
+  <a href="<%= backUrl || '/' %>" role="button" class="outline">← Voltar</a>
+</article>

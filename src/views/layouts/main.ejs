@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> — CUIDAR</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <%- style %>
+</head>
+<body>
+<a href="#main-content" class="skip-to-content">Saltar para o conteúdo</a>
+
+<% if (user) { %>
+<header class="site-header">
+  <nav class="container-fluid">
+    <ul>
+      <li><a href="/" class="site-brand"><strong>CUIDAR</strong></a></li>
+    </ul>
+    <ul>
+      <% if (user.role === 'caregiver') { %>
+        <li><a href="/cuidador/doentes">Os meus doentes</a></li>
+        <li><a href="/cuidador/informacao">Informação</a></li>
+        <li><a href="/referencias" class="nav-help-link">Referências</a></li>
+        <li><a href="/ajuda" class="nav-help-link">Ajuda</a></li>
+      <% } else if (user.role === 'clinician') { %>
+        <li><a href="/clinico/fichas">Fichas</a></li>
+        <li><a href="/clinico/doentes">Doentes</a></li>
+        <li><a href="/clinico/categorias">Categorias</a></li>
+        <li><a href="/clinico/modelos">Modelos</a></li>
+        <li><a href="/clinico/condicoes">Condições</a></li>
+        <li><a href="/clinico/estatisticas">Estatísticas</a></li>
+        <li><a href="/referencias" class="nav-help-link">Referências</a></li>
+        <li><a href="/ajuda" class="nav-help-link">Ajuda</a></li>
+      <% } else if (user.role === 'admin') { %>
+        <li><a href="/admin/utilizadores">Utilizadores</a></li>
+        <li><a href="/referencias" class="nav-help-link">Referências</a></li>
+        <li><a href="/ajuda" class="nav-help-link">Ajuda</a></li>
+      <% } %>
+      <li class="nav-user-name"><small><a href="/conta" class="nav-account-link"><%= user.name %></a></small></li>
+      <li>
+        <form action="/logout" method="post" class="inline-form">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="link-button">Sair</button>
+        </form>
+      </li>
+    </ul>
+  </nav>
+</header>
+<% } %>
+
+<% if (flash.error && flash.error.length > 0) { %>
+<div class="flash-bar flash-error" role="alert">
+  <div class="container-fluid">
+    <% flash.error.forEach(msg => { %><p><%= msg %></p><% }) %>
+  </div>
+</div>
+<% } %>
+<% if (flash.success && flash.success.length > 0) { %>
+<div class="flash-bar flash-success" role="status">
+  <div class="container-fluid">
+    <% flash.success.forEach(msg => { %><p><%= msg %></p><% }) %>
+  </div>
+</div>
+<% } %>
+<% if (flash.info && flash.info.length > 0) { %>
+<div class="flash-bar flash-info" role="status">
+  <div class="container-fluid">
+    <% flash.info.forEach(msg => { %><p><%= msg %></p><% }) %>
+  </div>
+</div>
+<% } %>
+
+<main class="container" id="main-content">
+  <%- body %>
+</main>
+
+<% if (user) { %>
+<a href="/cuidador/informacao/urgencias" class="emergency-btn" aria-label="O que fazer em caso de urgência">
+  Em caso de urgência
+</a>
+<% } %>
+
+<%- script %>
+<script>
+(function () {
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('button[data-confirm]');
+    if (!btn) return;
+    if (!btn.classList.contains('confirm-pending')) {
+      e.preventDefault();
+      var orig = btn.textContent;
+      btn.textContent = 'Confirmar?';
+      btn.classList.add('confirm-pending');
+      var t = setTimeout(function () {
+        btn.textContent = orig;
+        btn.classList.remove('confirm-pending');
+      }, 3000);
+      btn.dataset._origText = orig;
+      btn.dataset._timer   = t;
+    }
+  });
+}());
+
+document.addEventListener('submit', function(e) {
+  var form = e.target;
+  if (form.classList.contains('inline-form')) return;
+  var btn = form.querySelector('button[type="submit"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'A guardar…'; }
+});
+</script>
+</body>
+</html>

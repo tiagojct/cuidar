@@ -1,0 +1,874 @@
+/* ── Custom overrides on top of Pico.css v2 ─────────────────────────────── */
+
+:root {
+  --flash-error-bg:     #ffebee;
+  --flash-error-color:  #b71c1c;
+  --flash-ok-bg:        #e8f5e9;
+  --flash-ok-color:     #1b5e20;
+  --flash-info-bg:      #e3f2fd;
+  --flash-info-color:   #0d47a1;
+  --flash-warning-bg:   #fff8e1;
+  --flash-warning-color:#e65100;
+}
+
+/* ── Skip-to-content (keyboard / screen reader) ─────────────────────────── */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-to-content:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  display: block;
+  padding: 0.5rem 1rem;
+  background: var(--pico-primary);
+  color: #fff;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+/* ── Navigation ─────────────────────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--pico-background-color);
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  padding: 0;
+}
+
+.site-header nav {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.site-brand {
+  font-size: 1.15rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.nav-user-name {
+  color: var(--pico-muted-color);
+  display: flex;
+  align-items: center;
+}
+
+/* Logout rendered as an inline link inside the nav */
+.inline-form {
+  display: inline;
+  margin: 0;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--pico-primary);
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.link-button:hover {
+  color: var(--pico-primary-hover);
+}
+
+button.confirm-pending {
+  outline: 2px solid #c62828;
+  outline-offset: 2px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pagination {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.pagination a, .pagination span {
+  padding: .3rem .7rem;
+  border-radius: 4px;
+  font-size: .9rem;
+  text-decoration: none;
+}
+.pagination a { border: 1px solid var(--pico-primary); color: var(--pico-primary); }
+.pagination a:hover { background: var(--pico-primary); color: #fff; }
+.pagination span { border: 1px solid var(--pico-muted-border-color); color: var(--pico-muted-color); }
+.pagination .current { background: var(--pico-primary); color: #fff; border-color: var(--pico-primary); }
+
+.badge-read {
+  display: inline-block;
+  font-size: .75rem;
+  color: #2e7d32;
+  background: #e8f5e9;
+  padding: .1rem .45rem;
+  border-radius: 999px;
+  margin-left: .35rem;
+}
+
+/* ── Flash messages ─────────────────────────────────────────────────────── */
+.flash-bar {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid transparent;
+}
+
+.flash-bar p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.flash-error  { background: var(--flash-error-bg); color: var(--flash-error-color); border-color: var(--flash-error-color);  }
+.flash-success{ background: var(--flash-ok-bg);    color: var(--flash-ok-color);    border-color: var(--flash-ok-color);     }
+.flash-info   { background: var(--flash-info-bg);    color: var(--flash-info-color);    border-color: var(--flash-info-color);   }
+.flash-warning{ background: var(--flash-warning-bg); color: var(--flash-warning-color); border-color: var(--flash-warning-color); }
+
+.feedback-selected { outline: 2px solid currentColor; font-weight: bold; }
+
+/* ── Emergency bar (fixed, bottom) ─────────────────────────────────────── */
+.emergency-btn {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 200;
+  background: #fff;
+  color: #b71c1c;
+  border: 1.5px solid #e57373;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.emergency-btn:hover {
+  background: #b71c1c;
+  color: #fff !important;
+  border-color: #b71c1c;
+}
+@media (max-width: 480px) {
+  .emergency-btn { font-size: 0.75rem; padding: 0.35rem 0.8rem; bottom: 0.75rem; right: 0.75rem; }
+}
+
+/* ── Login page ─────────────────────────────────────────────────────────── */
+.login-container {
+  max-width: 400px;
+  margin: 3rem auto 2rem;
+}
+
+.login-brand {
+  text-align: center;
+  letter-spacing: 0.15em;
+  font-size: 2.5rem;
+  color: var(--pico-primary);
+  margin-bottom: 0.25rem;
+}
+
+.login-tagline {
+  text-align: center;
+  color: var(--pico-muted-color);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* ── Error card ─────────────────────────────────────────────────────────── */
+.error-card {
+  max-width: 480px;
+  margin: 4rem auto;
+  text-align: center;
+}
+
+/* ── Content ────────────────────────────────────────────────────────────── */
+#main-content {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+/* ── Safety alert (high pain / low wellbeing) ───────────────────────────── */
+.alert-urgente {
+  background: #fff3e0;
+  border-left: 4px solid #e65100;
+  color: #bf360c;
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.alert-urgente strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* ── Utility ────────────────────────────────────────────────────────────── */
+.text-muted  { color: var(--pico-muted-color); }
+.text-center { text-align: center; }
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }
+
+/* ── Sprint 2: Clinician UI ─────────────────────────────────────────────── */
+
+/* Page header with title + action button */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.page-header h2 { margin: 0; }
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: flex-end;
+  margin-bottom: 1.25rem;
+}
+
+.filter-bar input[type=search] { flex: 1; min-width: 10rem; margin: 0; }
+.filter-bar select              { flex: 0 1 14rem; margin: 0; }
+.filter-bar button,
+.filter-bar a                   { margin: 0; white-space: nowrap; }
+
+/* Small action buttons in tables */
+.btn-sm {
+  padding: 0.25rem 0.6rem !important;
+  font-size: 0.8rem !important;
+}
+
+.actions-col {
+  white-space: nowrap;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+/* Tag and condition chips — hardcoded for guaranteed contrast */
+.tag-chip {
+  display: inline-block;
+  background: #e9ecef;
+  color: #212529;
+  border-radius: 1rem;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.75rem;
+  margin: 0.1rem;
+}
+
+.condition-chip {
+  display: inline-block;
+  background: #1565c0;
+  color: #ffffff;
+  border-radius: 1rem;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin: 0.1rem;
+}
+
+/* Card metadata bar */
+.card-meta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--pico-muted-color);
+  margin-bottom: 0.5rem;
+}
+
+.tag-bar, .condition-bar { margin-bottom: 0.5rem; }
+
+/* Card editor: two-pane grid */
+.editor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.editor-pane label { margin-bottom: 0.25rem; display: block; font-weight: 600; font-size: 0.85rem; }
+.editor-pane textarea {
+  width: 100%;
+  height: 400px;
+  resize: vertical;
+  font-family: 'Menlo', 'Consolas', monospace;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.editor-label { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.25rem; }
+
+.preview-pane-content {
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius, 4px);
+  padding: 1rem;
+  min-height: 400px;
+  max-height: 600px;
+  overflow-y: auto;
+  background: var(--pico-card-background-color, #fff);
+}
+
+/* Editor tabs: only visible on mobile */
+.editor-tabs {
+  display: none;
+  gap: 0;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid var(--pico-muted-border-color);
+}
+
+.editor-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: var(--pico-muted-color);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.editor-tab.active {
+  color: var(--pico-primary);
+  border-bottom-color: var(--pico-primary);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .editor-grid      { grid-template-columns: 1fr; }
+  .editor-tabs      { display: flex; }
+  .hidden-mobile    { display: none !important; }
+  .visible-mobile   { display: block !important; }
+  .preview-col      { display: none; }  /* default hidden on mobile, JS activates */
+}
+
+/* Conditions checkbox grid */
+.conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.condition-check {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.condition-check input { margin: 0; }
+
+/* Form grid helpers */
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-grid-3 { display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end; }
+
+@media (max-width: 600px) {
+  .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+}
+
+.form-actions { display: flex; gap: 0.75rem; align-items: center; margin-top: 1rem; }
+
+/* Inline edit form in tables */
+.editing-row td { background: var(--pico-card-sectioning-background-color, #f9f9f9); }
+.inline-edit-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.inline-edit-form input { margin: 0; }
+.inline-edit-form button,
+.inline-edit-form a { margin: 0; }
+
+/* Symptom rows in template editor */
+.symptom-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.symptom-row input { margin: 0; }
+
+/* Stats page */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 1.25rem 1rem;
+}
+
+.stat-card h3 {
+  font-size: 2.5rem;
+  margin: 0 0 0.25rem;
+  color: var(--pico-primary);
+}
+
+.stat-card p { margin: 0; font-size: 0.85rem; color: var(--pico-muted-color); }
+
+/* Rendered card body (Markdown output) */
+.prose h2, .prose h3 { margin-top: 1.5rem; }
+.prose ul, .prose ol  { padding-left: 1.5rem; }
+.prose blockquote     { border-left: 4px solid var(--pico-muted-border-color); padding-left: 1rem; color: var(--pico-muted-color); }
+
+/* ── Sprint 3: Caregiver info browsing ──────────────────────────────────────── */
+
+/* Search bar */
+.info-search-bar { margin-bottom: 1.5rem; }
+
+.info-search-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.info-search-row input[type=search] { flex: 1; margin: 0; }
+.info-search-row button,
+.info-search-row a { margin: 0; white-space: nowrap; }
+
+.info-filter-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.info-filter-row select { flex: 1; min-width: 10rem; margin: 0; }
+
+/* Card grid */
+.info-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+/* Card link wrapper — remove anchor decoration */
+.info-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.info-card-link:hover .info-card {
+  border-color: var(--pico-primary);
+}
+
+/* Info card */
+.info-card {
+  padding: 1rem 1.25rem;
+  margin: 0;
+  height: 100%;
+  transition: border-color 0.15s;
+}
+
+.info-card-cat {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--pico-primary);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.info-card-title {
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+  color: var(--pico-color);
+}
+
+.info-card-tags { margin-top: auto; }
+
+/* Card detail nav (back link + badge) */
+.info-card-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Prose body on card detail */
+.info-prose {
+  margin-top: 1.25rem;
+  line-height: 1.7;
+}
+
+.info-prose table {
+  font-size: 0.9rem;
+}
+
+/* Tags bar below prose */
+.info-tags-bar {
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+/* Related cards */
+.related-list {
+  padding-left: 1.25rem;
+  margin: 0.5rem 0 0;
+}
+
+.related-list li { margin-bottom: 0.4rem; }
+
+@media (max-width: 600px) {
+  .info-card-grid { grid-template-columns: 1fr; }
+  .info-filter-row select { min-width: 0; }
+}
+
+/* ── Sprint 4: Patient profiles & symptom diary ─────────────────────────────── */
+
+/* Patient grid (caregiver list) */
+.patients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.patient-card-link { text-decoration: none; color: inherit; display: block; }
+.patient-card-link:hover .patient-card { border-color: var(--pico-primary); }
+
+.patient-card { padding: 1.25rem; margin: 0; height: 100%; transition: border-color .15s; }
+.patient-card-name { font-size: 1.1rem; margin: 0 0 0.4rem; }
+.patient-card-diag { margin: 0 0 0.4rem; }
+
+/* Patient info grid (detail page) */
+.patient-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.patient-info-grid > div { border-left: 3px solid var(--pico-muted-border-color); padding-left: .75rem; }
+
+/* Patient info card (caregiver view) */
+.patient-info-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: .6rem 1.5rem;
+  background: var(--pico-card-background-color, #fff);
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius, 4px);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.patient-info-row {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+
+.patient-info-row .text-muted { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; }
+
+/* Symptom entry form */
+.symptom-slider-row {
+  margin-bottom: 1.25rem;
+  padding: .75rem 1rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius, 4px);
+}
+
+.symptom-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: .4rem;
+}
+
+.symptom-value-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  min-width: 2rem;
+  text-align: right;
+  transition: color .2s;
+}
+
+.val-low  { color: #1b5e20; }
+.val-mid  { color: #b84500; }
+.val-high { color: #b71c1c; }
+
+.symptom-slider { width: 100%; margin: .25rem 0; cursor: pointer; }
+
+.symptom-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: .75rem;
+  color: var(--pico-muted-color);
+  margin-top: .1rem;
+}
+
+/* Wellbeing badges */
+.wellbeing-badge {
+  display: inline-block;
+  padding: .1rem .5rem;
+  border-radius: 1rem;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.wb-bad  { background: #ffebee; color: #b71c1c; }
+.wb-mid  { background: #fff3e0; color: #b84500; }
+.wb-good { background: #e8f5e9; color: #1b5e20; }
+
+/* Symptom value badges */
+.sym-badge {
+  display: inline-block;
+  padding: .05rem .4rem;
+  border-radius: .75rem;
+  font-size: .75rem;
+  margin: .1rem .1rem .1rem 0;
+}
+
+.sym-low  { background: #e8f5e9; color: #1b5e20; }
+.sym-mid  { background: #fff3e0; color: #b84500; }
+.sym-high { background: #ffebee; color: #b71c1c; }
+
+/* Entry list (caregiver patient view) */
+.entry-list { display: flex; flex-direction: column; gap: .5rem; }
+
+.entry-row {
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius, 4px);
+  padding: .75rem 1rem;
+  display: grid;
+  grid-template-columns: 9rem auto;
+  gap: .25rem .75rem;
+  align-items: start;
+}
+
+.entry-row-alert { border-color: #e65100; background: #fff8f0; }
+
+.entry-date    { grid-column: 1; grid-row: 1; color: var(--pico-muted-color); }
+.entry-wellbeing { grid-column: 2; grid-row: 1; }
+.entry-symptoms  { grid-column: 1 / -1; }
+.entry-notes   { grid-column: 1 / -1; margin-top: .25rem; }
+
+@media (max-width: 600px) {
+  .patients-grid { grid-template-columns: 1fr; }
+  .entry-row { grid-template-columns: 1fr; }
+  .entry-date, .entry-wellbeing, .entry-symptoms, .entry-notes { grid-column: 1; grid-row: auto; }
+}
+
+/* ── Sprint 5: Dashboard & reports ──────────────────────────────────────────── */
+
+/* Period selector */
+.dash-period {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius, 4px);
+  overflow: hidden;
+  width: fit-content;
+}
+
+.dash-period-btn {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: var(--pico-muted-color);
+  border-right: 1px solid var(--pico-muted-border-color);
+  transition: background .15s;
+}
+
+.dash-period-btn:last-child { border-right: none; }
+.dash-period-btn:hover      { background: var(--pico-secondary-background, #f0f0f0); }
+.dash-period-btn.active     { background: var(--pico-primary); color: #fff; }
+
+/* Chart canvas containers */
+.chart-wrapper {
+  position: relative;
+  height: 240px;
+  margin-bottom: 1.5rem;
+}
+
+/* Print report */
+.report-table th, .report-table td { font-size: .8rem; }
+.report-alert-row { background: #fff8f0; }
+
+/* Print CSS */
+.print-body { padding-bottom: 0 !important; }
+
+@media print {
+  .site-header, .emergency-btn, .flash-bar, .no-print { display: none !important; }
+  .page-header a[role="button"], .page-header .actions-col, .actions-col { display: none !important; }
+  .print-body { padding: 0 !important; }
+  #main-content { padding-top: 0.5rem !important; padding-bottom: 0 !important; }
+  a { color: inherit !important; text-decoration: none !important; }
+  .report-alert-row { background: #fff8f0 !important; -webkit-print-color-adjust: exact; }
+  .wb-bad  { background: #ffebee !important; -webkit-print-color-adjust: exact; }
+  .wb-mid  { background: #fff3e0 !important; -webkit-print-color-adjust: exact; }
+  .wb-good { background: #e8f5e9 !important; -webkit-print-color-adjust: exact; }
+  .sym-high { background: #ffebee !important; -webkit-print-color-adjust: exact; }
+  .sym-mid  { background: #fff3e0 !important; -webkit-print-color-adjust: exact; }
+  .sym-low  { background: #e8f5e9 !important; -webkit-print-color-adjust: exact; }
+}
+
+/* ── Admin badges ────────────────────────────────────────────────────────── */
+.badge-active, .badge-inactive {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.badge-active   { background: #e8f5e9; color: #2e7d32; }
+.badge-inactive { background: #f5f5f5; color: #9e9e9e; }
+
+/* ── Mobile nav ──────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .site-header nav > ul:last-child {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .site-header nav > ul:last-child::-webkit-scrollbar { display: none; }
+  .site-header nav > ul:last-child > li { white-space: nowrap; }
+  .nav-user-name { display: none; }
+}
+
+/* ── Help hint text below form fields ───────────────────────────────────── */
+.help-hint {
+  display: block;
+  color: var(--pico-muted-color);
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+  line-height: 1.4;
+}
+
+/* ── Related cards aside ────────────────────────────────────────────────── */
+.related-cards {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--pico-muted-border-color);
+}
+.related-cards h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+.related-cards ul { padding-left: 1.25rem; margin: 0; }
+.related-cards li { margin-bottom: 0.35rem; }
+
+/* ── Caregiver action button — full width on mobile ─────────────────────── */
+@media (max-width: 600px) {
+  .page-header .actions-col {
+    flex-direction: column;
+    width: 100%;
+  }
+  .page-header .actions-col > * {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ── Symptom slider — taller touch target on mobile ─────────────────────── */
+@media (max-width: 768px) {
+  .symptom-slider {
+    height: 2rem;
+    cursor: pointer;
+  }
+  .symptom-value-display {
+    font-size: 2rem;
+  }
+}
+
+/* ── Help page sections ──────────────────────────────────────────────────── */
+.help-section {
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius, 4px);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+.help-section summary {
+  padding: 0.9rem 1.25rem;
+  background: var(--pico-card-sectioning-background-color, #f9f9f9);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.help-section summary::-webkit-details-marker { display: none; }
+.help-section summary::after { content: '▸'; font-size: 0.85rem; color: var(--pico-muted-color); }
+.help-section[open] summary::after { content: '▾'; }
+.help-section-body {
+  padding: 1rem 1.25rem;
+}
+.help-section-body p,
+.help-section-body li { font-size: 0.95rem; line-height: 1.65; }
+.help-section-body h4 { margin-top: 1rem; margin-bottom: 0.35rem; font-size: 0.95rem; }
+.help-step {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+.help-step-num {
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--pico-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.help-step-text { flex: 1; line-height: 1.6; font-size: 0.95rem; }
+
+/* ── Nav help link ───────────────────────────────────────────────────────── */
+.nav-help-link { opacity: 0.75; font-size: 0.88rem; }
+.nav-help-link:hover { opacity: 1; }
+
+/* ── Nav account (username → /conta) ────────────────────────────────────── */
+.nav-account-link {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.8;
+}
+.nav-account-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ── Read badge on info cards ────────────────────────────────────────────── */
+.badge-read { display: inline-block; font-size: .75rem; color: #2e7d32; background: #e8f5e9; padding: .1rem .45rem; border-radius: 999px; margin-left: .35rem; }
+
+/* ── Info-card print: hide nav chrome, show content cleanly ─────────────── */
+@media print {
+  .info-card-nav, .info-tags-bar .text-muted { display: none !important; }
+  .info-prose { font-size: 11pt; line-height: 1.6; }
+}

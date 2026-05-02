@@ -1,0 +1,52 @@
+<div class="page-header">
+  <h2>A minha conta</h2>
+  <a href="javascript:history.back()" class="outline secondary btn-sm">← Voltar</a>
+</div>
+
+<p class="text-muted">Altere a sua palavra-passe de acesso abaixo.</p>
+
+<form method="post" action="/conta" style="max-width:480px">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <label>
+    Palavra-passe actual *
+    <input type="password" name="current_password" required autocomplete="current-password">
+  </label>
+
+  <label>
+    Nova palavra-passe *
+    <input type="password" name="new_password" required minlength="8" autocomplete="new-password"
+      placeholder="Mínimo 8 caracteres">
+  </label>
+
+  <label>
+    Confirmar nova palavra-passe *
+    <input type="password" name="confirm_password" required minlength="8" autocomplete="new-password">
+  </label>
+
+  <div class="form-actions">
+    <button type="submit">Guardar nova palavra-passe</button>
+  </div>
+</form>
+
+<script>
+(function () {
+  var form = document.querySelector('form[action="/conta"]');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    var newPw  = form.querySelector('[name="new_password"]');
+    var confPw = form.querySelector('[name="confirm_password"]');
+    if (!newPw || !confPw) return;
+    var existing = form.querySelector('.pw-match-error');
+    if (existing) existing.remove();
+    if (newPw.value !== confPw.value) {
+      e.preventDefault();
+      var msg = document.createElement('p');
+      msg.className = 'pico-color-red-500 pw-match-error';
+      msg.style.marginTop = '.5rem';
+      msg.textContent = 'As palavras-passe não coincidem.';
+      confPw.parentNode.insertAdjacentElement('afterend', msg);
+    }
+  });
+}());
+</script>

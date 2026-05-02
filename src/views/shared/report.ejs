@@ -1,0 +1,86 @@
+<div class="report-header no-print-hide">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+    <a href="<%= backUrl %>" class="outline secondary btn-sm no-print">← Voltar</a>
+    <button onclick="window.print()" class="no-print">Imprimir / Guardar PDF</button>
+  </div>
+</div>
+
+<div class="report-title">
+  <h2>Relatório de Sintomas — CUIDAR</h2>
+  <p class="text-muted"><small>Gerado em <%= generatedAt %></small></p>
+</div>
+
+<div class="patient-info-grid" style="margin-bottom:1.5rem">
+  <div>
+    <small class="text-muted">Doente</small>
+    <p class="mt-0 mb-0"><strong><%= patient.identifier %></strong></p>
+  </div>
+  <div>
+    <small class="text-muted">Diagnóstico</small>
+    <p class="mt-0 mb-0"><%= patient.diagnosis_name || patient.primary_diagnosis %></p>
+  </div>
+  <% if (patient.team_contact) { %>
+  <div>
+    <small class="text-muted">Equipa clínica</small>
+    <p class="mt-0 mb-0"><%= patient.team_contact %></p>
+  </div>
+  <% } %>
+  <div>
+    <small class="text-muted">Total de registos</small>
+    <p class="mt-0 mb-0"><%= entries.length %></p>
+  </div>
+</div>
+
+<% if (entries.length === 0) { %>
+<p class="text-muted">Nenhum registo de sintomas disponível.</p>
+<% } else { %>
+
+<figure>
+  <table class="report-table">
+    <thead>
+      <tr>
+        <th scope="col">Data</th>
+        <th scope="col">Bem-estar</th>
+        <% slugs.forEach(s => { %><th scope="col"><%= slugLabels[s] || s %></th><% }) %>
+        <th scope="col">Estado</th>
+        <th scope="col">Notas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% entries.forEach(entry => { %>
+      <%
+        let syms = {};
+        try { syms = JSON.parse(entry.symptoms_json || '{}'); } catch {}
+        const hasAlert = (entry.wellbeing_score !== null && entry.wellbeing_score <= 3)
+          || Object.values(syms).some(v => Number(v) >= 7);
+      %>
+      <tr class="<%= hasAlert ? 'report-alert-row' : '' %>">
+        <td><small><%= entry.recorded_at.substring(0,16).replace('T',' ') %></small></td>
+        <td>
+          <% if (entry.wellbeing_score !== null) { %>
+          <span class="wellbeing-badge <%= entry.wellbeing_score <= 3 ? 'wb-bad' : entry.wellbeing_score <= 6 ? 'wb-mid' : 'wb-good' %>">
+            <%= entry.wellbeing_score %>/10
+          </span>
+          <% } else { %>—<% } %>
+        </td>
+        <% slugs.forEach(s => { %>
+        <td>
+          <% const v = syms[s]; %>
+          <% if (v !== undefined) { %>
+          <span class="sym-badge <%= Number(v) >= 7 ? 'sym-high' : Number(v) >= 4 ? 'sym-mid' : 'sym-low' %>"><%= v %></span>
+          <% } else { %>—<% } %>
+        </td>
+        <% }) %>
+        <td><small><%= entry.caregiver_mood || '—' %></small></td>
+        <td><small><%= entry.notes || '' %></small></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</figure>
+
+<% } %>
+
+<p class="text-muted no-print" style="margin-top:1.5rem; font-size:.8rem">
+  <small>Este documento é confidencial e destinado exclusivamente à equipa clínica responsável.</small>
+</p>

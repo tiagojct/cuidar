@@ -1,0 +1,44 @@
+<div class="page-header">
+  <h2>Novo cuidador</h2>
+  <a href="<%= returnTo %>" class="outline secondary">← Voltar</a>
+</div>
+
+<p class="text-muted">
+  Crie uma conta para o cuidador que irá acompanhar o doente em casa.
+  O cuidador poderá iniciar sessão com estas credenciais e registar os sintomas diariamente.
+</p>
+
+<form method="post" action="/clinico/cuidadores" style="max-width:520px">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <input type="hidden" name="returnTo" value="<%= returnTo %>">
+
+  <label>
+    Nome completo *
+    <input type="text" name="name" required autofocus maxlength="100"
+      value="<%= (typeof form !== 'undefined' && form) ? form.name || '' : '' %>"
+      placeholder="Ex: Maria Silva">
+    <small class="help-hint">Nome do cuidador informal (familiar ou pessoa de referência).</small>
+  </label>
+
+  <label>
+    Email *
+    <input type="email" name="email" required maxlength="200"
+      value="<%= (typeof form !== 'undefined' && form) ? form.email || '' : '' %>"
+      placeholder="Ex: maria.silva@email.pt"
+      autocomplete="off">
+    <small class="help-hint">O cuidador utilizará este email para entrar na aplicação.</small>
+  </label>
+
+  <label>
+    Palavra-passe inicial *
+    <input type="password" name="password" required minlength="8"
+      autocomplete="new-password"
+      placeholder="Mínimo 8 caracteres">
+    <small class="help-hint">Comunique esta palavra-passe ao cuidador. Pode ser alterada posteriormente.</small>
+  </label>
+
+  <div class="form-actions">
+    <button type="submit">Criar cuidador</button>
+    <a href="<%= returnTo %>" class="outline secondary">Cancelar</a>
+  </div>
+</form>

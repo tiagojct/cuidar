@@ -1,0 +1,47 @@
+<div class="page-header">
+  <div>
+    <small class="text-muted"><a href="/clinico/fichas">Fichas</a> › <%= card.category_name %></small>
+    <h2 style="margin:0"><%= card.title %></h2>
+  </div>
+  <div style="display:flex;gap:.5rem">
+    <a href="/clinico/fichas/<%= card.id %>/editar" role="button" class="outline secondary">Editar</a>
+    <a href="/clinico/fichas" class="outline secondary">← Voltar</a>
+  </div>
+</div>
+
+<div class="card-meta-bar">
+  <span>Versão <strong>v<%= card.version %></strong></span>
+  <span>Autor: <strong><%= card.author_name %></strong></span>
+  <span>Actualizada: <strong><%= card.updated_at.substring(0,10) %></strong></span>
+  <span>Criada: <strong><%= card.created_at.substring(0,10) %></strong></span>
+</div>
+
+<% if (tags.length > 0) { %>
+<div class="tag-bar">
+  <% tags.forEach(tag => { %><span class="tag-chip"><%= tag %></span><% }) %>
+</div>
+<% } %>
+
+<% if (conditions.length > 0) { %>
+<div class="condition-bar">
+  <small>Condições: </small>
+  <% conditions.forEach(c => { %><span class="condition-chip"><%= conditionLabels[c] || c %></span><% }) %>
+</div>
+<% } %>
+
+<hr>
+
+<article class="prose card-body">
+  <%- card.body_html %>
+</article>
+
+<% if (relatedCards.length > 0) { %>
+<aside class="related-cards">
+  <h3>Fichas relacionadas</h3>
+  <ul>
+    <% relatedCards.forEach(rc => { %>
+    <li><a href="/clinico/fichas/<%= rc.id %>"><%= rc.title %></a></li>
+    <% }) %>
+  </ul>
+</aside>
+<% } %>

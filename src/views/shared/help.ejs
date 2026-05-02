@@ -1,0 +1,247 @@
+<div class="page-header">
+  <h2>Manual de Utilização</h2>
+</div>
+
+<p class="text-muted" style="margin-bottom:1.5rem">
+  Encontre abaixo a resposta às perguntas mais frequentes, organizada por perfil de utilizador.
+  Clique em cada secção para a expandir.
+</p>
+
+<% if (user && user.role === 'caregiver') { %>
+
+<!-- ════════════════ CAREGIVER ════════════════ -->
+<h3 style="margin-bottom:.75rem">Para cuidadores</h3>
+
+<details class="help-section" open>
+  <summary>Como registar os sintomas do doente</summary>
+  <div class="help-section-body">
+    <p>O registo diário de sintomas é a função mais importante da aplicação. Deve ser feito <strong>uma vez por dia</strong>, idealmente sempre à mesma hora.</p>
+    <div class="help-step">
+      <span class="help-step-num">1</span>
+      <span class="help-step-text">Na página inicial, clique no nome do doente para abrir a sua ficha.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">2</span>
+      <span class="help-step-text">Carregue no botão <strong>+ Registar sintomas</strong>.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">3</span>
+      <span class="help-step-text">Para cada sintoma, mova o cursor para o número que melhor descreve a intensidade:<br>
+        <code>0</code> = ausente &nbsp;·&nbsp; <code>5</code> = moderado &nbsp;·&nbsp; <code>10</code> = muito intenso</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">4</span>
+      <span class="help-step-text">Classifique também o <strong>bem-estar geral</strong> do doente:<br>
+        <code>0</code> = muito mal &nbsp;·&nbsp; <code>10</code> = muito bem</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">5</span>
+      <span class="help-step-text">Indique o seu próprio estado emocional em <strong>Estado do cuidador</strong>. Isso também é importante.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">6</span>
+      <span class="help-step-text">Adicione notas se houver algo relevante a comunicar à equipa.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">7</span>
+      <span class="help-step-text">Carregue em <strong>Guardar registo</strong>. Pronto!</span>
+    </div>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>O que significa o alerta vermelho?</summary>
+  <div class="help-section-body">
+    <p>Quando o bem-estar é muito baixo (≤ 3/10) ou algum sintoma está muito intenso (≥ 7/10), a aplicação mostra um <strong>aviso a vermelho</strong> no topo da ficha do doente.</p>
+    <h4>O que fazer:</h4>
+    <ul>
+      <li>Verifique se o doente precisa de assistência imediata.</li>
+      <li>Contacte a equipa clínica responsável pelo número que aparece na ficha do doente.</li>
+      <li>Se for uma emergência, ligue <strong>112</strong>.</li>
+    </ul>
+    <p>O botão vermelho <strong>Situações Urgentes</strong> no fundo do ecrã leva-o às fichas de informação de urgência.</p>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Como ver a evolução do doente ao longo do tempo</summary>
+  <div class="help-section-body">
+    <div class="help-step">
+      <span class="help-step-num">1</span>
+      <span class="help-step-text">Abra a ficha do doente.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">2</span>
+      <span class="help-step-text">Clique em <strong>Ver evolução</strong> para abrir o gráfico de sintomas.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">3</span>
+      <span class="help-step-text">Use os botões <em>7 dias / 30 dias / 90 dias / Tudo</em> para ajustar o período.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">4</span>
+      <span class="help-step-text">Pode partilhar o <strong>Relatório completo</strong> com a equipa clínica — use a opção <em>Imprimir / Guardar PDF</em>.</span>
+    </div>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Como pesquisar fichas de informação</summary>
+  <div class="help-section-body">
+    <div class="help-step">
+      <span class="help-step-num">1</span>
+      <span class="help-step-text">No menu, clique em <strong>Informação</strong>.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">2</span>
+      <span class="help-step-text">Escreva uma palavra-chave na caixa de pesquisa (ex: "dor", "dispneia", "higiene").</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">3</span>
+      <span class="help-step-text">Pode também filtrar por <strong>Categoria</strong> ou <strong>Condição clínica</strong>.</span>
+    </div>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Não consigo entrar na aplicação</summary>
+  <div class="help-section-body">
+    <ul>
+      <li>Verifique se o email e palavra-passe estão correctos.</li>
+      <li>Se esqueceu a palavra-passe, contacte a equipa clínica responsável — eles podem redefinir o acesso.</li>
+      <li>Certifique-se de que a sua conta está activa.</li>
+    </ul>
+  </div>
+</details>
+
+<% } else if (user && (user.role === 'clinician' || user.role === 'admin')) { %>
+
+<!-- ════════════════ CLINICIAN / ADMIN ════════════════ -->
+<h3 style="margin-bottom:.75rem">Para profissionais de saúde</h3>
+
+<details class="help-section" open>
+  <summary>Como criar um doente e associar um cuidador</summary>
+  <div class="help-section-body">
+    <div class="help-step">
+      <span class="help-step-num">1</span>
+      <span class="help-step-text">Vá a <strong>Doentes → + Novo doente</strong>.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">2</span>
+      <span class="help-step-text">Preencha o <strong>Identificador</strong> — use um pseudónimo ou código interno, nunca o nome real.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">3</span>
+      <span class="help-step-text">Seleccione o <strong>Cuidador responsável</strong> na lista. Se o cuidador ainda não existe, clique em <em>Criar novo cuidador</em> para criar a conta.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">4</span>
+      <span class="help-step-text">Escolha o <strong>Diagnóstico principal</strong> — determina o modelo de sintomas que será apresentado ao cuidador.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">5</span>
+      <span class="help-step-text">Preencha o <strong>Contacto da equipa</strong> — este número aparece ao cuidador quando há um alerta.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">6</span>
+      <span class="help-step-text">Clique em <strong>Criar doente</strong>. O cuidador já pode ver o doente ao entrar na aplicação.</span>
+    </div>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Como gerir fichas de informação</summary>
+  <div class="help-section-body">
+    <p>As fichas são artigos em formato Markdown visíveis aos cuidadores na secção <em>Informação</em>.</p>
+    <ul>
+      <li><strong>Criar ficha</strong>: Fichas → + Nova ficha. Use Markdown para formatar o conteúdo.</li>
+      <li><strong>Condições aplicáveis</strong>: Seleccione as condições para que a ficha apareça filtrada pelos cuidadores certos.</li>
+      <li><strong>Fichas relacionadas</strong>: Em modo de edição, pode associar fichas que serão sugeridas ao cuidador após a leitura.</li>
+      <li><strong>Tags</strong>: Palavras-chave separadas por vírgula, usadas na pesquisa.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Como criar modelos de sintomas</summary>
+  <div class="help-section-body">
+    <p>Os modelos definem quais os sintomas que o cuidador regista para cada condição.</p>
+    <div class="help-step">
+      <span class="help-step-num">1</span>
+      <span class="help-step-text">Vá a <strong>Modelos → + Novo modelo</strong>.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">2</span>
+      <span class="help-step-text">Seleccione a condição clínica a que o modelo se aplica.</span>
+    </div>
+    <div class="help-step">
+      <span class="help-step-num">3</span>
+      <span class="help-step-text">Adicione os sintomas: cada sintoma tem uma <em>chave</em> (ex: <code>dor</code>) e um <em>nome</em> para exibição (ex: <code>Dor</code>).</span>
+    </div>
+  </div>
+  <p class="help-hint" style="margin: .5rem 1.25rem 1rem">Se não existir modelo para a condição do doente, é usado o modelo "Geral".</p>
+</details>
+
+<details class="help-section">
+  <summary>Como interpretar o dashboard de um doente</summary>
+  <div class="help-section-body">
+    <ul>
+      <li><strong>Bem-estar médio</strong>: Média das pontuações de bem-estar no período seleccionado.</li>
+      <li><strong>Registos com alerta</strong>: Dias em que o bem-estar foi ≤ 3 ou algum sintoma ≥ 7.</li>
+      <li>Use o <strong>Relatório completo</strong> para imprimir ou guardar em PDF para a consulta.</li>
+    </ul>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>O que acontece aos dados quando um doente é eliminado?</summary>
+  <div class="help-section-body">
+    <p>Ao eliminar um doente são permanentemente apagados todos os registos de sintomas e o historial de consultas de fichas associados a esse doente. Esta acção é irreversível. O cuidador associado não é eliminado — continua a existir na aplicação.</p>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Como reatribuir um cuidador a um doente?</summary>
+  <div class="help-section-body">
+    <ol>
+      <li>Aceda a <strong>Doentes</strong> e seleccione o doente pretendido.</li>
+      <li>Clique em <strong>Editar</strong>.</li>
+      <li>No campo <strong>Cuidador responsável</strong>, seleccione o novo cuidador.</li>
+      <li>Guarde as alterações.</li>
+    </ol>
+    <p class="help-hint">O cuidador anterior perde o acesso ao doente imediatamente.</p>
+  </div>
+</details>
+
+<% if (user.role === 'admin') { %>
+<h3 style="margin-top:1.5rem; margin-bottom:.75rem">Para administradores</h3>
+
+<details class="help-section" open>
+  <summary>Gestão de utilizadores</summary>
+  <div class="help-section-body">
+    <ul>
+      <li><strong>Criar utilizador</strong>: Utilizadores → + Novo utilizador. Defina nome, email, papel e palavra-passe inicial.</li>
+      <li><strong>Papéis</strong>:
+        <ul>
+          <li><em>Administrador</em> — gestão de utilizadores</li>
+          <li><em>Profissional de saúde</em> — gestão de doentes, fichas e modelos</li>
+          <li><em>Cuidador</em> — registo de sintomas e consulta de fichas</li>
+        </ul>
+      </li>
+      <li><strong>Desactivar conta</strong>: Use o botão <em>Desactivar</em> para impedir o acesso sem eliminar o historial. O último administrador activo não pode ser desactivado.</li>
+      <li><strong>Redefinir palavra-passe</strong>: Edite o utilizador e preencha o campo de nova palavra-passe.</li>
+    </ul>
+  </div>
+</details>
+<% } %>
+
+<% } %>
+
+<hr style="margin-top:2rem">
+<p class="text-muted" style="font-size:.85rem">
+  Para assistência técnica ou para reportar um problema, contacte o administrador do sistema.
+</p>
+<p class="text-muted" style="font-size:.85rem">
+  As fichas de informação clínica do CUIDAR são baseadas em evidência científica. Consulte as
+  <a href="/referencias">referências bibliográficas</a> utilizadas na elaboração deste conteúdo.
+</p>
