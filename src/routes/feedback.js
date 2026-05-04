@@ -10,7 +10,8 @@ const router = express.Router();
 router.get('/feedback', requireLogin, (req, res) => {
   res.render('shared/feedback', { 
     title: 'Enviar feedback',
-    submitted: false 
+    submitted: false,
+    formData: {}
   });
 });
 
