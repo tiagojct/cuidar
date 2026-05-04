@@ -1,6 +1,7 @@
 site_name: CUIDAR — Documentação
 site_description: Sistema de apoio ao cuidador informal em cuidados paliativos
 site_author: FMUP — Faculdade de Medicina da Universidade do Porto
+site_url: https://cuidar.tiagojct.eu
 docs_dir: docs
 
 theme:
@@ -41,6 +42,7 @@ markdown_extensions:
 
 nav:
   - Início: index.md
+  - Apresentação do Projeto: apresentacao.md
   - Manual do Cuidador:
     - Primeiros passos: cuidador/inicio.md
     - Registar sintomas: cuidador/sintomas.md
@@ -56,4 +58,5 @@ nav:
   - Administração:
     - Gestão de utilizadores: admin/utilizadores.md
   - Referências Clínicas: referencias.md
+  - Plano de Testes: testes.md
   - Instalação e Deploy: deploy.md
