@@ -93,6 +93,7 @@ app.set('layout extractStyles', true);
 
 // ── Static files ──────────────────────────────────────────────────────────────
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/docs', express.static(path.join(__dirname, '../docs')));
 
 // ── Body parsing ──────────────────────────────────────────────────────────────
 app.use(express.urlencoded({ extended: false, limit: '100kb' }));
