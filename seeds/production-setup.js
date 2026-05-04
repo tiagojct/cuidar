@@ -8,19 +8,13 @@ const bcrypt = require('bcryptjs');
 
 const node  = process.execPath;
 const flag  = '--experimental-sqlite';
-const seeds = [
-  'seeds/seed-categories.js',
-  'seeds/seed-diagnoses.js',
-  'seeds/seed-cards.js',
-  'seeds/seed-cards-extended.js',
-  'seeds/seed-templates-extended.js',
-];
 
-for (const s of seeds) {
-  execFileSync(node, [flag, s], { stdio: 'inherit' });
-}
+// Step 1: Run categories and diagnoses seeds
+console.log('[CUIDAR] A executar seeds: categorias e diagnósticos...');
+execFileSync(node, [flag, 'seeds/seed-categories.js'], { stdio: 'inherit' });
+execFileSync(node, [flag, 'seeds/seed-diagnoses.js'], { stdio: 'inherit' });
 
-// Create admin from env vars if not yet present
+// Step 2: Create admin user from env vars (must exist before seed-cards.js)
 const email    = process.env.ADMIN_EMAIL;
 const password = process.env.ADMIN_PASSWORD;
 const name     = process.env.ADMIN_NAME || 'Administrador';
@@ -39,3 +33,11 @@ if (email && password) {
 } else {
   console.log('[CUIDAR] ADMIN_EMAIL/ADMIN_PASSWORD não definidos — saltar criação de admin.');
 }
+
+// Step 3: Run remaining seeds that require admin/clinician to exist
+console.log('[CUIDAR] A executar seeds: fichas e modelos...');
+execFileSync(node, [flag, 'seeds/seed-cards.js'], { stdio: 'inherit' });
+execFileSync(node, [flag, 'seeds/seed-cards-extended.js'], { stdio: 'inherit' });
+execFileSync(node, [flag, 'seeds/seed-templates-extended.js'], { stdio: 'inherit' });
+
+console.log('[CUIDAR] Setup completo.');
