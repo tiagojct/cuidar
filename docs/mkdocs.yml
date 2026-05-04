@@ -3,6 +3,7 @@ site_description: Sistema de apoio ao cuidador informal em cuidados paliativos
 site_author: FMUP — Faculdade de Medicina da Universidade do Porto
 site_url: https://cuidar.tiagojct.eu
 docs_dir: .
+site_dir: ../.gh-pages
 
 theme:
   name: material
