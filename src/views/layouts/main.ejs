@@ -21,12 +21,9 @@
       <li><a href="/" class="site-brand"><strong>CUIDAR</strong></a></li>
     </ul>
     <ul>
-      <% if (user.role === 'caregiver') { %>
-        <li><a href="/cuidador/doentes">Os meus doentes</a></li>
+<% if (user.role === 'caregiver') { %>
+        <li><a href="/cuidador/doentes">Os meus doente</a></li>
         <li><a href="/cuidador/informacao">Informação</a></li>
-        <li><a href="/referencias" class="nav-help-link">Referências</a></li>
-        <li><a href="/ajuda" class="nav-help-link">Ajuda</a></li>
-        <li><a href="/feedback">Feedback</a></li>
       <% } else if (user.role === 'clinician') { %>
         <li><a href="/clinico/fichas">Fichas</a></li>
         <li><a href="/clinico/doentes">Doentes</a></li>
@@ -34,14 +31,8 @@
         <li><a href="/clinico/modelos">Modelos</a></li>
         <li><a href="/clinico/condicoes">Condições</a></li>
         <li><a href="/clinico/estatisticas">Estatísticas</a></li>
-        <li><a href="/referencias" class="nav-help-link">Referências</a></li>
-        <li><a href="/ajuda" class="nav-help-link">Ajuda</a></li>
-        <li><a href="/feedback">Feedback</a></li>
       <% } else if (user.role === 'admin') { %>
         <li><a href="/admin/utilizadores">Utilizadores</a></li>
-        <li><a href="/referencias" class="nav-help-link">Referências</a></li>
-        <li><a href="/ajuda" class="nav-help-link">Ajuda</a></li>
-        <li><a href="/feedback">Feedback</a></li>
       <% } %>
       <li class="nav-user-name"><a href="/conta" class="nav-account-link"><%= user.name %></a></li>
       <li class="nav-logout-item">
@@ -88,7 +79,9 @@
 <footer class="site-footer">
   <div class="container-fluid">
     <div class="footer-links">
-      <a href="/docs">Documentação</a>
+      <a href="/docs">Sobre</a>
+      <span class="footer-sep">·</span>
+      <a href="/referencias">Referências</a>
       <span class="footer-sep">·</span>
       <a href="/ajuda">Ajuda</a>
       <span class="footer-sep">·</span>
