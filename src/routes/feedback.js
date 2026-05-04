@@ -54,7 +54,7 @@ router.post('/feedback', requireLogin, (req, res) => {
   ].filter(Boolean).join('\n');
 
   sendMail({
-    to: 'tiagojacinto@med.up.pt',
+    to: 'tiagojct@icloud.com',
     subject: `[CUIDAR FEEDBACK] ${feedback_type} - ${user.name}`,
     text: feedbackText,
   });
