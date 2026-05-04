@@ -1,0 +1,2531 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sistema de apoio ao cuidador informal em cuidados paliativos">
+      
+      
+        <meta name="author" content="FMUP — Faculdade de Medicina da Universidade do Porto">
+      
+      
+        <link rel="canonical" href="https://cuidar.tiagojct.eu/deploy/">
+      
+      
+        <link rel="prev" href="../testes/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Instalação e Deploy - CUIDAR — Documentação</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deployment-do-cuidar" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="CUIDAR — Documentação" class="md-header__button md-logo" aria-label="CUIDAR — Documentação" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CUIDAR — Documentação
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Instalação e Deploy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../apresentacao.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Apresentação do Projeto
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../cuidador/inicio.md" class="md-tabs__link">
+          
+  
+  
+  Manual do Cuidador
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../clinico/doentes.md" class="md-tabs__link">
+          
+  
+  
+  Manual do Clínico
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../admin/utilizadores.md" class="md-tabs__link">
+          
+  
+  
+  Administração
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../referencias.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Referências Clínicas
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../testes/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Plano de Testes
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Instalação e Deploy
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="CUIDAR — Documentação" class="md-nav__button md-logo" aria-label="CUIDAR — Documentação" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CUIDAR — Documentação
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apresentacao.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apresentação do Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual do Cuidador
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manual do Cuidador
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuidador/inicio.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Primeiros passos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuidador/sintomas.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registar sintomas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuidador/evolucao.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ver evolução
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuidador/fichas.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fichas de informação
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuidador/mensagem.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enviar mensagem à equipa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manual do Clínico
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Manual do Clínico
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clinico/doentes.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gerir doentes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clinico/fichas.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fichas e categorias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clinico/modelos.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelos de sintomas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clinico/stats.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estatísticas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clinico/alertas.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alertas e notificações
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Administração
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Administração
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin/utilizadores.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gestão de utilizadores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../referencias.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referências Clínicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plano de Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalação e Deploy
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalação e Deploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visão Geral
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pergunta-os-dados-de-teste-existem-numa-instalacao-limpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pergunta: Os dados de teste existem numa instalação limpa?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opcao-1-rendercom-recomendado-gratuito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opção 1: Render.com (Recomendado - Gratuito)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Opção 1: Render.com (Recomendado - Gratuito)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-smtp-gmail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuração SMTP (Gmail)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opcao-2-railway-recomendado-pago-por-uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opção 2: Railway (Recomendado - Pago por uso)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Opção 2: Railway (Recomendado - Pago por uso)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passos_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opcao-3-vps-digitalocean-linode-hetzner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opção 3: VPS (DigitalOcean, Linode, Hetzner)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Opção 3: VPS (DigitalOcean, Linode, Hetzner)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-do-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos do Servidor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passos_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opcao-5-docker-nginx-cloudflare-recomendado-para-producao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opção 5: Docker + Nginx + Cloudflare (Recomendado para produção)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Opção 5: Docker + Nginx + Cloudflare (Recomendado para produção)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-clonar-e-configurar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Clonar e configurar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-criar-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Criar .env
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-iniciar-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Iniciar Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-configurar-nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Configurar Nginx
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-cloudflare-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cloudflare DNS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-verificar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Verificar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile-ja-existente-no-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile (já existente no projeto)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-e-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build e Run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Compose (recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracao-pos-instalacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuração Pós-Instalação
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuração Pós-Instalação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criar-administrador-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criar Administrador Inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criar-utilizadores-de-teste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criar Utilizadores de Teste
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificar-funcionalidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar Funcionalidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manutencao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manutenção
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manutenção">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atualizar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Atualizar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variaveis-de-ambiente-obrigatorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variáveis de Ambiente Obrigatórias
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variáveis de Ambiente Obrigatórias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variaveis-opcionais-smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variáveis Opcionais (SMTP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session_secret-is-required-in-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "SESSION_SECRET is required in production"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-fazer-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Como fazer backup?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#posso-usar-https" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Posso usar HTTPS?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onde-esta-a-base-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Onde está a base de dados?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#posso-migrar-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Posso migrar dados?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suporte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suporte
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#visao-geral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visão Geral
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pergunta-os-dados-de-teste-existem-numa-instalacao-limpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pergunta: Os dados de teste existem numa instalação limpa?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opcao-1-rendercom-recomendado-gratuito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opção 1: Render.com (Recomendado - Gratuito)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Opção 1: Render.com (Recomendado - Gratuito)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-smtp-gmail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuração SMTP (Gmail)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opcao-2-railway-recomendado-pago-por-uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opção 2: Railway (Recomendado - Pago por uso)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Opção 2: Railway (Recomendado - Pago por uso)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passos_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opcao-3-vps-digitalocean-linode-hetzner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opção 3: VPS (DigitalOcean, Linode, Hetzner)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Opção 3: VPS (DigitalOcean, Linode, Hetzner)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-do-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos do Servidor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passos_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opcao-5-docker-nginx-cloudflare-recomendado-para-producao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opção 5: Docker + Nginx + Cloudflare (Recomendado para produção)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Opção 5: Docker + Nginx + Cloudflare (Recomendado para produção)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requisitos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-clonar-e-configurar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Clonar e configurar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-criar-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Criar .env
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-iniciar-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Iniciar Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-configurar-nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Configurar Nginx
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-cloudflare-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cloudflare DNS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-verificar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Verificar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile-ja-existente-no-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dockerfile (já existente no projeto)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-e-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build e Run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-compose-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Compose (recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracao-pos-instalacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuração Pós-Instalação
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuração Pós-Instalação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criar-administrador-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criar Administrador Inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criar-utilizadores-de-teste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criar Utilizadores de Teste
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificar-funcionalidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificar Funcionalidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manutencao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manutenção
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manutenção">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atualizar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Atualizar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variaveis-de-ambiente-obrigatorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variáveis de Ambiente Obrigatórias
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variáveis de Ambiente Obrigatórias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variaveis-opcionais-smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variáveis Opcionais (SMTP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session_secret-is-required-in-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        "SESSION_SECRET is required in production"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-fazer-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Como fazer backup?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#posso-usar-https" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Posso usar HTTPS?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onde-esta-a-base-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Onde está a base de dados?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#posso-migrar-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Posso migrar dados?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suporte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suporte
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="deployment-do-cuidar">Deployment do CUIDAR</h1>
+<h2 id="visao-geral">Visão Geral</h2>
+<p>O CUIDAR pode ser implantado em qualquer servidor que suporte Node.js. Esta documentação cobre as opções mais comuns.</p>
+<hr />
+<h2 id="pergunta-os-dados-de-teste-existem-numa-instalacao-limpa">Pergunta: Os dados de teste existem numa instalação limpa?</h2>
+<p><strong>Resposta</strong>: <strong>NÃO</strong>. Numa instalação limpa:
+- A base de dados SQLite é criada vazia
+- Não existem utilizadores, doentes, fichas ou registos
+- <strong>Terá de criar os utilizadores manualmente</strong></p>
+<p>Para ter dados de teste, tem duas opções:
+1. Criar manualmente através da interface de admin
+2. Executar o script de seed <code>scripts/seed.js</code> (se existir)</p>
+<hr />
+<h2 id="opcao-1-rendercom-recomendado-gratuito">Opção 1: Render.com (Recomendado - Gratuito)</h2>
+<h3 id="passos">Passos</h3>
+<ol>
+<li>
+<p><strong>Criar conta</strong> em https://render.com</p>
+</li>
+<li>
+<p><strong>Criar novo Web Service</strong>:</p>
+</li>
+<li>Connect your GitHub repository</li>
+<li>Select your CUIDAR repo</li>
+<li>Build Command: <code>npm install</code></li>
+<li>Start Command: <code>node src/app.js</code></li>
+<li>
+<p>Environment Variables:
+     <div class="highlight"><pre><span></span><code>NODE_ENV=production
+SESSION_SECRET=&lt;gerar-string-segura&gt;
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=seu-email@gmail.com
+SMTP_PASS=sua-senha-app
+SMTP_FROM=CUIDAR &lt;seu-email@gmail.com&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Deploy</strong> - o Render faz build automaticamente</p>
+</li>
+</ol>
+<h3 id="configuracao-smtp-gmail">Configuração SMTP (Gmail)</h3>
+<ol>
+<li>Ativar 2-Factor Authentication na conta Google</li>
+<li>Ir para Google Account → Security → App passwords</li>
+<li>Criar nova password de app</li>
+<li>Usar essa password no SMTP_PASS</li>
+</ol>
+<hr />
+<h2 id="opcao-2-railway-recomendado-pago-por-uso">Opção 2: Railway (Recomendado - Pago por uso)</h2>
+<h3 id="passos_1">Passos</h3>
+<ol>
+<li>Cri conta em https://railway.app</li>
+<li>Connect GitHub repo</li>
+<li>Create new project → "Deploy from GitHub"</li>
+<li>Add environment variables same as Render</li>
+<li>Deploy starts automatically</li>
+</ol>
+<hr />
+<h2 id="opcao-3-vps-digitalocean-linode-hetzner">Opção 3: VPS (DigitalOcean, Linode, Hetzner)</h2>
+<h3 id="requisitos-do-servidor">Requisitos do Servidor</h3>
+<ul>
+<li>Ubuntu 20.04+ ou similar</li>
+<li>Node.js 22+</li>
+<li>512MB RAM mínimo</li>
+<li>Nginx como reverse proxy</li>
+</ul>
+<h3 id="passos_2">Passos</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Conectar ao servidor</span>
+ssh<span class="w"> </span>usuario@servidor
+
+<span class="c1"># 2. Instalar Node.js</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://deb.nodesource.com/setup_22.x<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>-E<span class="w"> </span>bash<span class="w"> </span>-
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nodejs
+
+<span class="c1"># 3. Criar diretório</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/www/cuidar
+<span class="nb">cd</span><span class="w"> </span>/var/www/cuidar
+
+<span class="c1"># 4. Clonar repositório</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/seu-repo/cuidar.git<span class="w"> </span>.
+
+<span class="c1"># 5. Instalar dependências</span>
+npm<span class="w"> </span>install<span class="w"> </span>--production
+
+<span class="c1"># 6. Criar ficheiro .env</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>.env<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">NODE_ENV=production</span>
+<span class="s">SESSION_SECRET=$(openssl rand -hex 32)</span>
+<span class="s">PORT=3000</span>
+<span class="s">SMTP_HOST=smtp.gmail.com</span>
+<span class="s">SMTP_PORT=465</span>
+<span class="s">SMTP_SECURE=true</span>
+<span class="s">SMTP_USER=seu-email@gmail.com</span>
+<span class="s">SMTP_PASS=sua-senha-app</span>
+<span class="s">SMTP_FROM=CUIDAR &lt;seu-email@gmail.com&gt;</span>
+<span class="s">EOF</span>
+
+<span class="c1"># 7. Criar serviço systemd</span>
+sudo<span class="w"> </span>cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/systemd/system/cuidar.service<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">[Unit]</span>
+<span class="s">Description=CUIDAR Web Application</span>
+<span class="s">After=network.target</span>
+
+<span class="s">[Service]</span>
+<span class="s">Type=simple</span>
+<span class="s">User=www-data</span>
+<span class="s">WorkingDirectory=/var/www/cuidar</span>
+<span class="s">ExecStart=/usr/bin/node src/app.js</span>
+<span class="s">Restart=always</span>
+<span class="s">Environment=NODE_ENV=production</span>
+
+<span class="s">[Install]</span>
+<span class="s">WantedBy=multi-user.target</span>
+<span class="s">EOF</span>
+
+<span class="c1"># 8. Ativar serviço</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>cuidar
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>cuidar
+
+<span class="c1"># 9. Configurar Nginx</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nginx
+sudo<span class="w"> </span>cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/nginx/sites-available/cuidar<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">server {</span>
+<span class="s">    listen 80;</span>
+<span class="s">    server_name seu-dominio.com;</span>
+
+<span class="s">    location / {</span>
+<span class="s">        proxy_pass http://localhost:3000;</span>
+<span class="s">        proxy_http_version 1.1;</span>
+<span class="s">        proxy_set_header Upgrade \$http_upgrade;</span>
+<span class="s">        proxy_set_header Connection &#39;upgrade&#39;;</span>
+<span class="s">        proxy_set_header Host \$host;</span>
+<span class="s">        proxy_cache_bypass \$http_upgrade;</span>
+<span class="s">    }</span>
+<span class="s">}</span>
+<span class="s">EOF</span>
+
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/etc/nginx/sites-available/cuidar<span class="w"> </span>/etc/nginx/sites-enabled/
+sudo<span class="w"> </span>nginx<span class="w"> </span>-t
+sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
+</code></pre></div>
+<hr />
+<h2 id="opcao-5-docker-nginx-cloudflare-recomendado-para-producao">Opção 5: Docker + Nginx + Cloudflare (Recomendado para produção)</h2>
+<p>Combina Docker (aplicação isolada) com Nginx (proxy reverso) e Cloudflare (DNS + SSL).</p>
+<h3 id="requisitos">Requisitos</h3>
+<ul>
+<li>Docker e Docker Compose instalados</li>
+<li>Nginx instalado</li>
+<li>Cloudflare DNS configurado para o seu domínio</li>
+</ul>
+<h3 id="1-clonar-e-configurar">1. Clonar e configurar</h3>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/tiagojct/esep-cuidar<span class="w"> </span>/opt/cuidar
+<span class="nb">cd</span><span class="w"> </span>/opt/cuidar
+</code></pre></div>
+<h3 id="2-criar-env">2. Criar .env</h3>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>.env<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">SESSION_SECRET=$(openssl rand -hex 32)</span>
+<span class="s">ADMIN_EMAIL=admin@cuidar.tiagojct.eu</span>
+<span class="s">ADMIN_PASSWORD=&lt;escolha-uma-palavra-passe-segura&gt;</span>
+<span class="s">ADMIN_NAME=Administrador</span>
+<span class="s">SMTP_HOST=smtp.gmail.com</span>
+<span class="s">SMTP_PORT=465</span>
+<span class="s">SMTP_SECURE=true</span>
+<span class="s">SMTP_USER=tiagojacinto@gmail.com</span>
+<span class="s">SMTP_PASS=&lt;senha-app-gmail&gt;</span>
+<span class="s">SMTP_FROM=CUIDAR &lt;tiagojacinto@med.up.pt&gt;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<h3 id="3-iniciar-docker">3. Iniciar Docker</h3>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="c1"># Verificar: curl http://localhost:3000/health</span>
+</code></pre></div>
+<h3 id="4-configurar-nginx">4. Configurar Nginx</h3>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/nginx/sites-available/cuidar<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">server {</span>
+<span class="s">    listen 80;</span>
+<span class="s">    server_name cuidar.tiagojct.eu;</span>
+
+<span class="s">    location / {</span>
+<span class="s">        proxy_pass http://localhost:3000;</span>
+<span class="s">        proxy_http_version 1.1;</span>
+<span class="s">        proxy_set_header Upgrade $http_upgrade;</span>
+<span class="s">        proxy_set_header Connection &#39;upgrade&#39;;</span>
+<span class="s">        proxy_set_header Host $host;</span>
+<span class="s">        proxy_set_header X-Real-IP $remote_addr;</span>
+<span class="s">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span>
+<span class="s">        proxy_set_header X-Forwarded-Proto $scheme;</span>
+<span class="s">        proxy_cache_bypass $http_upgrade;</span>
+<span class="s">    }</span>
+<span class="s">}</span>
+<span class="s">EOF</span>
+
+ln<span class="w"> </span>-sf<span class="w"> </span>/etc/nginx/sites-available/cuidar<span class="w"> </span>/etc/nginx/sites-enabled/
+nginx<span class="w"> </span>-t<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>nginx
+</code></pre></div>
+<h3 id="5-cloudflare-dns">5. Cloudflare DNS</h3>
+<ul>
+<li>Adicionar registo A: cuidar → IP do servidor</li>
+<li>Ativar proxy (laranja) para SSL automático</li>
+</ul>
+<h3 id="6-verificar">6. Verificar</h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://cuidar.tiagojct.eu/health
+</code></pre></div>
+<hr />
+<h3 id="dockerfile-ja-existente-no-projeto">Dockerfile (já existente no projeto)</h3>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">node:22-alpine</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+<span class="k">COPY</span><span class="w"> </span>package*.json<span class="w"> </span>./
+<span class="k">RUN</span><span class="w"> </span>npm<span class="w"> </span>ci<span class="w"> </span>--production
+<span class="k">COPY</span><span class="w"> </span>.<span class="w"> </span>.
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">3000</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;src/app.js&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="build-e-run">Build e Run</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Build</span>
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>cuidar<span class="w"> </span>.
+
+<span class="c1"># Run</span>
+docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>cuidar<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">3000</span>:3000<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">NODE_ENV</span><span class="o">=</span>production<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">SESSION_SECRET</span><span class="o">=</span>suasecret<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">SMTP_HOST</span><span class="o">=</span>smtp.gmail.com<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">SMTP_PORT</span><span class="o">=</span><span class="m">465</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">SMTP_USER</span><span class="o">=</span>email@gmail.com<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">SMTP_PASS</span><span class="o">=</span>senha<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">SMTP_FROM</span><span class="o">=</span>CUIDAR<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--restart<span class="w"> </span>unless-stopped<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>cuidar
+</code></pre></div>
+<h3 id="docker-compose-recomendado">Docker Compose (recomendado)</h3>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3&#39;</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">cuidar</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;3000:3000&quot;</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NODE_ENV=production</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SESSION_SECRET=${SESSION_SECRET}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SMTP_HOST=${SMTP_HOST}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SMTP_PORT=${SMTP_PORT}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SMTP_SECURE=${SMTP_SECURE}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SMTP_USER=${SMTP_USER}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SMTP_PASS=${SMTP_PASS}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SMTP_FROM=${SMTP_FROM}</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./data:/app/data</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+</code></pre></div>
+<p>Criar ficheiro <code>.env</code>:
+<div class="highlight"><pre><span></span><code>SESSION_SECRET=gerar-string-segura-aqui
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=seu-email@gmail.com
+SMTP_PASS=senha-app
+SMTP_FROM=CUIDAR &lt;seu-email@gmail.com&gt;
+</code></pre></div></p>
+<p>Run:
+<div class="highlight"><pre><span></span><code>docker-compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div></p>
+<hr />
+<h2 id="configuracao-pos-instalacao">Configuração Pós-Instalação</h2>
+<h3 id="criar-administrador-inicial">Criar Administrador Inicial</h3>
+<ol>
+<li>Aceder à interface de admin</li>
+<li>Ir para /admin/utilizadores</li>
+<li>Clicar "Novo utilizador"</li>
+<li>Criar utilizador com perfil "Administrador"</li>
+<li>Definir email e password</li>
+</ol>
+<h3 id="criar-utilizadores-de-teste">Criar Utilizadores de Teste</h3>
+<p>Para replicar os dados de teste originais, criar manualmente:</p>
+<table>
+<thead>
+<tr>
+<th>Perfil</th>
+<th>Email</th>
+<th>Password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Admin</td>
+<td>admin@cuidar.local</td>
+<td>admin123</td>
+</tr>
+<tr>
+<td>Clínico</td>
+<td>clinico@cuidar.local</td>
+<td>clinico123</td>
+</tr>
+<tr>
+<td>Cuidador</td>
+<td>cuidador@cuidar.local</td>
+<td>cuidador123</td>
+</tr>
+</tbody>
+</table>
+<h3 id="verificar-funcionalidades">Verificar Funcionalidades</h3>
+<ol>
+<li>Fazer login com admin</li>
+<li>Criar clínico</li>
+<li>Criar cuidador</li>
+<li>Clínico cria doente e associa cuidador</li>
+<li>Cuidador regista sintomas</li>
+<li>Testar fluxo completo</li>
+</ol>
+<hr />
+<h2 id="manutencao">Manutenção</h2>
+<h3 id="backup">Backup</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># SQLite</span>
+cp<span class="w"> </span>data/cuidar.db<span class="w"> </span>data/cuidar-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.db
+
+<span class="c1"># Docker</span>
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cuidar-container<span class="w"> </span>sqlite3<span class="w"> </span>/app/data/cuidar.db<span class="w"> </span><span class="s2">&quot;.backup /backup/</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="s2">.db&quot;</span>
+</code></pre></div>
+<h3 id="atualizar">Atualizar</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Sem Docker</span>
+git<span class="w"> </span>pull
+npm<span class="w"> </span>install
+pm2<span class="w"> </span>restart<span class="w"> </span>cuidar<span class="w">  </span><span class="c1"># ou systemctl restart cuidar</span>
+
+<span class="c1"># Com Docker</span>
+git<span class="w"> </span>pull
+docker-compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+</code></pre></div>
+<h3 id="logs">Logs</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Docker</span>
+docker<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>cuidar
+
+<span class="c1"># systemd</span>
+journalctl<span class="w"> </span>-u<span class="w"> </span>cuidar<span class="w"> </span>-f
+</code></pre></div>
+<hr />
+<h2 id="variaveis-de-ambiente-obrigatorias">Variáveis de Ambiente Obrigatórias</h2>
+<table>
+<thead>
+<tr>
+<th>Variável</th>
+<th>Descrição</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NODE_ENV</td>
+<td>Ambiente</td>
+<td>production</td>
+</tr>
+<tr>
+<td>SESSION_SECRET</td>
+<td>Chave de segurança (32+ chars)</td>
+<td>abc123...</td>
+</tr>
+<tr>
+<td>PORT</td>
+<td>Porta (opcional, padrão 3000)</td>
+<td>3000</td>
+</tr>
+</tbody>
+</table>
+<h3 id="variaveis-opcionais-smtp">Variáveis Opcionais (SMTP)</h3>
+<table>
+<thead>
+<tr>
+<th>Variável</th>
+<th>Descrição</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SMTP_HOST</td>
+<td>Servidor SMTP</td>
+<td>smtp.gmail.com</td>
+</tr>
+<tr>
+<td>SMTP_PORT</td>
+<td>Porta SMTP</td>
+<td>465</td>
+</tr>
+<tr>
+<td>SMTP_SECURE</td>
+<td>SSL/TLS</td>
+<td>true</td>
+</tr>
+<tr>
+<td>SMTP_USER</td>
+<td>Username SMTP</td>
+<td>email@gmail.com</td>
+</tr>
+<tr>
+<td>SMTP_PASS</td>
+<td>Password SMTP</td>
+<td>xxx</td>
+</tr>
+<tr>
+<td>SMTP_FROM</td>
+<td>From address</td>
+<td>CUIDAR <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#101;&#109;&#97;&#105;&#108;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#101;&#109;&#97;&#105;&#108;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="faq">FAQ</h2>
+<h3 id="session_secret-is-required-in-production">"SESSION_SECRET is required in production"</h3>
+<p>Precisa definir a variável de ambiente <code>SESSION_SECRET</code> com um valor seguro.</p>
+<h3 id="como-fazer-backup">Como fazer backup?</h3>
+<p>O ficheiro SQLite está em <code>data/cuidar.db</code>. Faire copy regularmente.</p>
+<h3 id="posso-usar-https">Posso usar HTTPS?</h3>
+<p>Sim, com Nginx (proxy) ou atrás de um load balancer com TLS.</p>
+<h3 id="onde-esta-a-base-de-dados">Onde está a base de dados?</h3>
+<p>Em produção: <code>./data/cuidar.db</code> (criado automaticamente)</p>
+<h3 id="posso-migrar-dados">Posso migrar dados?</h3>
+<p>Sim, basta copiar o ficheiro <code>cuidar.db</code> entre ambientes.</p>
+<hr />
+<h2 id="suporte">Suporte</h2>
+<p>Para problemas de deployment:
+- Email: tiagojacinto@med.up.pt
+- Verificar logs da aplicação
+- Verificar variáveis de ambiente</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
