@@ -8,6 +8,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   deploy:
@@ -22,9 +24,16 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: |
-          pip install mkdocs-material
+        run: pip install mkdocs-material
+
+      - name: Build
+        run: mkdocs build --config-file docs/mkdocs.yml
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .gh-pages
 
       - name: Deploy to GitHub Pages
-        run: |
-          mkdocs gh-deploy --force --config-file docs/mkdocs.yml
+        id: deployment
+        uses: actions/deploy-pages@v5
