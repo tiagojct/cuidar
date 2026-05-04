@@ -9,6 +9,7 @@ const layouts = require('express-ejs-layouts');
 
 const db     = require('./db');
 const config = require('./config');
+const pkg    = require('../package.json');
 const { requireRole } = require('./middleware/auth');
 const authRoutes = require('./routes/auth');
 
@@ -93,7 +94,6 @@ app.set('layout extractStyles', true);
 
 // ── Static files ──────────────────────────────────────────────────────────────
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/docs', express.static(path.join(__dirname, '../docs')));
 
 // ── Body parsing ──────────────────────────────────────────────────────────────
 app.use(express.urlencoded({ extended: false, limit: '100kb' }));
@@ -129,6 +129,7 @@ app.use((req, res, next) => {
     success: req.flash('success'),
     info:    req.flash('info'),
   };
+  res.locals.version = pkg.version;
   next();
 });
 

@@ -1,70 +1,136 @@
 <div class="page-header">
-  <h2>Documentação</h2>
+  <h2>Documentação do Sistema</h2>
 </div>
 
 <p class="text-muted" style="margin-bottom:1.5rem">
-  Utilize os links abaixo para aceder à documentação do sistema CUIDAR.
+  Encontre abaixo a documentação organizada por perfil de utilizador.
 </p>
 
 <% if (user && user.role === 'caregiver') { %>
+
 <h3 style="margin-bottom:.75rem">Manual do Cuidador</h3>
+
 <details class="help-section" open>
-  <summary>Guias disponíveis</summary>
+  <summary>Primeiros passos</summary>
   <div class="help-section-body">
+    <p>Após autenticação, verá a lista de doentes associados ao seu perfil. Cada doente aparece como um cartão com o identificador e a última data de registo.</p>
+    <p>Para aceder à ficha de um doente, clique no cartão respetivo. A partir daí pode:</p>
     <ul>
-      <li><a href="/docs/cuidador/inicio.qmd">Primeiros passos</a> — Como iniciar sessão e navegar na aplicação</li>
-      <li><a href="/docs/cuidador/sintomas.qmd">Registar sintomas</a> — Como registar sintomas diariamente</li>
-      <li><a href="/docs/cuidador/evolucao.qmd">Ver evolução</a> — Como acompanhar a evolução do doente</li>
-      <li><a href="/docs/cuidador/fichas.qmd">Fichas de informação</a> — Como consultar as fichas disponibilizadas pela equipa</li>
-      <li><a href="/docs/cuidador/mensagem.qmd">Enviar mensagem</a> — Como comunicar com a equipa clínica</li>
+      <li>Registar sintomas diários</li>
+      <li>Ver a evolução ao longo do tempo</li>
+      <li>Consultar fichas de informação</li>
+      <li>Enviar mensagens à equipa clínica</li>
     </ul>
   </div>
 </details>
 
-<% } else if (user && (user.role === 'clinician' || user.role === 'admin')) { %>
+<details class="help-section">
+  <summary>Registar sintomas</summary>
+  <div class="help-section-body">
+    <p>O registo de sintomas deve ser feito <strong>uma vez por dia</strong>, idealmente à mesma hora.</p>
+    <p>Para cada sintoma definido no modelo, atribua uma intensidade de 0 (ausente) a 10 (muito intenso). Indique também o bem-estar geral do doente e o seu próprio estado emocional.</p>
+    <p>Se algum valor ultrapassar os limiares definidos (intensidade ≥ 7 ou bem-estar ≤ 3), será exibido um alerta que notifica a equipa clínica.</p>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Ver evolução</summary>
+  <div class="help-section-body">
+    <p>Na ficha do doente, clique em "Ver evolução" para visualizar gráficos da evolução dos sintomas ao longo do tempo.</p>
+    <p>Pode filtrar por períodos: 7 dias, 30 dias, 90 dias ou todos os registos. Use a opção "Relatório completo" para imprimir ou guardar em PDF.</p>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Fichas de informação</summary>
+  <div class="help-section-body">
+    <p>Aceda a "Informação" no menu para pesquisar fichas sobre cuidados, sintomas, medication e outros temas.</p>
+    <p>Use a pesquisa por palavra-chave ou filtre por categoria ou condição clínica. As fichas são elaboradas pela equipa de saúde com base em evidência científica.</p>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Enviar mensagem à equipa</summary>
+  <div class="help-section-body">
+    <p>Na secção de mensagens pode enviar comunicação direta à equipa clínica. Use para:</p>
+    <ul>
+      <li>Reportar alterações importantes</li>
+      <li>Pedir esclarecimentos</li>
+      <li>Solicitar contacto telefónico</li>
+    </ul>
+    <p>As mensagens são enviadas por email para a equipa responsável.</p>
+  </div>
+</details>
+
+<% } else if (user && user.role === 'clinician') { %>
 
 <h3 style="margin-bottom:.75rem">Manual do Clínico</h3>
+
 <details class="help-section" open>
-  <summary>Guias disponíveis</summary>
+  <summary>Criar e gerir doentes</summary>
   <div class="help-section-body">
+    <p>Na secção "Doentes", clique em "+ Novo doente" para criar um novo registo.</p>
     <ul>
-      <li><a href="/docs/clinico/doentes.qmd">Gerir doente</a> — Como criar e gerir doentes</li>
-      <li><a href="/docs/clinico/fichas.qmd">Fichas e categorias</a> — Como criar fichas informativas</li>
-      <li><a href="/docs/clinico/modelos.qmd">Modelos de sintomas</a> — Como definir modelos de sintomas</li>
-      <li><a href="/docs/clinico/stats.qmd">Estatísticas</a> — Como visualizar estatísticas</li>
-      <li><a href="/docs/clinico/alertas.qmd">Alertas e notificações</a> — Como configurar alertas</li>
+      <li><strong>Identificador</strong>: Use um pseudónimo ou código, nunca o nome real</li>
+      <li><strong>Cuidador</strong>: Associe o cuidador responsável (ou crie um novo)</li>
+      <li><strong>Diagnóstico</strong>: Define o modelo de sintomas disponível</li>
+      <li><strong>Contacto</strong>: Número que aparece ao cuidador em caso de alerta</li>
     </ul>
+    <p>Edite ou elimine doentes existentes usando os botões na lista.</p>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Fichas de informação</summary>
+  <div class="help-section-body">
+    <p>As fichas são artigos formatados em Markdown visíveis aos cuidadores na secção "Informação".</p>
+    <ul>
+      <li><strong>Criar</strong>: Fichas → + Nova ficha</li>
+      <li><strong>Condições</strong>: Associe fichas a condições específicas</li>
+      <li><strong>Tags</strong>: Palavras-chave para pesquisa</li>
+      <li><strong>Fichas relacionadas</strong>: Sugestões após leitura</li>
+    </ul>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Modelos de sintomas</summary>
+  <div class="help-section-body">
+    <p>Os modelos definem os sintomas que cada cuidador regista conforme a condição do doente.</p>
+    <p>Crie modelos em "Modelos → + Novo modelo". Selecione a condição e adicione os sintomas com chave e nome para exibição.</p>
+    <p>Se não existir modelo para a condição, é usado o modelo "Geral".</p>
+  </div>
+</details>
+
+<details class="help-section">
+  <summary>Estatísticas e alertas</summary>
+  <div class="help-section-body">
+    <p>Visualize gráficos de evolução por doente. O dashboard mostra bem-estar médio e dias com alertas.</p>
+    <p>Receba notificações quando cuidadores registam sintomas com intensidade elevada ou bem-estar baixo.</p>
   </div>
 </details>
 
 <% if (user.role === 'admin') { %>
 <h3 style="margin-top:1.5rem; margin-bottom:.75rem">Administração</h3>
-<details class="help-section">
-  <summary>Guias de administração</summary>
+
+<details class="help-section" open>
+  <summary>Gestão de utilizadores</summary>
   <div class="help-section-body">
+    <p>Na secção "Utilizadores" pode:</p>
     <ul>
-      <li><a href="/docs/admin/utilizadores.qmd">Gestão de utilizadores</a> — Como gerir utilizadores e permissões</li>
+      <li><strong>Criar</strong>: + Novo utilizador (nome, email, papel, password)</li>
+      <li><strong>Papéis</strong>: Administrador, Profissional de saúde, Cuidador</li>
+      <li><strong>Desativar</strong>: Bloqueia acesso sem eliminar dados</li>
+      <li><strong>Redefinir password</strong>: Edite e defina nova password</li>
     </ul>
+    <p>O último administrador ativo não pode ser desativado.</p>
   </div>
 </details>
 <% } %>
 
 <% } %>
-
-<h3 style="margin-top:1.5rem; margin-bottom:.75rem">Recursos Gerais</h3>
-<details class="help-section">
-  <summary>Outros documentos</summary>
-  <div class="help-section-body">
-    <ul>
-      <li><a href="/docs/APRESENTACAO.qmd">Apresentação do Projeto</a></li>
-      <li><a href="/docs/referencias.qmd">Referências Clínicas</a></li>
-      <li><a href="/docs/testes.qmd">Plano de Testes</a></li>
-      <li><a href="/docs/deploy.qmd">Instalação e Deploy</a></li>
-    </ul>
-  </div>
-</details>
 
 <hr style="margin-top:2rem">
 <p class="text-muted" style="font-size:.85rem">
-  Para assistência técnica, contacte o administrador do sistema ou utilize a página de <a href="/feedback">Feedback</a>.
+  Versão <%= typeof version !== 'undefined' ? version : '1.0.0' %> — Sistema CUIDAR
 </p>

@@ -86,13 +86,16 @@
   Em caso de urgência
 </a>
 <footer class="site-footer">
-  <nav class="container-fluid">
-    <ul>
-      <li><a href="/docs">Documentação</a></li>
-      <li><a href="/ajuda">Ajuda</a></li>
-      <li><a href="/feedback">Feedback</a></li>
-    </ul>
-  </nav>
+  <div class="container-fluid">
+    <div class="footer-links">
+      <a href="/docs">Documentação</a>
+      <span class="footer-sep">·</span>
+      <a href="/ajuda">Ajuda</a>
+      <span class="footer-sep">·</span>
+      <a href="/feedback">Feedback</a>
+    </div>
+    <p class="footer-version">CUIDAR v<%= typeof version !== 'undefined' ? version : '1.0.0' %> — FMUP</p>
+  </div>
 </footer>
 <% } %>
 
