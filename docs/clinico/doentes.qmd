@@ -1,0 +1,17 @@
+---
+title: "Gerir Doentes"
+---
+
+# Gerir Doentes
+
+## Lista de Doentes
+
+Visualize todos os doentes associados a si.
+
+## Associaçăo
+
+Associe cuidadores aos doentes.
+
+## Histórico
+
+Consulte o histórico de sintomas registados.

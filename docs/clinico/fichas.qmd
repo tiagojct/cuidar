@@ -1,0 +1,13 @@
+---
+title: "Fichas e Categorias"
+---
+
+# Fichas e Categorias
+
+## Criar Fichas
+
+Crie fichas informativas para os cuidadores.
+
+## Categorias
+
+Organize as fichas por categoria.

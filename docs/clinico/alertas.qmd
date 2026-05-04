@@ -1,0 +1,13 @@
+---
+title: "Alertas e Notificações"
+---
+
+# Alertas e Notificações
+
+## Receção
+
+Receba alertas quando cuidadores registam sintomas.
+
+## Configuração
+
+Defina limiares para alertas automáticos.

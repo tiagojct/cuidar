@@ -1,0 +1,18 @@
+---
+title: "Primeiros Passos"
+---
+
+# Primeiros Passos do Cuidador
+
+## Login
+
+Aceda à aplicação e efetue login com as credenciais fornecidas.
+
+## Associar Doente
+
+Contacte a equipa clínica para associar o doente ao seu cuidador.
+
+##界面
+
+- Menu superior: navegação principal
+- Barra lateral: lista de doentes associados

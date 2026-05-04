@@ -1,0 +1,13 @@
+---
+title: "Ver Evolução"
+---
+
+# Ver Evolução
+
+## Gráficos
+
+Visualize a evolução dos sintomas ao longo do tempo.
+
+## Relatórios
+
+Exporte relatórios em PDF para discussão com a equipa clínica.

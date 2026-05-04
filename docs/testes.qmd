@@ -1,0 +1,17 @@
+---
+title: "Plano de Testes"
+---
+
+# Plano de Testes
+
+## Testes Unitários
+
+Testes de componentes individuais.
+
+## Testes de Integração
+
+Testes de fluxos completos.
+
+## Testes de UI
+
+Testes de interface com o utilizador.

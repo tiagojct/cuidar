@@ -1,0 +1,16 @@
+---
+title: "Fichas de Informação"
+---
+
+# Fichas de Informação
+
+## Acesso
+
+Consulte as fichas disponibilizadas pela equipa clínica.
+
+## Categorias
+
+- Alimentação
+- Higiene
+- Mobilidade
+- Medicação

@@ -1,0 +1,14 @@
+---
+title: "Enviar Mensagem"
+---
+
+# Enviar Mensagem à Equipa
+
+## Como Enviar
+
+1. Aceda à página de mensagens
+2. Clique em "Nova Mensagem"
+3. Escreva a mensagem
+4. Envie
+
+A equipa clínica receberá a mensagem por email.

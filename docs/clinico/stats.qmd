@@ -1,0 +1,13 @@
+---
+title: "Estatísticas"
+---
+
+# Estatísticas
+
+## Visualização
+
+Gráficos de evolução dos sintomas por doente.
+
+## Relatórios
+
+Exporte dados para análise.

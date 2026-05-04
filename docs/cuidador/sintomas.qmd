@@ -1,0 +1,19 @@
+---
+title: "Registar Sintomas"
+---
+
+# Registar Sintomas
+
+## Como Registar
+
+1. Selecione o doente
+2. Clique em "Registar Sintoma"
+3. Preencha o formulário com:
+   - Tipo de sintoma
+   - Intensidade (1-10)
+   - Data e hora
+   - Observações
+
+## Histórico
+
+Consulte o histórico de sintomas na página de evolução.

@@ -1,0 +1,16 @@
+---
+title: "Modelos de Sintomas"
+---
+
+# Modelos de Sintomas
+
+## Definição
+
+Crie modelos de sintomas para padronizar o registo.
+
+## Tipos
+
+- Dor
+- Fadiga
+- Náusea
+- Outros

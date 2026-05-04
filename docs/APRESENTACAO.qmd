@@ -1,0 +1,17 @@
+---
+title: "Apresentação do Projeto"
+---
+
+# Apresentação do Projeto CUIDAR
+
+## Descrição
+
+Plataforma web para apoio a cuidadores informais em cuidados paliativos.
+
+## Funcionalidades
+
+- Registo de sintomas
+- Comunicação com equipa clínica
+- Visualização de evolução
+- Gestão de fichas informativas
+- Estatísticas clínicas

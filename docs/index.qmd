@@ -1,0 +1,20 @@
+---
+title: "Introdução"
+---
+
+# CUIDAR — Sistema de Apoio ao Cuidador
+
+Bem-vindo à documentação do projeto CUIDAR.
+
+## Objetivo
+
+Sistema de apoio ao cuidador informal em cuidados paliativos, desenvolvido pela FMUP.
+
+## Secções
+
+- **Manual do Cuidador**: Guia para cuidadores informais
+- **Manual do Clínico**: Guia para profissionais de saúde
+- **Administração**: Gestão de utilizadores
+- **Referências**: Recursos clínicos
+- **Testes**: Plano de testes
+- **Deploy**: Instalação e configuração

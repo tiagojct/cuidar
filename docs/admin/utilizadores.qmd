@@ -1,0 +1,13 @@
+---
+title: "Gestão de Utilizadores"
+---
+
+# Gestão de Utilizadores
+
+## Administradores
+
+Geram utilizadores: cuidadores, clínicos.
+
+## Ativação
+
+Ative/desative contas de utilizador.

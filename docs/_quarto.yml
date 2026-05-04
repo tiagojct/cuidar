@@ -1,0 +1,36 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "CUIDAR — Documentação"
+  description: "Sistema de apoio ao cuidador informal em cuidados paliativos"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Início
+      - text: Manual do Cuidador
+        menu:
+          - cuidador/inicio.qmd
+          - cuidador/sintomas.qmd
+          - cuidador/evolucao.qmd
+          - cuidador/fichas.qmd
+          - cuidador/mensagem.qmd
+      - text: Manual do Clínico
+        menu:
+          - clinico/doentes.qmd
+          - clinico/fichas.qmd
+          - clinico/modelos.qmd
+          - clinico/stats.qmd
+          - clinico/alertas.qmd
+      - text: Administração
+        menu:
+          - admin/utilizadores.qmd
+      - referencias.qmd
+      - testes.qmd
+      - deploy.qmd
+
+format:
+  html:
+    theme: cosmo
+    language: pt
