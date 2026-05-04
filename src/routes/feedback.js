@@ -15,6 +15,7 @@ router.get('/feedback', requireLogin, (req, res) => {
 });
 
 router.post('/feedback', requireLogin, (req, res) => {
+  try {
   const { feedback_type, description, steps_to_reproduce, browser, expected_behavior, actual_behavior } = req.body;
   
   const errors = [];
@@ -31,6 +32,10 @@ router.post('/feedback', requireLogin, (req, res) => {
   }
 
   const user = db.prepare('SELECT name, email, role FROM users WHERE id = ?').get(req.session.userId);
+  if (!user) {
+    req.flash('error', 'Sessão inválida. Faça login novamente.');
+    return res.redirect('/login');
+  }
   
   const feedbackText = [
     `=== NOVO FEEDBACK DE ${user.role.toUpperCase()} ===`,
@@ -62,6 +67,15 @@ router.post('/feedback', requireLogin, (req, res) => {
     title: 'Obrigado pelo feedback!',
     submitted: true 
   });
+  } catch (err) {
+    console.error('[feedback]', err);
+    req.flash('error', 'Ocorreu um erro ao enviar o feedback. Tente novamente.');
+    res.render('shared/feedback', { 
+      title: 'Enviar feedback',
+      submitted: false,
+      formData: req.body
+    });
+  }
 });
 
 module.exports = router;
