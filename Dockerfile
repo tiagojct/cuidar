@@ -9,6 +9,7 @@ RUN npm ci --omit=dev
 # Copy app source
 COPY src/ ./src/
 COPY seeds/ ./seeds/
+COPY docs/ ./docs/
 COPY docker-entrypoint.sh ./
 RUN chmod +x docker-entrypoint.sh
 
