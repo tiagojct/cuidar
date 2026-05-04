@@ -3,10 +3,8 @@
 </div>
 
 <p class="text-muted" style="margin-bottom:1.5rem">
-  Encontre abaixo a documentação organizada por perfil de utilizador.
+  Encontre abaixo a documentação organizada por secções.
 </p>
-
-<% if (user && user.role === 'caregiver') { %>
 
 <h3 style="margin-bottom:.75rem">Manual do Cuidador</h3>
 
@@ -44,7 +42,7 @@
 <details class="help-section">
   <summary>Fichas de informação</summary>
   <div class="help-section-body">
-    <p>Aceda a "Informação" no menu para pesquisar fichas sobre cuidados, sintomas, medication e outros temas.</p>
+    <p>Aceda a "Informação" no menu para pesquisar fichas sobre cuidados, sintomas, medicação e outros temas.</p>
     <p>Use a pesquisa por palavra-chave ou filtre por categoria ou condição clínica. As fichas são elaboradas pela equipa de saúde com base em evidência científica.</p>
   </div>
 </details>
@@ -62,9 +60,7 @@
   </div>
 </details>
 
-<% } else if (user && user.role === 'clinician') { %>
-
-<h3 style="margin-bottom:.75rem">Manual do Clínico</h3>
+<h3 style="margin-top:1.5rem; margin-bottom:.75rem">Manual do Clínico</h3>
 
 <details class="help-section" open>
   <summary>Criar e gerir doentes</summary>
@@ -110,10 +106,9 @@
   </div>
 </details>
 
-<% if (user.role === 'admin') { %>
 <h3 style="margin-top:1.5rem; margin-bottom:.75rem">Administração</h3>
 
-<details class="help-section" open>
+<details class="help-section">
   <summary>Gestão de utilizadores</summary>
   <div class="help-section-body">
     <p>Na secção "Utilizadores" pode:</p>
@@ -126,11 +121,3 @@
     <p>O último administrador ativo não pode ser desativado.</p>
   </div>
 </details>
-<% } %>
-
-<% } %>
-
-<hr style="margin-top:2rem">
-<p class="text-muted" style="font-size:.85rem">
-  Versão <%= typeof version !== 'undefined' ? version : '1.0.0' %> — Sistema CUIDAR
-</p>

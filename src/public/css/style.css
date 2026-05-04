@@ -103,8 +103,8 @@ body {
 
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 .site-footer {
-  background: #f8f9fa;
-  border-top: 1px solid #e9ecef;
+  background: var(--pico-background-color);
+  border-top: 1px solid var(--pico-muted-border-color);
   padding: 1.5rem 0;
   margin-top: 3rem;
   text-align: center;
@@ -115,7 +115,7 @@ body {
 }
 
 .footer-links a {
-  color: #00897b;
+  color: var(--cu-primary, #00897b);
   text-decoration: none;
   font-size: 0.9rem;
 }
@@ -126,11 +126,11 @@ body {
 
 .footer-sep {
   margin: 0 0.5rem;
-  color: #adb5bd;
+  color: var(--pico-muted-color);
 }
 
 .footer-version {
-  color: #6c757d;
+  color: var(--pico-muted-color);
   font-size: 0.8rem;
   margin: 0;
 }
