@@ -59,11 +59,6 @@ router.post('/feedback', requireLogin, (req, res) => {
     text: feedbackText,
   });
 
-  db.prepare(`
-    INSERT INTO caregiver_messages (patient_id, caregiver_id, message, is_urgent, created_at)
-    VALUES (0, ?, ?, 0, datetime('now'))
-  `).run(req.session.userId, `FEEDBACK: ${feedback_type} - ${description.substring(0, 500)}`);
-
   res.render('shared/feedback', { 
     title: 'Obrigado pelo feedback!',
     submitted: true 
