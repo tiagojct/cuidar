@@ -26,7 +26,6 @@
         <li><a href="/cuidador/informacao">Informação</a></li>
         <li><a href="/referencias" class="nav-help-link">Referências</a></li>
         <li><a href="/ajuda" class="nav-help-link">Ajuda</a></li>
-        <li><a href="https://tiagojct.github.io/cuidar/" target="_blank">Docs</a></li>
         <li><a href="/feedback">Feedback</a></li>
       <% } else if (user.role === 'clinician') { %>
         <li><a href="/clinico/fichas">Fichas</a></li>
@@ -37,13 +36,11 @@
         <li><a href="/clinico/estatisticas">Estatísticas</a></li>
         <li><a href="/referencias" class="nav-help-link">Referências</a></li>
         <li><a href="/ajuda" class="nav-help-link">Ajuda</a></li>
-        <li><a href="https://tiagojct.github.io/cuidar/" target="_blank">Docs</a></li>
         <li><a href="/feedback">Feedback</a></li>
       <% } else if (user.role === 'admin') { %>
         <li><a href="/admin/utilizadores">Utilizadores</a></li>
         <li><a href="/referencias" class="nav-help-link">Referências</a></li>
         <li><a href="/ajuda" class="nav-help-link">Ajuda</a></li>
-        <li><a href="https://tiagojct.github.io/cuidar/" target="_blank">Docs</a></li>
         <li><a href="/feedback">Feedback</a></li>
       <% } %>
       <li class="nav-user-name"><a href="/conta" class="nav-account-link"><%= user.name %></a></li>
@@ -88,6 +85,15 @@
 <a href="/cuidador/informacao/urgencias" class="emergency-btn" aria-label="O que fazer em caso de urgência">
   Em caso de urgência
 </a>
+<footer class="site-footer">
+  <nav class="container-fluid">
+    <ul>
+      <li><a href="/docs">Documentação</a></li>
+      <li><a href="/ajuda">Ajuda</a></li>
+      <li><a href="/feedback">Feedback</a></li>
+    </ul>
+  </nav>
+</footer>
 <% } %>
 
 <%- script %>

@@ -101,6 +101,23 @@ body {
   color: inherit;
 }
 
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.site-footer {
+  background: var(--pico-background-color);
+  border-top: 1px solid var(--pico-muted-border-color);
+  padding: 1rem 0;
+  margin-top: 2rem;
+}
+
+.site-footer nav > ul {
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.site-footer a {
+  font-size: 0.85rem;
+}
+
 .inline-form { display: inline; margin: 0; }
 
 /* Logout item aligns with the other nav items */

@@ -221,6 +221,10 @@ app.get('/ajuda', requireLogin, (req, res) => {
   res.render('shared/help', { title: 'Ajuda — Manual de utilização' });
 });
 
+app.get('/docs', requireLogin, (req, res) => {
+  res.render('shared/docs', { title: 'Documentação' });
+});
+
 app.get('/referencias', requireLogin, (req, res) => {
   res.render('shared/references', { title: 'Referências Clínicas' });
 });
