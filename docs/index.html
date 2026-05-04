@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>CUIDAR — Documentação</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.0/lib/themes/vue.css">
+  <style>
+    :root { --theme-color: #00897b; }
+    .sidebar-nav > ul > li > a { font-weight: bold; }
+    .markdown-section code { background: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <div id="app">Carregar documentação...</div>
+  <script>
+    window.$docsify = {
+      name: 'CUIDAR',
+      repo: 'https://github.com/tiagojct/cuidar',
+      loadSidebar: '_sidebar.md',
+      subMaxLevel: 2,
+      auto2top: true,
+      search: { maxAge: 86400000 },
+      copyCode: { buttonText: 'Copiar' },
+      pagination: { previousText: 'Anterior', nextText: 'Próximo' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.0/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.0/lib/plugins/search.min.js"></script>
+</body>
+</html>

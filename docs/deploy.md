@@ -1,430 +1,168 @@
-# Deployment do CUIDAR
+# Instalação e Deploy
 
-## Visão Geral
+## Pré-requisitos
 
-O CUIDAR pode ser implantado em qualquer servidor que suporte Node.js. Esta documentação cobre as opções mais comuns.
-
----
-
-## Pergunta: Os dados de teste existem numa instalação limpa?
-
-**Resposta**: **NÃO**. Numa instalação limpa:
-- A base de dados SQLite é criada vazia
-- Não existem utilizadores, doentes, fichas ou registos
-- **Terá de criar os utilizadores manualmente**
-
-Para ter dados de teste, tem duas opções:
-1. Criar manualmente através da interface de admin
-2. Executar o script de seed `scripts/seed.js` (se existir)
+- Docker Engine 24+
+- Docker Compose v2+
+- Servidor Linux (Ubuntu 22.04 LTS recomendado)
 
 ---
 
-## Opção 1: Render.com (Recomendado - Gratuito)
+## Deploy com Docker (recomendado)
 
-### Passos
-
-1. **Criar conta** em https://render.com
-
-2. **Criar novo Web Service**:
-   - Connect your GitHub repository
-   - Select your CUIDAR repo
-   - Build Command: `npm install`
-   - Start Command: `node src/app.js`
-   - Environment Variables:
-     ```
-     NODE_ENV=production
-     SESSION_SECRET=<gerar-string-segura>
-     SMTP_HOST=smtp.gmail.com
-     SMTP_PORT=465
-     SMTP_SECURE=true
-     SMTP_USER=seu-email@gmail.com
-     SMTP_PASS=sua-senha-app
-     SMTP_FROM=CUIDAR <seu-email@gmail.com>
-     ```
-
-3. **Deploy** - o Render faz build automaticamente
-
-### Configuração SMTP (Gmail)
-
-1. Ativar 2-Factor Authentication na conta Google
-2. Ir para Google Account → Security → App passwords
-3. Criar nova password de app
-4. Usar essa password no SMTP_PASS
-
----
-
-## Opção 2: Railway (Recomendado - Pago por uso)
-
-### Passos
-
-1. Cri conta em https://railway.app
-2. Connect GitHub repo
-3. Create new project → "Deploy from GitHub"
-4. Add environment variables same as Render
-5. Deploy starts automatically
-
----
-
-## Opção 3: VPS (DigitalOcean, Linode, Hetzner)
-
-### Requisitos do Servidor
-
-- Ubuntu 20.04+ ou similar
-- Node.js 22+
-- 512MB RAM mínimo
-- Nginx como reverse proxy
-
-### Passos
+### 1. Copiar ficheiros para o servidor
 
 ```bash
-# 1. Conectar ao servidor
-ssh usuario@servidor
-
-# 2. Instalar Node.js
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# 3. Criar diretório
-sudo mkdir -p /var/www/cuidar
-cd /var/www/cuidar
-
-# 4. Clonar repositório
-git clone https://github.com/seu-repo/cuidar.git .
-
-# 5. Instalar dependências
-npm install --production
-
-# 6. Criar ficheiro .env
-cat > .env << EOF
-NODE_ENV=production
-SESSION_SECRET=$(openssl rand -hex 32)
-PORT=3000
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=465
-SMTP_SECURE=true
-SMTP_USER=seu-email@gmail.com
-SMTP_PASS=sua-senha-app
-SMTP_FROM=CUIDAR <seu-email@gmail.com>
-EOF
-
-# 7. Criar serviço systemd
-sudo cat > /etc/systemd/system/cuidar.service << EOF
-[Unit]
-Description=CUIDAR Web Application
-After=network.target
-
-[Service]
-Type=simple
-User=www-data
-WorkingDirectory=/var/www/cuidar
-ExecStart=/usr/bin/node src/app.js
-Restart=always
-Environment=NODE_ENV=production
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-# 8. Ativar serviço
-sudo systemctl daemon-reload
-sudo systemctl enable cuidar
-sudo systemctl start cuidar
-
-# 9. Configurar Nginx
-sudo apt install nginx
-sudo cat > /etc/nginx/sites-available/cuidar << EOF
-server {
-    listen 80;
-    server_name seu-dominio.com;
-
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host \$host;
-        proxy_cache_bypass \$http_upgrade;
-    }
-}
-EOF
-
-sudo ln -s /etc/nginx/sites-available/cuidar /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl reload nginx
+scp -r cuidar/ utilizador@servidor:/opt/cuidar
 ```
 
----
-
-## Opção 5: Docker + Nginx + Cloudflare (Recomendado para produção)
-
-Combina Docker (aplicação isolada) com Nginx (proxy reverso) e Cloudflare (DNS + SSL).
-
-### Requisitos
-
-- Docker e Docker Compose instalados
-- Nginx instalado
-- Cloudflare DNS configurado para o seu domínio
-
-### 1. Clonar e configurar
-
+Ou clonar directamente no servidor:
 ```bash
-git clone https://github.com/tiagojct/esep-cuidar /opt/cuidar
+git clone <repositório> /opt/cuidar
 cd /opt/cuidar
 ```
 
-### 2. Criar .env
+### 2. Configurar variáveis de ambiente
 
 ```bash
-cat > .env << 'EOF'
-SESSION_SECRET=$(openssl rand -hex 32)
-ADMIN_EMAIL=admin@cuidar.tiagojct.eu
-ADMIN_PASSWORD=<escolha-uma-palavra-passe-segura>
-ADMIN_NAME=Administrador
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=465
-SMTP_SECURE=true
-SMTP_USER=tiagojacinto@gmail.com
-SMTP_PASS=<senha-app-gmail>
-SMTP_FROM=CUIDAR <tiagojacinto@med.up.pt>
+# Gerar SESSION_SECRET seguro
+openssl rand -hex 32
+
+# Criar ficheiro .env (NÃO incluir no git)
+cat > /opt/cuidar/.env << 'EOF'
+SESSION_SECRET=<resultado do openssl acima>
+SMTP_HOST=smtp.hospital.pt
+SMTP_PORT=587
+SMTP_USER=cuidar@hospital.pt
+SMTP_PASS=palavra-passe-smtp
+SMTP_FROM=CUIDAR <cuidar@hospital.pt>
 EOF
 ```
 
-### 3. Iniciar Docker
+!!! danger "Segurança"
+    Nunca coloque o ficheiro `.env` em controlo de versões. Contém segredos.
+
+### 3. Iniciar a aplicação
 
 ```bash
+cd /opt/cuidar
 docker compose up -d
-# Verificar: curl http://localhost:3000/health
 ```
 
-### 4. Configurar Nginx
+Verificar estado:
+```bash
+docker compose ps
+docker compose logs -f
+```
+
+### 4. Criar utilizador administrador inicial
 
 ```bash
-cat > /etc/nginx/sites-available/cuidar << 'EOF'
+docker compose exec cuidar node seeds/seed-admin.js
+```
+
+Credenciais padrão: `admin@cuidar.local` / `admin123` — **alterar imediatamente**.
+
+### 5. Popular base de dados com dados iniciais
+
+```bash
+docker compose exec cuidar node seeds/seed-categories.js
+docker compose exec cuidar node seeds/seed-diagnoses.js
+docker compose exec cuidar node seeds/seed-cards.js
+docker compose exec cuidar node seeds/seed-cards-extended.js
+docker compose exec cuidar node seeds/seed-templates-extended.js
+```
+
+---
+
+## Configurar HTTPS (nginx como proxy reverso)
+
+```nginx
+# /etc/nginx/sites-available/cuidar
 server {
     listen 80;
-    server_name cuidar.tiagojct.eu;
+    server_name cuidar.hospital.pt;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name cuidar.hospital.pt;
+
+    ssl_certificate     /etc/letsencrypt/live/cuidar.hospital.pt/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/cuidar.hospital.pt/privkey.pem;
 
     location / {
-        proxy_pass http://localhost:3000;
+        proxy_pass         http://127.0.0.1:3000;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
+        proxy_set_header   Host $host;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
     }
 }
-EOF
+```
 
-ln -sf /etc/nginx/sites-available/cuidar /etc/nginx/sites-enabled/
+```bash
+certbot --nginx -d cuidar.hospital.pt
 nginx -t && systemctl reload nginx
 ```
 
-### 5. Cloudflare DNS
-
-- Adicionar registo A: cuidar → IP do servidor
-- Ativar proxy (laranja) para SSL automático
-
-### 6. Verificar
-
-```bash
-curl https://cuidar.tiagojct.eu/health
-```
-
 ---
 
-### Dockerfile (já existente no projeto)
-
-```dockerfile
-FROM node:22-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --production
-COPY . .
-EXPOSE 3000
-CMD ["node", "src/app.js"]
-```
-
-### Build e Run
+## Actualizações
 
 ```bash
-# Build
-docker build -t cuidar .
-
-# Run
-docker run -d \
-  --name cuidar \
-  -p 3000:3000 \
-  -e NODE_ENV=production \
-  -e SESSION_SECRET=suasecret \
-  -e SMTP_HOST=smtp.gmail.com \
-  -e SMTP_PORT=465 \
-  -e SMTP_USER=email@gmail.com \
-  -e SMTP_PASS=senha \
-  -e SMTP_FROM=CUIDAR \
-  --restart unless-stopped \
-  cuidar
-```
-
-### Docker Compose (recomendado)
-
-```yaml
-version: '3'
-services:
-  cuidar:
-    build: .
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - SESSION_SECRET=${SESSION_SECRET}
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PORT=${SMTP_PORT}
-      - SMTP_SECURE=${SMTP_SECURE}
-      - SMTP_USER=${SMTP_USER}
-      - SMTP_PASS=${SMTP_PASS}
-      - SMTP_FROM=${SMTP_FROM}
-    volumes:
-      - ./data:/app/data
-    restart: unless-stopped
-```
-
-Criar ficheiro `.env`:
-```
-SESSION_SECRET=gerar-string-segura-aqui
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=465
-SMTP_SECURE=true
-SMTP_USER=seu-email@gmail.com
-SMTP_PASS=senha-app
-SMTP_FROM=CUIDAR <seu-email@gmail.com>
-```
-
-Run:
-```bash
-docker-compose up -d
-```
-
----
-
-## Configuração Pós-Instalação
-
-### Criar Administrador Inicial
-
-1. Aceder à interface de admin
-2. Ir para /admin/utilizadores
-3. Clicar "Novo utilizador"
-4. Criar utilizador com perfil "Administrador"
-5. Definir email e password
-
-### Criar Utilizadores de Teste
-
-Para replicar os dados de teste originais, criar manualmente:
-
-| Perfil | Email | Password |
-|--------|-------|----------|
-| Admin | admin@cuidar.local | admin123 |
-| Clínico | clinico@cuidar.local | clinico123 |
-| Cuidador | cuidador@cuidar.local | cuidador123 |
-
-### Verificar Funcionalidades
-
-1. Fazer login com admin
-2. Criar clínico
-3. Criar cuidador
-4. Clínico cria doente e associa cuidador
-5. Cuidador regista sintomas
-6. Testar fluxo completo
-
----
-
-## Manutenção
-
-### Backup
-
-```bash
-# SQLite
-cp data/cuidar.db data/cuidar-$(date +%Y%m%d).db
-
-# Docker
-docker exec cuidar-container sqlite3 /app/data/cuidar.db ".backup /backup/$(date +%Y%m%d).db"
-```
-
-### Atualizar
-
-```bash
-# Sem Docker
+cd /opt/cuidar
 git pull
-npm install
-pm2 restart cuidar  # ou systemctl restart cuidar
-
-# Com Docker
-git pull
-docker-compose up -d --build
+docker compose build --no-cache
+docker compose up -d
 ```
 
-### Logs
+As migrações de base de dados correm automaticamente no arranque.
+
+---
+
+## Backup da base de dados
 
 ```bash
-# Docker
-docker logs -f cuidar
+# Backup manual
+docker compose exec cuidar sh -c \
+  "sqlite3 /data/cuidar.db '.backup /data/cuidar-$(date +%Y%m%d).db'"
 
-# systemd
-journalctl -u cuidar -f
+# Copiar para máquina local
+docker cp cuidar_cuidar_1:/data/cuidar-$(date +%Y%m%d).db ./backups/
 ```
 
----
-
-## Variáveis de Ambiente Obrigatórias
-
-| Variável | Descrição | Exemplo |
-|----------|------------|---------|
-| NODE_ENV | Ambiente | production |
-| SESSION_SECRET | Chave de segurança (32+ chars) | abc123... |
-| PORT | Porta (opcional, padrão 3000) | 3000 |
-
-### Variáveis Opcionais (SMTP)
-
-| Variável | Descrição | Exemplo |
-|----------|------------|---------|
-| SMTP_HOST | Servidor SMTP | smtp.gmail.com |
-| SMTP_PORT | Porta SMTP | 465 |
-| SMTP_SECURE | SSL/TLS | true |
-| SMTP_USER | Username SMTP | email@gmail.com |
-| SMTP_PASS | Password SMTP | xxx |
-| SMTP_FROM | From address | CUIDAR <email@gmail.com> |
+Recomendado: cron diário com `rsync` para destino remoto.
 
 ---
 
-## FAQ
+## Variáveis de ambiente disponíveis
 
-### "SESSION_SECRET is required in production"
-
-Precisa definir a variável de ambiente `SESSION_SECRET` com um valor seguro.
-
-### Como fazer backup?
-
-O ficheiro SQLite está em `data/cuidar.db`. Faire copy regularmente.
-
-### Posso usar HTTPS?
-
-Sim, com Nginx (proxy) ou atrás de um load balancer com TLS.
-
-### Onde está a base de dados?
-
-Em produção: `./data/cuidar.db` (criado automaticamente)
-
-### Posso migrar dados?
-
-Sim, basta copiar o ficheiro `cuidar.db` entre ambientes.
+| Variável | Obrigatória | Descrição |
+|---|---|---|
+| `SESSION_SECRET` | **Sim** | Segredo para sessões (min. 32 chars aleatórios) |
+| `DB_PATH` | Não | Caminho para ficheiro SQLite (padrão: `/data/cuidar.db`) |
+| `PORT` | Não | Porta HTTP (padrão: `3000`) |
+| `SMTP_HOST` | Não | Servidor SMTP para alertas por email |
+| `SMTP_PORT` | Não | Porta SMTP (padrão: `587`) |
+| `SMTP_SECURE` | Não | `true` para TLS directo (porta 465) |
+| `SMTP_USER` | Não | Utilizador SMTP |
+| `SMTP_PASS` | Não | Palavra-passe SMTP |
+| `SMTP_FROM` | Não | Endereço de origem dos emails |
 
 ---
 
-## Suporte
+## Resolução de problemas
 
-Para problemas de deployment:
-- Email: tiagojacinto@med.up.pt
-- Verificar logs da aplicação
-- Verificar variáveis de ambiente
+**App não arranca:**
+```bash
+docker compose logs cuidar
+```
+
+**Base de dados bloqueada:**
+O SQLite com WAL mode suporta leituras concorrentes. Se aparecer `SQLITE_BUSY`, verifique que não há dois processos a escrever simultaneamente.
+
+**Sessões a expirar demasiado cedo:**
+O `SESSION_SECRET` não pode mudar entre reinícios — se mudar, todas as sessões activas ficam inválidas.
