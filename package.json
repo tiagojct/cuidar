@@ -1,6 +1,6 @@
 {
   "name": "cuidar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sistema de apoio a cuidadores informais de doentes paliativos",
   "main": "src/app.js",
   "scripts": {
