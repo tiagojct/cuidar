@@ -87,7 +87,35 @@ router.get('/', (req, res) => {
       WHERE ${archiveClause}
       GROUP BY p.id ORDER BY p.created_at DESC LIMIT ? OFFSET ?
     `).all(PAGE_SIZE, offset);
-    totalCount = db.prepare(`SELECT COUNT(*) AS n FROM patients WHERE ${archiveClause}`).get().n;
+    totalCount = db.prepare(`SELECT COUNT(*) AS n FROM patients p WHERE ${archiveClause}`).get().n;
+  }
+
+  // Get alert counts for each patient (entries where wellbeing_score <= 3 or any symptom in JSON >= 7)
+  const alertCounts = {};
+  if (!showArchived && patients.length > 0) {
+    const patientIds = patients.map(p => p.id);
+    const placeholders = patientIds.map(() => '?').join(',');
+    const alerts = db.prepare(`
+      SELECT patient_id, symptoms_json, wellbeing_score
+      FROM symptom_entries
+      WHERE patient_id IN (${placeholders})
+        AND recorded_at >= datetime('now', '-30 days')
+    `).all(...patientIds);
+    
+    alerts.forEach(entry => {
+      let isAlert = (entry.wellbeing_score !== null && entry.wellbeing_score <= 3);
+      if (!isAlert && entry.symptoms_json) {
+        try {
+          const symptoms = JSON.parse(entry.symptoms_json);
+          for (const v of Object.values(symptoms)) {
+            if (v >= 7) { isAlert = true; break; }
+          }
+        } catch {}
+      }
+      if (isAlert) {
+        alertCounts[entry.patient_id] = (alertCounts[entry.patient_id] || 0) + 1;
+      }
+    });
   }
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
@@ -100,7 +128,7 @@ router.get('/', (req, res) => {
   res.render('clinician/patients-list', {
     title: 'Doentes', patients, searchQuery: q,
     showArchived, inactivePatients, inactiveDays,
-    page, totalPages, totalCount,
+    page, totalPages, totalCount, alertCounts,
   });
 });
 

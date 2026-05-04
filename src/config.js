@@ -16,6 +16,11 @@ module.exports = {
   },
 };
 
-if (module.exports.sessionSecret === 'cuidar-dev-secret-alterar-em-producao') {
+if (process.env.NODE_ENV === 'production') {
+  if (module.exports.sessionSecret === 'cuidar-dev-secret-alterar-em-producao') {
+    console.error('[CUIDAR] ERRO: SESSION_SECRET é obrigatório em produção.');
+    process.exit(1);
+  }
+} else if (module.exports.sessionSecret === 'cuidar-dev-secret-alterar-em-producao') {
   console.warn('[CUIDAR] AVISO: SESSION_SECRET não definido. Use uma variável de ambiente em produção.');
 }

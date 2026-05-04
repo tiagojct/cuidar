@@ -1,0 +1,76 @@
+<% if (submitted) { %>
+<article>
+  <header>
+    <hgroup>
+      <h2>Obrigado pelo seu feedback!</h2>
+      <p>A sua opinião é muito importante para melhorarmos o sistema.</p>
+    </hgroup>
+  </header>
+  <p><a href="/">Voltar à página inicial</a></p>
+</article>
+<% } else { %>
+<article>
+  <header>
+    <hgroup>
+      <h2>Enviar Feedback</h2>
+      <p>Encontrou um problema ou tem uma sugestão? Conte-nos.</p>
+    </hgroup>
+  </header>
+
+  <form method="post" action="/feedback">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <label for="feedback_type">
+      Tipo de feedback
+      <select name="feedback_type" id="feedback_type" required>
+        <option value="">Selecione...</option>
+        <option value="Bug" <%= formData?.feedback_type === 'Bug' ? 'selected' : '' %>>Bug / Erro</option>
+        <option value="Sugestão" <%= formData?.feedback_type === 'Sugestão' ? 'selected' : '' %>>Sugestão de funcionalidade</option>
+        <option value="Melhoria" <%= formData?.feedback_type === 'Melhoria' ? 'selected' : '' %>>Melhoria de interface</option>
+        <option value="Dúvida" <%= formData?.feedback_type === 'Dúvida' ? 'selected' : '' %>>Dúvida / Pergunta</option>
+        <option value="Outro" <%= formData?.feedback_type === 'Outro' ? 'selected' : '' %>>Outro</option>
+      </select>
+    </label>
+
+    <label for="description">
+      Descrição *
+      <textarea name="description" id="description" rows="5" placeholder="Descreva o problema ou sugestão em detalhe..." required><%= formData?.description || '' %></textarea>
+    </label>
+
+    <fieldset>
+      <legend>Informações técnicas (opcional)</legend>
+      
+      <label for="browser">
+        Navegador
+        <select name="browser" id="browser">
+          <option value="">Selecione...</option>
+          <option value="Chrome">Chrome</option>
+          <option value="Firefox">Firefox</option>
+          <option value="Safari">Safari</option>
+          <option value="Edge">Edge</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </label>
+
+      <label for="steps_to_reproduce">
+        Passos para reproduzir (se for um bug)
+        <textarea name="steps_to_reproduce" id="steps_to_reproduce" rows="3" placeholder="1. Fui para...&#10;2. Cliquei em...&#10;3. Ocorreu..."></textarea>
+      </label>
+
+      <label for="expected_behavior">
+        Comportamento esperado
+        <textarea name="expected_behavior" id="expected_behavior" rows="2" placeholder="O que deveria acontecer..."></textarea>
+      </label>
+
+      <label for="actual_behavior">
+        Comportamento atual
+        <textarea name="actual_behavior" id="actual_behavior" rows="2" placeholder="O que aconteceu na realidade..."></textarea>
+      </label>
+    </fieldset>
+
+    <button type="submit">Enviar Feedback</button>
+  </form>
+</article>
+
+<p><a href="<%= backUrl %>">← Voltar</a></p>
+<% } %>

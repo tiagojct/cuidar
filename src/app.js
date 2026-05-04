@@ -166,6 +166,16 @@ app.use((req, res, next) => {
   next();
 });
 
+// ── Health check (no auth required) ───────────────────────────────────────────
+app.get('/health', (req, res) => {
+  try {
+    db.prepare('SELECT 1').get();
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  } catch (err) {
+    res.status(503).json({ status: 'error', message: err.message });
+  }
+});
+
 // ── Routes ────────────────────────────────────────────────────────────────────
 app.use('/', authRoutes);
 
@@ -200,6 +210,10 @@ app.use('/cuidador/doentes', cuidadorDoentes);
 // Account (self password change)
 app.use('/conta', contaRoutes);
 
+// Feedback (for testing)
+const feedbackRoutes = require('./routes/feedback');
+app.use('/', feedbackRoutes);
+
 // Help / manual
 const { requireLogin } = require('./middleware/auth');
 app.get('/ajuda', requireLogin, (req, res) => {
@@ -223,9 +237,10 @@ app.use((req, res) => {
 // ── Error handler ─────────────────────────────────────────────────────────────
 app.use((err, req, res, next) => {
   console.error(err.stack);
+  const isDev = process.env.NODE_ENV !== 'production';
   res.status(500).render('error', {
     title:   'Erro interno',
-    message: 'Ocorreu um erro inesperado. Por favor tente mais tarde.',
+    message: isDev ? err.message : 'Ocorreu um erro inesperado. Por favor tente mais tarde.',
     status:  500,
     backUrl: req.headers.referer || '/',
   });

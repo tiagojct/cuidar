@@ -1,3 +1,18 @@
+<% 
+  // Find patients with recent alerts
+  const alertPatients = !showArchived ? patients.filter(p => (alertCounts[p.id] || 0) > 0) : [];
+%>
+<% if (!showArchived && alertPatients.length > 0) { %>
+<div class="flash-bar flash-warning" role="alert" style="border-radius:6px; margin-bottom:1rem">
+  <div class="container-fluid">
+    <strong>⚠ Registos com alerta (últimos 30 dias):</strong>
+    <% alertPatients.forEach(p => { %>
+    <a href="/clinico/doentes/<%= p.id %>" style="margin-left:.5rem;font-weight:600"><%= p.identifier %> (<%= alertCounts[p.id] %>)</a>
+    <% }) %>
+  </div>
+</div>
+<% } %>
+
 <% if (!showArchived && inactivePatients && inactivePatients.length > 0) { %>
 <div class="flash-bar flash-info" role="alert" style="border-radius:6px; margin-bottom:1rem">
   <div class="container-fluid">
@@ -53,9 +68,25 @@
       </tr>
     </thead>
     <tbody>
-      <% patients.forEach(p => { %>
+      <% patients.forEach(p => { 
+        const daysSinceEntry = p.last_entry_at ? Math.floor((Date.now() - new Date(p.last_entry_at)) / 86400000) : null;
+        const isInactive = daysSinceEntry !== null && daysSinceEntry > 14;
+        const isArchived = p.archived_at;
+        const alertCount = alertCounts[p.id] || 0;
+      %>
       <tr>
-        <td><a href="/clinico/doentes/<%= p.id %>"><strong><%= p.identifier %></strong></a></td>
+        <td>
+          <a href="/clinico/doentes/<%= p.id %>"><strong><%= p.identifier %></strong></a>
+          <% if (isArchived) { %>
+          <span class="patient-badge patient-badge--archived">Arquivado</span>
+          <% } else if (alertCount > 0) { %>
+          <span class="patient-badge patient-badge--alert" title="<%= alertCount %> registo(s) com alerta nos últimos 30 dias">Alerta (<%= alertCount %>)</span>
+          <% } else if (isInactive) { %>
+          <span class="patient-badge patient-badge--attention">Atenção</span>
+          <% } else { %>
+          <span class="patient-badge patient-badge--active">Activo</span>
+          <% } %>
+        </td>
         <td><small><%= p.caregiver_name %></small></td>
         <td><small><span class="condition-chip"><%= p.diagnosis_name || p.primary_diagnosis %></span></small></td>
         <td><small><%= p.updated_at.substring(0,10) %></small></td>

@@ -1,34 +1,37 @@
-<div class="login-container">
-  <h1 class="login-brand">CUIDAR</h1>
-  <p class="login-tagline">Apoio a cuidadores de doentes paliativos</p>
+<div class="login-wrapper">
+  <header class="login-header">
+    <h1 class="login-brand">CUIDAR</h1>
+    <p class="login-tagline">Apoio a cuidadores de doentes paliativos</p>
+  </header>
+  <div class="login-body">
+    <form action="/login" method="post" novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-  <form action="/login" method="post" novalidate>
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <label for="email">
+        Email
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          autocomplete="email"
+          autofocus
+          placeholder="o-seu@email.pt"
+        >
+      </label>
 
-    <label for="email">
-      Email
-      <input
-        type="email"
-        id="email"
-        name="email"
-        required
-        autocomplete="email"
-        autofocus
-        placeholder="o-seu@email.pt"
-      >
-    </label>
+      <label for="password">
+        Palavra-passe
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          autocomplete="current-password"
+        >
+      </label>
 
-    <label for="password">
-      Palavra-passe
-      <input
-        type="password"
-        id="password"
-        name="password"
-        required
-        autocomplete="current-password"
-      >
-    </label>
-
-    <button type="submit" class="login-btn">Entrar</button>
-  </form>
+      <button type="submit" class="login-btn">Entrar</button>
+    </form>
+  </div>
 </div>

@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %> — CUIDAR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
   <link rel="stylesheet" href="/css/style.css">
   <%- style %>
@@ -37,11 +40,11 @@
         <li><a href="/referencias" class="nav-help-link">Referências</a></li>
         <li><a href="/ajuda" class="nav-help-link">Ajuda</a></li>
       <% } %>
-      <li class="nav-user-name"><small><a href="/conta" class="nav-account-link"><%= user.name %></a></small></li>
-      <li>
+      <li class="nav-user-name"><a href="/conta" class="nav-account-link"><%= user.name %></a></li>
+      <li class="nav-logout-item">
         <form action="/logout" method="post" class="inline-form">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <button type="submit" class="link-button">Sair</button>
+          <button type="submit" class="link-button nav-logout-btn">Sair</button>
         </form>
       </li>
     </ul>

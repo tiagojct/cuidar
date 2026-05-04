@@ -1,681 +1,520 @@
-/* ── Custom overrides on top of Pico.css v2 ─────────────────────────────── */
-
+/* ── Variables & Pico overrides ──────────────────────────────────────────── */
 :root {
-  --flash-error-bg:     #ffebee;
-  --flash-error-color:  #b71c1c;
-  --flash-ok-bg:        #e8f5e9;
-  --flash-ok-color:     #1b5e20;
-  --flash-info-bg:      #e3f2fd;
-  --flash-info-color:   #0d47a1;
-  --flash-warning-bg:   #fff8e1;
-  --flash-warning-color:#e65100;
+  /* Teal primary — clinical, calm */
+  --cu-primary:    #00897b;
+  --cu-primary-dk: #00695c;
+  --cu-primary-lt: #e0f2f1;
+
+  /* Pico v2 primary override */
+  --pico-primary:                  #00897b;
+  --pico-primary-background:       #00897b;
+  --pico-primary-border:           #00897b;
+  --pico-primary-hover:            #00695c;
+  --pico-primary-hover-background: #00695c;
+  --pico-primary-inverse:          #ffffff;
+  --pico-primary-focus:            rgba(0,137,123,.25);
+  --pico-primary-underline:        rgba(0,137,123,.5);
+
+  /* Flash */
+  --flash-error-bg:       #fdecea;
+  --flash-error-color:    #c62828;
+  --flash-ok-bg:          #e8f5e9;
+  --flash-ok-color:       #2e7d32;
+  --flash-info-bg:        #e3f2fd;
+  --flash-info-color:     #1565c0;
+  --flash-warning-bg:     #fff8e1;
+  --flash-warning-color:  #e65100;
+
+  /* Shadows */
+  --cu-shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --cu-shadow-md: 0 4px 10px rgba(0,0,0,.09), 0 2px 4px rgba(0,0,0,.06);
 }
 
-/* ── Skip-to-content (keyboard / screen reader) ─────────────────────────── */
+/* Font */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Skip-to-content ─────────────────────────────────────────────────────── */
 .skip-to-content {
-  position: absolute;
-  left: -9999px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+  position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
 }
 .skip-to-content:focus {
-  position: static;
-  width: auto;
-  height: auto;
-  display: block;
-  padding: 0.5rem 1rem;
-  background: var(--pico-primary);
-  color: #fff;
-  text-decoration: none;
-  z-index: 9999;
+  position: static; width: auto; height: auto; display: block;
+  padding: .5rem 1rem; background: var(--cu-primary); color: #fff;
+  text-decoration: none; z-index: 9999;
 }
 
-/* ── Navigation ─────────────────────────────────────────────────────────── */
+/* ── Navigation ──────────────────────────────────────────────────────────── */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
   background: var(--pico-background-color);
   border-bottom: 1px solid var(--pico-muted-border-color);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
   padding: 0;
 }
 
 .site-header nav {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.site-header nav > ul {
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.site-header nav > ul > li > a {
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.site-header nav > ul:first-child {
+  margin-right: auto;
+}
+
+.site-header nav > ul:last-child {
+  margin-left: auto;
+  gap: 0.5rem;
 }
 
 .site-brand {
-  font-size: 1.15rem;
-  letter-spacing: 0.06em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .1em;
   text-decoration: none;
+  color: var(--cu-primary) !important;
+  padding: 0.25rem 0;
 }
 
 .nav-user-name {
   color: var(--pico-muted-color);
   display: flex;
   align-items: center;
+  font-size: 0.85rem;
 }
 
-/* Logout rendered as an inline link inside the nav */
-.inline-form {
-  display: inline;
-  margin: 0;
+.nav-user-name a {
+  color: inherit;
 }
+
+.inline-form { display: inline; margin: 0; }
+
+/* Logout item aligns with the other nav items */
+.nav-logout-item { display: flex; align-items: center; }
+.nav-logout-btn {
+  background: none; border: none; padding: 0; margin: 0;
+  color: var(--pico-muted-color); cursor: pointer;
+  font: inherit; font-size: 0.85rem; line-height: inherit;
+  text-decoration: underline; text-underline-offset: 2px;
+  vertical-align: baseline;
+}
+.nav-logout-btn:hover { color: var(--pico-primary); }
 
 .link-button {
-  background: none;
-  border: none;
-  padding: 0;
-  color: var(--pico-primary);
-  cursor: pointer;
-  font: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  background: none; border: none; padding: 0;
+  color: var(--pico-primary); cursor: pointer;
+  font: inherit; text-decoration: underline; text-underline-offset: 2px;
 }
+.link-button:hover { color: var(--pico-primary-hover); }
 
-.link-button:hover {
-  color: var(--pico-primary-hover);
-}
+button.confirm-pending { outline: 2px solid #c62828; outline-offset: 2px; }
 
-button.confirm-pending {
-  outline: 2px solid #c62828;
-  outline-offset: 2px;
-}
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
-.table-scroll {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.pagination {
-  display: flex;
-  gap: .5rem;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-}
-.pagination a, .pagination span {
-  padding: .3rem .7rem;
-  border-radius: 4px;
-  font-size: .9rem;
-  text-decoration: none;
-}
-.pagination a { border: 1px solid var(--pico-primary); color: var(--pico-primary); }
-.pagination a:hover { background: var(--pico-primary); color: #fff; }
-.pagination span { border: 1px solid var(--pico-muted-border-color); color: var(--pico-muted-color); }
-.pagination .current { background: var(--pico-primary); color: #fff; border-color: var(--pico-primary); }
-
-.badge-read {
-  display: inline-block;
-  font-size: .75rem;
-  color: #2e7d32;
-  background: #e8f5e9;
-  padding: .1rem .45rem;
-  border-radius: 999px;
-  margin-left: .35rem;
-}
-
-/* ── Flash messages ─────────────────────────────────────────────────────── */
+/* ── Flash messages ──────────────────────────────────────────────────────── */
 .flash-bar {
-  padding: 0.6rem 0;
-  border-bottom: 1px solid transparent;
+  padding: 0;
+  border-bottom: none;
+  margin-bottom: 0;
 }
 
-.flash-bar p {
-  margin: 0;
-  font-size: 0.9rem;
+.flash-bar > .container-fluid {
+  padding-top: .65rem;
+  padding-bottom: .65rem;
+  border-left: 4px solid currentColor;
+  border-radius: 0;
 }
 
-.flash-error  { background: var(--flash-error-bg); color: var(--flash-error-color); border-color: var(--flash-error-color);  }
-.flash-success{ background: var(--flash-ok-bg);    color: var(--flash-ok-color);    border-color: var(--flash-ok-color);     }
-.flash-info   { background: var(--flash-info-bg);    color: var(--flash-info-color);    border-color: var(--flash-info-color);   }
-.flash-warning{ background: var(--flash-warning-bg); color: var(--flash-warning-color); border-color: var(--flash-warning-color); }
+.flash-bar p { margin: 0; font-size: .9rem; }
 
-.feedback-selected { outline: 2px solid currentColor; font-weight: bold; }
+.flash-error   { background: var(--flash-error-bg);   color: var(--flash-error-color);   }
+.flash-success { background: var(--flash-ok-bg);      color: var(--flash-ok-color);      }
+.flash-info    { background: var(--flash-info-bg);    color: var(--flash-info-color);    }
+.flash-warning { background: var(--flash-warning-bg); color: var(--flash-warning-color); }
 
-/* ── Emergency bar (fixed, bottom) ─────────────────────────────────────── */
+/* Flash bars rendered inline (e.g. inside forms) */
+.flash-bar[style*="border-radius"] > .container-fluid,
+.flash-bar[style] > div {
+  border-radius: 6px;
+  border-left: 4px solid currentColor;
+}
+
+.feedback-selected { outline: 2px solid currentColor; font-weight: 600; }
+
+/* ── Emergency button ────────────────────────────────────────────────────── */
 .emergency-btn {
-  position: fixed;
-  bottom: 1.25rem;
-  right: 1.25rem;
-  z-index: 200;
-  background: #fff;
-  color: #b71c1c;
-  border: 1.5px solid #e57373;
-  border-radius: 999px;
-  padding: 0.4rem 1rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-decoration: none !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,.12);
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 200;
+  background: #fff; color: #b71c1c; border: 1.5px solid #ef9a9a;
+  border-radius: 999px; padding: .45rem 1.1rem;
+  font-size: .8rem; font-weight: 600; text-decoration: none !important;
+  box-shadow: 0 2px 10px rgba(183,28,28,.15);
+  transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
   white-space: nowrap;
 }
 .emergency-btn:hover {
-  background: #b71c1c;
-  color: #fff !important;
-  border-color: #b71c1c;
+  background: #c62828; color: #fff !important; border-color: #c62828;
+  box-shadow: 0 4px 14px rgba(183,28,28,.3);
 }
 @media (max-width: 480px) {
-  .emergency-btn { font-size: 0.75rem; padding: 0.35rem 0.8rem; bottom: 0.75rem; right: 0.75rem; }
+  .emergency-btn { font-size: .75rem; padding: .35rem .8rem; bottom: .75rem; right: .75rem; }
 }
 
-/* ── Login page ─────────────────────────────────────────────────────────── */
-.login-container {
+/* ── Login page ──────────────────────────────────────────────────────────── */
+.login-wrapper {
   max-width: 400px;
-  margin: 3rem auto 2rem;
+  margin: 3.5rem auto 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.08);
+}
+
+.login-header {
+  background: linear-gradient(135deg, var(--cu-primary) 0%, var(--cu-primary-dk) 100%);
+  padding: 2rem 2rem 1.75rem;
+  text-align: center;
+  color: #fff;
 }
 
 .login-brand {
-  text-align: center;
-  letter-spacing: 0.15em;
-  font-size: 2.5rem;
-  color: var(--pico-primary);
-  margin-bottom: 0.25rem;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  margin: 0 0 .35rem;
+  color: #fff;
 }
 
 .login-tagline {
-  text-align: center;
-  color: var(--pico-muted-color);
-  font-size: 0.9rem;
-  margin-bottom: 2rem;
+  font-size: .88rem;
+  opacity: .88;
+  margin: 0;
+  color: #fff;
 }
 
-.login-btn {
-  width: 100%;
-  margin-top: 0.5rem;
+.login-body {
+  background: var(--pico-card-background-color, #fff);
+  padding: 1.75rem 2rem 2rem;
 }
 
-/* ── Error card ─────────────────────────────────────────────────────────── */
-.error-card {
-  max-width: 480px;
-  margin: 4rem auto;
-  text-align: center;
+.login-body label { margin-bottom: .9rem; }
+
+.login-btn { width: 100%; margin-top: .25rem; }
+
+/* ── Error card ──────────────────────────────────────────────────────────── */
+.error-card { max-width: 480px; margin: 4rem auto; text-align: center; }
+
+/* ── Content padding ─────────────────────────────────────────────────────── */
+#main-content { padding-top: 1.5rem; padding-bottom: 2rem; }
+
+/* ── Article shadow (cards) ──────────────────────────────────────────────── */
+article {
+  box-shadow: var(--cu-shadow-sm);
 }
 
-/* ── Content ────────────────────────────────────────────────────────────── */
-#main-content {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-
-/* ── Safety alert (high pain / low wellbeing) ───────────────────────────── */
+/* ── Safety alert ────────────────────────────────────────────────────────── */
 .alert-urgente {
-  background: #fff3e0;
-  border-left: 4px solid #e65100;
-  color: #bf360c;
-  padding: 1rem 1.25rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  background: #fff3e0; border-left: 4px solid #e65100;
+  color: #bf360c; padding: 1rem 1.25rem;
+  border-radius: 6px; margin-bottom: 1rem;
 }
+.alert-urgente strong { display: block; margin-bottom: .25rem; }
 
-.alert-urgente strong {
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-/* ── Utility ────────────────────────────────────────────────────────────── */
+/* ── Utilities ───────────────────────────────────────────────────────────── */
 .text-muted  { color: var(--pico-muted-color); }
 .text-center { text-align: center; }
 .mt-0 { margin-top: 0; }
 .mb-0 { margin-bottom: 0; }
 
-/* ── Sprint 2: Clinician UI ─────────────────────────────────────────────── */
-
-/* Page header with title + action button */
+/* ── Page header ─────────────────────────────────────────────────────────── */
 .page-header {
-  display: flex;
-  align-items: center;
+  display: flex; 
+  align-items: center; 
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+  flex-wrap: wrap; 
+  gap: 1rem; 
   margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
 }
+.page-header h2 { margin: 0; flex: 0 1 auto; min-width: 0; }
+.page-header .actions-col { flex: 0 1 auto; min-width: 0; }
 
-.page-header h2 { margin: 0; }
-
-/* Filter bar */
+/* ── Filter bar ──────────────────────────────────────────────────────────── */
 .filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: flex-end;
-  margin-bottom: 1.25rem;
+  display: flex; flex-wrap: wrap; gap: .5rem; align-items: flex-end; margin-bottom: 1.25rem;
 }
-
 .filter-bar input[type=search] { flex: 1; min-width: 10rem; margin: 0; }
 .filter-bar select              { flex: 0 1 14rem; margin: 0; }
 .filter-bar button,
 .filter-bar a                   { margin: 0; white-space: nowrap; }
 
-/* Small action buttons in tables */
-.btn-sm {
-  padding: 0.25rem 0.6rem !important;
-  font-size: 0.8rem !important;
+/* ── Small buttons & action columns ─────────────────────────────────────── */
+.btn-sm { padding: .25rem .65rem !important; font-size: .8rem !important; }
+
+.actions-col { 
+  white-space: nowrap; 
+  display: flex; 
+  gap: .5rem; 
+  align-items: center; 
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
-.actions-col {
-  white-space: nowrap;
-  display: flex;
-  gap: 0.4rem;
-  align-items: center;
-}
-
-/* Tag and condition chips — hardcoded for guaranteed contrast */
+/* ── Chips ───────────────────────────────────────────────────────────────── */
 .tag-chip {
-  display: inline-block;
-  background: #e9ecef;
-  color: #212529;
-  border-radius: 1rem;
-  padding: 0.1rem 0.55rem;
-  font-size: 0.75rem;
-  margin: 0.1rem;
+  display: inline-block; background: #f1f3f5; color: #495057;
+  border-radius: 1rem; padding: .1rem .55rem;
+  font-size: .75rem; margin: .1rem;
 }
 
 .condition-chip {
-  display: inline-block;
-  background: #1565c0;
-  color: #ffffff;
-  border-radius: 1rem;
-  padding: 0.1rem 0.6rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  margin: 0.1rem;
+  display: inline-block; background: var(--cu-primary-lt); color: var(--cu-primary-dk);
+  border-radius: 1rem; padding: .15rem .65rem;
+  font-size: .75rem; font-weight: 600; margin: .1rem;
+  border: 1px solid rgba(0,105,92,.2);
 }
 
-/* Card metadata bar */
+/* ── Card meta bar ───────────────────────────────────────────────────────── */
 .card-meta-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  font-size: 0.85rem;
-  color: var(--pico-muted-color);
-  margin-bottom: 0.5rem;
+  display: flex; flex-wrap: wrap; gap: 1.25rem;
+  font-size: .85rem; color: var(--pico-muted-color); margin-bottom: .5rem;
 }
+.tag-bar, .condition-bar { margin-bottom: .5rem; }
 
-.tag-bar, .condition-bar { margin-bottom: 0.5rem; }
-
-/* Card editor: two-pane grid */
+/* ── Card editor ─────────────────────────────────────────────────────────── */
 .editor-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-  margin-bottom: 1rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1rem;
 }
-
-.editor-pane label { margin-bottom: 0.25rem; display: block; font-weight: 600; font-size: 0.85rem; }
+.editor-pane label { margin-bottom: .25rem; display: block; font-weight: 600; font-size: .85rem; }
 .editor-pane textarea {
-  width: 100%;
-  height: 400px;
-  resize: vertical;
-  font-family: 'Menlo', 'Consolas', monospace;
-  font-size: 0.88rem;
-  line-height: 1.5;
-  margin: 0;
+  width: 100%; height: 400px; resize: vertical;
+  font-family: 'Menlo', 'Consolas', monospace; font-size: .88rem; line-height: 1.5; margin: 0;
 }
-
-.editor-label { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.25rem; }
-
+.editor-label { font-weight: 600; font-size: .85rem; margin-bottom: .25rem; }
 .preview-pane-content {
   border: 1px solid var(--pico-muted-border-color);
-  border-radius: var(--pico-border-radius, 4px);
-  padding: 1rem;
-  min-height: 400px;
-  max-height: 600px;
-  overflow-y: auto;
-  background: var(--pico-card-background-color, #fff);
+  border-radius: 6px; padding: 1rem; min-height: 400px; max-height: 600px;
+  overflow-y: auto; background: var(--pico-card-background-color, #fff);
 }
 
-/* Editor tabs: only visible on mobile */
-.editor-tabs {
-  display: none;
-  gap: 0;
-  margin-bottom: 0.75rem;
-  border-bottom: 2px solid var(--pico-muted-border-color);
-}
-
+.editor-tabs { display: none; gap: 0; margin-bottom: .75rem; border-bottom: 2px solid var(--pico-muted-border-color); }
 .editor-tab {
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  color: var(--pico-muted-color);
-  font: inherit;
-  font-size: 0.9rem;
+  background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px;
+  padding: .5rem 1rem; cursor: pointer; color: var(--pico-muted-color); font: inherit; font-size: .9rem;
 }
-
-.editor-tab.active {
-  color: var(--pico-primary);
-  border-bottom-color: var(--pico-primary);
-  font-weight: 600;
-}
+.editor-tab.active { color: var(--cu-primary); border-bottom-color: var(--cu-primary); font-weight: 600; }
 
 @media (max-width: 768px) {
-  .editor-grid      { grid-template-columns: 1fr; }
-  .editor-tabs      { display: flex; }
-  .hidden-mobile    { display: none !important; }
-  .visible-mobile   { display: block !important; }
-  .preview-col      { display: none; }  /* default hidden on mobile, JS activates */
+  .editor-grid    { grid-template-columns: 1fr; }
+  .editor-tabs    { display: flex; }
+  .hidden-mobile  { display: none !important; }
+  .visible-mobile { display: block !important; }
+  .preview-col    { display: none; }
 }
 
-/* Conditions checkbox grid */
+/* ── Form helpers ────────────────────────────────────────────────────────── */
 .conditions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-  gap: 0.4rem;
-  margin-bottom: 0.5rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: .4rem; margin-bottom: .5rem;
 }
-
-.condition-check {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-weight: normal;
-  cursor: pointer;
-}
-
+.condition-check { display: flex; align-items: center; gap: .4rem; font-weight: normal; cursor: pointer; }
 .condition-check input { margin: 0; }
 
-/* Form grid helpers */
 .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end; }
-
 @media (max-width: 600px) {
   .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
 }
+.form-actions { display: flex; gap: .75rem; align-items: center; margin-top: 1rem; }
 
-.form-actions { display: flex; gap: 0.75rem; align-items: center; margin-top: 1rem; }
-
-/* Inline edit form in tables */
 .editing-row td { background: var(--pico-card-sectioning-background-color, #f9f9f9); }
-.inline-edit-form {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.inline-edit-form input { margin: 0; }
+.inline-edit-form { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.inline-edit-form input,
 .inline-edit-form button,
 .inline-edit-form a { margin: 0; }
 
-/* Symptom rows in template editor */
-.symptom-row {
-  display: grid;
-  grid-template-columns: 1fr 2fr auto;
-  gap: 0.5rem;
-  align-items: center;
-  margin-bottom: 0.4rem;
-}
-
+/* ── Symptom rows in template editor ────────────────────────────────────── */
+.symptom-row { display: grid; grid-template-columns: 1fr 2fr auto; gap: .5rem; align-items: center; margin-bottom: .4rem; }
 .symptom-row input { margin: 0; }
 
-/* Stats page */
+/* ── Stats page ──────────────────────────────────────────────────────────── */
 .stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 1rem; margin-bottom: 2rem;
 }
-
 .stat-card {
-  text-align: center;
-  padding: 1.25rem 1rem;
+  text-align: center; padding: 1.5rem 1rem;
+  border-top: 3px solid var(--cu-primary);
 }
+.stat-card h3 { font-size: 2.75rem; margin: 0 0 .25rem; color: var(--cu-primary); font-weight: 700; }
+.stat-card p  { margin: 0; font-size: .82rem; color: var(--pico-muted-color); text-transform: uppercase; letter-spacing: .04em; }
 
-.stat-card h3 {
-  font-size: 2.5rem;
-  margin: 0 0 0.25rem;
-  color: var(--pico-primary);
-}
-
-.stat-card p { margin: 0; font-size: 0.85rem; color: var(--pico-muted-color); }
-
-/* Rendered card body (Markdown output) */
+/* ── Prose content ───────────────────────────────────────────────────────── */
 .prose h2, .prose h3 { margin-top: 1.5rem; }
 .prose ul, .prose ol  { padding-left: 1.5rem; }
 .prose blockquote     { border-left: 4px solid var(--pico-muted-border-color); padding-left: 1rem; color: var(--pico-muted-color); }
 
-/* ── Sprint 3: Caregiver info browsing ──────────────────────────────────────── */
-
-/* Search bar */
-.info-search-bar { margin-bottom: 1.5rem; }
-
-.info-search-row {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  margin-bottom: 0.5rem;
+/* ── Pagination ──────────────────────────────────────────────────────────── */
+.pagination { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; margin-top: 1rem; }
+.pagination a, .pagination span {
+  padding: .3rem .7rem; border-radius: 6px; font-size: .9rem; text-decoration: none;
 }
+.pagination a       { border: 1px solid var(--cu-primary); color: var(--cu-primary); }
+.pagination a:hover { background: var(--cu-primary); color: #fff; }
+.pagination span    { border: 1px solid var(--pico-muted-border-color); color: var(--pico-muted-color); }
+.pagination .current{ background: var(--cu-primary); color: #fff; border-color: var(--cu-primary); }
 
+/* ── Badges ──────────────────────────────────────────────────────────────── */
+.badge-read     { display: inline-block; font-size: .75rem; color: #2e7d32; background: #e8f5e9; padding: .1rem .45rem; border-radius: 999px; margin-left: .35rem; }
+.badge-active   { display: inline-block; padding: .15rem .6rem; border-radius: 999px; font-size: .8rem; font-weight: 600; background: #e8f5e9; color: #2e7d32; }
+.badge-inactive { display: inline-block; padding: .15rem .6rem; border-radius: 999px; font-size: .8rem; font-weight: 600; background: #f5f5f5; color: #9e9e9e; }
+
+/* ── Info browsing (caregiver) ───────────────────────────────────────────── */
+.info-search-bar { margin-bottom: 1.5rem; }
+.info-search-row { display: flex; gap: .5rem; align-items: center; margin-bottom: .5rem; }
 .info-search-row input[type=search] { flex: 1; margin: 0; }
 .info-search-row button,
 .info-search-row a { margin: 0; white-space: nowrap; }
-
-.info-filter-row {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
+.info-filter-row { display: flex; gap: .5rem; flex-wrap: wrap; }
 .info-filter-row select { flex: 1; min-width: 10rem; margin: 0; }
 
-/* Card grid */
 .info-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  gap: 1rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1.1rem;
 }
+.info-card-link { text-decoration: none; color: inherit; display: block; }
+.info-card-link:hover .info-card { border-color: var(--cu-primary); box-shadow: 0 4px 16px rgba(0,137,123,.12); transform: translateY(-1px); }
 
-/* Card link wrapper — remove anchor decoration */
-.info-card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-.info-card-link:hover .info-card {
-  border-color: var(--pico-primary);
-}
-
-/* Info card */
 .info-card {
-  padding: 1rem 1.25rem;
-  margin: 0;
-  height: 100%;
-  transition: border-color 0.15s;
+  padding: 1.1rem 1.25rem; margin: 0; height: 100%;
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+  border-radius: 8px;
 }
-
 .info-card-cat {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--pico-primary);
-  font-weight: 600;
-  margin-bottom: 0.35rem;
+  font-size: .72rem; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--cu-primary); font-weight: 700; margin-bottom: .4rem;
 }
+.info-card-title { font-size: .98rem; margin: 0 0 .75rem; color: var(--pico-color); font-weight: 600; }
+.info-card-tags  { margin-top: auto; }
 
-.info-card-title {
-  font-size: 1rem;
-  margin: 0 0 0.75rem;
-  color: var(--pico-color);
-}
-
-.info-card-tags { margin-top: auto; }
-
-/* Card detail nav (back link + badge) */
 .info-card-nav {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
+  display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem; flex-wrap: wrap;
 }
 
-/* Prose body on card detail */
-.info-prose {
-  margin-top: 1.25rem;
-  line-height: 1.7;
-}
+.info-prose      { margin-top: 1.25rem; line-height: 1.75; }
+.info-prose table{ font-size: .9rem; }
 
-.info-prose table {
-  font-size: 0.9rem;
-}
-
-/* Tags bar below prose */
 .info-tags-bar {
-  margin-top: 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  flex-wrap: wrap;
+  margin-top: 1.25rem; display: flex; align-items: center; gap: .35rem; flex-wrap: wrap;
 }
-
-/* Related cards */
-.related-list {
-  padding-left: 1.25rem;
-  margin: 0.5rem 0 0;
-}
-
-.related-list li { margin-bottom: 0.4rem; }
+.related-list { padding-left: 1.25rem; margin: .5rem 0 0; }
+.related-list li { margin-bottom: .4rem; }
 
 @media (max-width: 600px) {
   .info-card-grid { grid-template-columns: 1fr; }
   .info-filter-row select { min-width: 0; }
 }
 
-/* ── Sprint 4: Patient profiles & symptom diary ─────────────────────────────── */
-
-/* Patient grid (caregiver list) */
+/* ── Patient grid (caregiver) ────────────────────────────────────────────── */
 .patients-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  gap: 1rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1.1rem;
 }
-
 .patient-card-link { text-decoration: none; color: inherit; display: block; }
-.patient-card-link:hover .patient-card { border-color: var(--pico-primary); }
-
-.patient-card { padding: 1.25rem; margin: 0; height: 100%; transition: border-color .15s; }
-.patient-card-name { font-size: 1.1rem; margin: 0 0 0.4rem; }
-.patient-card-diag { margin: 0 0 0.4rem; }
-
-/* Patient info grid (detail page) */
-.patient-info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-  gap: 0.75rem 1.5rem;
-  margin-bottom: 1rem;
+.patient-card-link:hover .patient-card {
+  border-color: var(--cu-primary); box-shadow: 0 4px 16px rgba(0,137,123,.12); transform: translateY(-1px);
 }
+.patient-card {
+  padding: 1.25rem; margin: 0; height: 100%;
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+  border-radius: 8px; border-left: 3px solid var(--cu-primary);
+}
+.patient-card-name { font-size: 1.05rem; margin: 0 0 .4rem; font-weight: 600; }
+.patient-card-diag { margin: 0 0 .5rem; }
 
-.patient-info-grid > div { border-left: 3px solid var(--pico-muted-border-color); padding-left: .75rem; }
+/* Patient info grid (clinician detail) */
+.patient-info-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: .75rem 1.5rem; margin-bottom: 1rem;
+}
+.patient-info-grid > div { border-left: 3px solid var(--cu-primary-lt); padding-left: .75rem; }
 
 /* Patient info card (caregiver view) */
 .patient-info-card {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-  gap: .6rem 1.5rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: .6rem 1.5rem;
   background: var(--pico-card-background-color, #fff);
   border: 1px solid var(--pico-muted-border-color);
-  border-radius: var(--pico-border-radius, 4px);
-  padding: 1rem 1.25rem;
-  margin-bottom: 1rem;
+  border-radius: 8px; padding: 1.1rem 1.25rem; margin-bottom: 1.25rem;
+  box-shadow: var(--cu-shadow-sm);
 }
+.patient-info-row { display: flex; flex-direction: column; gap: .15rem; }
+.patient-info-row .text-muted { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }
 
-.patient-info-row {
-  display: flex;
-  flex-direction: column;
-  gap: .15rem;
-}
-
-.patient-info-row .text-muted { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; }
-
-/* Symptom entry form */
+/* ── Symptom entry form ───────────────────────────────────────────────────── */
 .symptom-slider-row {
-  margin-bottom: 1.25rem;
-  padding: .75rem 1rem;
+  margin-bottom: 1rem; padding: .85rem 1.1rem;
   border: 1px solid var(--pico-muted-border-color);
-  border-radius: var(--pico-border-radius, 4px);
+  border-radius: 8px; background: var(--pico-card-background-color, #fff);
+  box-shadow: var(--cu-shadow-sm);
 }
-
 .symptom-slider-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: .4rem;
+  display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .4rem;
 }
-
 .symptom-value-display {
-  font-size: 1.5rem;
-  font-weight: 700;
-  min-width: 2rem;
-  text-align: right;
-  transition: color .2s;
+  font-size: 1.6rem; font-weight: 700; min-width: 2.5rem; text-align: right; transition: color .2s;
 }
-
-.val-low  { color: #1b5e20; }
+.val-low  { color: #2e7d32; }
 .val-mid  { color: #b84500; }
-.val-high { color: #b71c1c; }
-
+.val-high { color: #c62828; }
 .symptom-slider { width: 100%; margin: .25rem 0; cursor: pointer; }
-
 .symptom-scale-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: .75rem;
-  color: var(--pico-muted-color);
-  margin-top: .1rem;
+  display: flex; justify-content: space-between;
+  font-size: .73rem; color: var(--pico-muted-color); margin-top: .1rem;
 }
 
-/* Wellbeing badges */
+/* ── Wellbeing & symptom badges ──────────────────────────────────────────── */
 .wellbeing-badge {
-  display: inline-block;
-  padding: .1rem .5rem;
-  border-radius: 1rem;
-  font-size: .8rem;
-  font-weight: 600;
+  display: inline-block; padding: .15rem .6rem;
+  border-radius: 1rem; font-size: .82rem; font-weight: 600;
 }
-
-.wb-bad  { background: #ffebee; color: #b71c1c; }
+.wb-bad  { background: #fdecea; color: #c62828; }
 .wb-mid  { background: #fff3e0; color: #b84500; }
-.wb-good { background: #e8f5e9; color: #1b5e20; }
+.wb-good { background: #e8f5e9; color: #2e7d32; }
 
-/* Symptom value badges */
 .sym-badge {
-  display: inline-block;
-  padding: .05rem .4rem;
-  border-radius: .75rem;
-  font-size: .75rem;
-  margin: .1rem .1rem .1rem 0;
+  display: inline-block; padding: .08rem .45rem;
+  border-radius: .75rem; font-size: .75rem; margin: .1rem .1rem .1rem 0;
 }
-
 .sym-low  { background: #e8f5e9; color: #1b5e20; }
 .sym-mid  { background: #fff3e0; color: #b84500; }
-.sym-high { background: #ffebee; color: #b71c1c; }
+.sym-high { background: #fdecea; color: #c62828; }
 
-/* Entry list (caregiver patient view) */
-.entry-list { display: flex; flex-direction: column; gap: .5rem; }
+/* ── Entry list ──────────────────────────────────────────────────────────── */
+.entry-list { display: flex; flex-direction: column; gap: .6rem; }
 
 .entry-row {
   border: 1px solid var(--pico-muted-border-color);
-  border-radius: var(--pico-border-radius, 4px);
-  padding: .75rem 1rem;
-  display: grid;
-  grid-template-columns: 9rem auto;
-  gap: .25rem .75rem;
-  align-items: start;
+  border-radius: 8px; padding: .85rem 1rem;
+  display: grid; grid-template-columns: 9rem auto; gap: .25rem .75rem;
+  align-items: start; background: var(--pico-card-background-color, #fff);
+  box-shadow: var(--cu-shadow-sm);
+  transition: border-color .15s;
 }
+.entry-row:hover { border-color: var(--pico-muted-color); }
+.entry-row-alert { border-color: #ef9a9a; background: #fffbfa; border-left: 3px solid #c62828; }
 
-.entry-row-alert { border-color: #e65100; background: #fff8f0; }
-
-.entry-date    { grid-column: 1; grid-row: 1; color: var(--pico-muted-color); }
+.entry-date      { grid-column: 1; grid-row: 1; color: var(--pico-muted-color); font-size: .85rem; }
 .entry-wellbeing { grid-column: 2; grid-row: 1; }
 .entry-symptoms  { grid-column: 1 / -1; }
-.entry-notes   { grid-column: 1 / -1; margin-top: .25rem; }
+.entry-notes     { grid-column: 1 / -1; margin-top: .25rem; }
 
 @media (max-width: 600px) {
   .patients-grid { grid-template-columns: 1fr; }
@@ -683,192 +522,209 @@ button.confirm-pending {
   .entry-date, .entry-wellbeing, .entry-symptoms, .entry-notes { grid-column: 1; grid-row: auto; }
 }
 
-/* ── Sprint 5: Dashboard & reports ──────────────────────────────────────────── */
-
-/* Period selector */
+/* ── Dashboard ───────────────────────────────────────────────────────────── */
 .dash-period {
-  display: flex;
-  gap: 0;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-  border: 1px solid var(--pico-muted-border-color);
-  border-radius: var(--pico-border-radius, 4px);
-  overflow: hidden;
-  width: fit-content;
+  display: flex; flex-wrap: wrap; margin-bottom: 1.25rem;
+  border: 1px solid var(--pico-muted-border-color); border-radius: 8px;
+  overflow: hidden; width: fit-content;
 }
-
 .dash-period-btn {
-  padding: 0.35rem 0.9rem;
-  font-size: 0.85rem;
-  text-decoration: none;
-  color: var(--pico-muted-color);
-  border-right: 1px solid var(--pico-muted-border-color);
+  padding: .4rem 1rem; font-size: .85rem; text-decoration: none;
+  color: var(--pico-muted-color); border-right: 1px solid var(--pico-muted-border-color);
   transition: background .15s;
 }
-
 .dash-period-btn:last-child { border-right: none; }
-.dash-period-btn:hover      { background: var(--pico-secondary-background, #f0f0f0); }
-.dash-period-btn.active     { background: var(--pico-primary); color: #fff; }
+.dash-period-btn:hover      { background: var(--cu-primary-lt); color: var(--cu-primary-dk); }
+.dash-period-btn.active     { background: var(--cu-primary); color: #fff; }
 
-/* Chart canvas containers */
-.chart-wrapper {
-  position: relative;
-  height: 240px;
-  margin-bottom: 1.5rem;
-}
+.chart-wrapper { position: relative; height: 240px; margin-bottom: 1.5rem; }
 
-/* Print report */
+/* ── Report / print ──────────────────────────────────────────────────────── */
 .report-table th, .report-table td { font-size: .8rem; }
 .report-alert-row { background: #fff8f0; }
-
-/* Print CSS */
 .print-body { padding-bottom: 0 !important; }
 
 @media print {
   .site-header, .emergency-btn, .flash-bar, .no-print { display: none !important; }
   .page-header a[role="button"], .page-header .actions-col, .actions-col { display: none !important; }
   .print-body { padding: 0 !important; }
-  #main-content { padding-top: 0.5rem !important; padding-bottom: 0 !important; }
+  #main-content { padding-top: .5rem !important; padding-bottom: 0 !important; }
   a { color: inherit !important; text-decoration: none !important; }
   .report-alert-row { background: #fff8f0 !important; -webkit-print-color-adjust: exact; }
-  .wb-bad  { background: #ffebee !important; -webkit-print-color-adjust: exact; }
+  .wb-bad  { background: #fdecea !important; -webkit-print-color-adjust: exact; }
   .wb-mid  { background: #fff3e0 !important; -webkit-print-color-adjust: exact; }
   .wb-good { background: #e8f5e9 !important; -webkit-print-color-adjust: exact; }
-  .sym-high { background: #ffebee !important; -webkit-print-color-adjust: exact; }
+  .sym-high { background: #fdecea !important; -webkit-print-color-adjust: exact; }
   .sym-mid  { background: #fff3e0 !important; -webkit-print-color-adjust: exact; }
   .sym-low  { background: #e8f5e9 !important; -webkit-print-color-adjust: exact; }
+  .info-card-nav, .info-tags-bar .text-muted { display: none !important; }
+  .info-prose { font-size: 11pt; line-height: 1.6; }
 }
-
-/* ── Admin badges ────────────────────────────────────────────────────────── */
-.badge-active, .badge-inactive {
-  display: inline-block;
-  padding: 0.15rem 0.6rem;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-.badge-active   { background: #e8f5e9; color: #2e7d32; }
-.badge-inactive { background: #f5f5f5; color: #9e9e9e; }
 
 /* ── Mobile nav ──────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .site-header nav > ul:last-child {
+  .site-header nav { 
+    flex-wrap: nowrap; 
     overflow-x: auto;
-    flex-wrap: nowrap;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch; 
     scrollbar-width: none;
   }
-  .site-header nav > ul:last-child::-webkit-scrollbar { display: none; }
+  .site-header nav::-webkit-scrollbar { display: none; }
+  .site-header nav > ul { flex-wrap: nowrap; }
   .site-header nav > ul:last-child > li { white-space: nowrap; }
   .nav-user-name { display: none; }
+  .nav-logout-item { flex-shrink: 0; }
 }
 
-/* ── Help hint text below form fields ───────────────────────────────────── */
+/* ── Help page ───────────────────────────────────────────────────────────── */
 .help-hint {
-  display: block;
-  color: var(--pico-muted-color);
-  font-size: 0.8rem;
-  margin-top: 0.2rem;
-  line-height: 1.4;
+  display: block; color: var(--pico-muted-color); font-size: .8rem; margin-top: .2rem; line-height: 1.4;
 }
-
-/* ── Related cards aside ────────────────────────────────────────────────── */
-.related-cards {
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--pico-muted-border-color);
-}
-.related-cards h3 { font-size: 1rem; margin-bottom: 0.5rem; }
-.related-cards ul { padding-left: 1.25rem; margin: 0; }
-.related-cards li { margin-bottom: 0.35rem; }
-
-/* ── Caregiver action button — full width on mobile ─────────────────────── */
-@media (max-width: 600px) {
-  .page-header .actions-col {
-    flex-direction: column;
-    width: 100%;
-  }
-  .page-header .actions-col > * {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-/* ── Symptom slider — taller touch target on mobile ─────────────────────── */
-@media (max-width: 768px) {
-  .symptom-slider {
-    height: 2rem;
-    cursor: pointer;
-  }
-  .symptom-value-display {
-    font-size: 2rem;
-  }
-}
-
-/* ── Help page sections ──────────────────────────────────────────────────── */
 .help-section {
-  border: 1px solid var(--pico-muted-border-color);
-  border-radius: var(--pico-border-radius, 4px);
-  margin-bottom: 1rem;
-  overflow: hidden;
+  border: 1px solid var(--pico-muted-border-color); border-radius: 8px; margin-bottom: .75rem; overflow: hidden;
 }
 .help-section summary {
-  padding: 0.9rem 1.25rem;
-  background: var(--pico-card-sectioning-background-color, #f9f9f9);
-  font-weight: 600;
-  cursor: pointer;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: .9rem 1.25rem; background: var(--pico-card-sectioning-background-color, #f9f9f9);
+  font-weight: 600; cursor: pointer; list-style: none;
+  display: flex; justify-content: space-between; align-items: center;
 }
 .help-section summary::-webkit-details-marker { display: none; }
-.help-section summary::after { content: '▸'; font-size: 0.85rem; color: var(--pico-muted-color); }
+.help-section summary::after { content: '▸'; font-size: .85rem; color: var(--pico-muted-color); }
 .help-section[open] summary::after { content: '▾'; }
-.help-section-body {
-  padding: 1rem 1.25rem;
-}
-.help-section-body p,
-.help-section-body li { font-size: 0.95rem; line-height: 1.65; }
-.help-section-body h4 { margin-top: 1rem; margin-bottom: 0.35rem; font-size: 0.95rem; }
-.help-step {
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
-}
+.help-section-body { padding: 1rem 1.25rem; }
+.help-section-body p, .help-section-body li { font-size: .95rem; line-height: 1.65; }
+.help-section-body h4 { margin-top: 1rem; margin-bottom: .35rem; font-size: .95rem; }
+.help-step { display: flex; gap: .75rem; align-items: flex-start; margin-bottom: .75rem; }
 .help-step-num {
-  flex-shrink: 0;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 50%;
-  background: var(--pico-primary);
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-shrink: 0; width: 1.75rem; height: 1.75rem; border-radius: 50%;
+  background: var(--cu-primary); color: #fff; font-weight: 700; font-size: .85rem;
+  display: flex; align-items: center; justify-content: center;
 }
-.help-step-text { flex: 1; line-height: 1.6; font-size: 0.95rem; }
+.help-step-text { flex: 1; line-height: 1.6; font-size: .95rem; }
 
-/* ── Nav help link ───────────────────────────────────────────────────────── */
-.nav-help-link { opacity: 0.75; font-size: 0.88rem; }
+/* ── Nav links ───────────────────────────────────────────────────────────── */
+.nav-help-link { opacity: .7; font-size: .85rem; }
 .nav-help-link:hover { opacity: 1; }
+.nav-account-link { color: inherit; text-decoration: none; }
+.nav-account-link:hover { text-decoration: underline; }
 
-/* ── Nav account (username → /conta) ────────────────────────────────────── */
-.nav-account-link {
-  color: inherit;
-  text-decoration: none;
-  opacity: 0.8;
+/* ── Related cards ───────────────────────────────────────────────────────── */
+.related-cards { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--pico-muted-border-color); }
+.related-cards h3 { font-size: 1rem; margin-bottom: .5rem; }
+.related-cards ul { padding-left: 1.25rem; margin: 0; }
+.related-cards li { margin-bottom: .35rem; }
+
+/* ── Mobile action buttons ───────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .page-header { flex-direction: column; align-items: stretch; }
+  .page-header h2 { text-align: center; margin-bottom: 0.5rem; }
+  .page-header .actions-col { 
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 0.4rem;
+  }
+  .page-header .actions-col > * { flex: 0 1 auto; min-width: auto; }
+  .symptom-slider { height: 2rem; }
+  .symptom-value-display { font-size: 2rem; }
 }
-.nav-account-link:hover { opacity: 1; text-decoration: underline; }
 
-/* ── Read badge on info cards ────────────────────────────────────────────── */
-.badge-read { display: inline-block; font-size: .75rem; color: #2e7d32; background: #e8f5e9; padding: .1rem .45rem; border-radius: 999px; margin-left: .35rem; }
+/* ── Patient Status Badges ──────────────────────────────────────────────────── */
+.patient-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .2rem .5rem;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
 
-/* ── Info-card print: hide nav chrome, show content cleanly ─────────────── */
-@media print {
-  .info-card-nav, .info-tags-bar .text-muted { display: none !important; }
-  .info-prose { font-size: 11pt; line-height: 1.6; }
+.patient-badge--active {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.patient-badge--attention {
+  background: #fff8e1;
+  color: #e65100;
+}
+
+.patient-badge--alert {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.patient-badge--archived {
+  background: #f5f5f5;
+  color: #757575;
+}
+
+.patient-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ── Enhanced Cards ──────────────────────────────────────────────────────────── */
+.patient-card {
+  background: #fff;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: var(--cu-shadow-sm);
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+
+.patient-card:hover {
+  box-shadow: var(--cu-shadow-md);
+  transform: translateY(-1px);
+}
+
+.patient-card--archived {
+  opacity: .75;
+  background: #fafafa;
+}
+
+/* ── Table Row Enhancements ──────────────────────────────────────────────────── */
+table tbody tr {
+  transition: background-color .15s ease;
+}
+
+table tbody tr:hover {
+  background: var(--cu-primary-lt);
+}
+
+/* ── Quick Stats ──────────────────────────────────────────────────────────────── */
+.quick-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-box {
+  background: #fff;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 8px;
+  padding: .75rem;
+  text-align: center;
+  box-shadow: var(--cu-shadow-sm);
+}
+
+.stat-box-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cu-primary);
+}
+
+.stat-box-label {
+  font-size: .75rem;
+  color: var(--pico-muted-color);
+  text-transform: uppercase;
+  letter-spacing: .05em;
 }

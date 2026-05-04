@@ -4,14 +4,14 @@
   "description": "Sistema de apoio a cuidadores informais de doentes paliativos",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "node --watch src/app.js",
-    "seed:categories": "node seeds/seed-categories.js",
-    "seed:admin": "node seeds/seed-admin.js",
-    "seed:caregiver": "node seeds/seed-caregiver.js",
-    "seed:clinician": "node seeds/seed-clinician.js",
-    "seed:cards": "node seeds/seed-cards.js",
-    "seed": "node seeds/seed-categories.js && node seeds/seed-admin.js && node seeds/seed-diagnoses.js && node seeds/seed-caregiver.js && node seeds/seed-clinician.js && node seeds/seed-cards.js"
+    "start": "node --experimental-sqlite src/app.js",
+    "dev": "node --experimental-sqlite --watch src/app.js",
+    "seed:categories": "node --experimental-sqlite seeds/seed-categories.js",
+    "seed:admin": "node --experimental-sqlite seeds/seed-admin.js",
+    "seed:caregiver": "node --experimental-sqlite seeds/seed-caregiver.js",
+    "seed:clinician": "node --experimental-sqlite seeds/seed-clinician.js",
+    "seed:cards": "node --experimental-sqlite seeds/seed-cards.js",
+    "seed": "node --experimental-sqlite seeds/seed-categories.js && node --experimental-sqlite seeds/seed-admin.js && node --experimental-sqlite seeds/seed-diagnoses.js && node --experimental-sqlite seeds/seed-caregiver.js && node --experimental-sqlite seeds/seed-clinician.js && node --experimental-sqlite seeds/seed-cards.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

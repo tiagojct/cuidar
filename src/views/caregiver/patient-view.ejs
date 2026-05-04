@@ -6,8 +6,8 @@
   <h2 style="margin:0"><%= patient.identifier %></h2>
   <div class="actions-col">
     <a href="/cuidador/doentes/<%= patient.id %>/sintomas/novo" role="button">+ Registar sintomas</a>
-    <a href="/cuidador/doentes/<%= patient.id %>/dashboard" class="outline secondary">Ver evolução</a>
-    <a href="/cuidador/doentes/<%= patient.id %>/mensagem" class="outline secondary" style="margin-top:.5rem">
+    <a href="/cuidador/doentes/<%= patient.id %>/dashboard" role="button" class="secondary">Ver evolução</a>
+    <a href="/cuidador/doentes/<%= patient.id %>/mensagem" role="button" class="secondary">
       Colocar questão à equipa clínica
     </a>
   </div>
