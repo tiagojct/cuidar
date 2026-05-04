@@ -2,7 +2,7 @@ site_name: CUIDAR — Documentação
 site_description: Sistema de apoio ao cuidador informal em cuidados paliativos
 site_author: FMUP — Faculdade de Medicina da Universidade do Porto
 site_url: https://cuidar.tiagojct.eu
-docs_dir: docs
+docs_dir: .
 
 theme:
   name: material
