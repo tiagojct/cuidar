@@ -15,9 +15,16 @@ execFileSync(node, [flag, 'seeds/seed-categories.js'], { stdio: 'inherit' });
 execFileSync(node, [flag, 'seeds/seed-diagnoses.js'], { stdio: 'inherit' });
 
 // Step 2: Create admin user from env vars (must exist before seed-cards.js)
-const email    = process.env.ADMIN_EMAIL;
-const password = process.env.ADMIN_PASSWORD;
-const name     = process.env.ADMIN_NAME || 'Administrador';
+let email    = process.env.ADMIN_EMAIL;
+let password = process.env.ADMIN_PASSWORD;
+let name     = process.env.ADMIN_NAME || 'Administrador';
+
+// Fallback to default admin in production if env vars not set
+if (process.env.NODE_ENV === 'production' && (!email || !password)) {
+  email    = 'admin@cuidar.local';
+  password = 'Cuidar2025!Admin';
+  console.log('[CUIDAR] A usar admin por defeito (defina ADMIN_EMAIL/ADMIN_PASSWORD para customizar)');
+}
 
 if (email && password) {
   const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
